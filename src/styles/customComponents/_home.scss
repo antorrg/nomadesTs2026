@@ -1,0 +1,23 @@
+
+ .cover-container {
+  margin-top:0;
+  background-size: cover; /* Para que la imagen cubra todo el fondo */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  min-height: 100vh; /* Asegura que ocupe al menos la altura completa de la pantalla */
+
+}
+
+.ourWorkBtn {
+    color: var(--bs-body-color)!important;
+    background-color: var(--bs-body-bg);
+}
+.ourWorkBtn:hover {
+  color: var(--bs-body-color);
+  background-color: var(--bs-tertiary-bg);
+  border-color: var(--bs-highlight-bg);
+}
+.chevron-icon {
+  color: var(--bs-body-color);
+  font-weight: 700;
+}

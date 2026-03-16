@@ -1,0 +1,59 @@
+// ============================================
+// PALETA DE COLORES CUSTOM
+// ============================================
+
+// Colores primarios (de resetStyles.css)
+$primary: hsl(115, 32%, 30%);
+$secondary: hsl(206, 9%, 32%);
+$success: hsl(152, 71%, 24%);
+$info: #0dcaf0;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #212529;
+$nomades: hsl(120, 37%, 22%);
+
+// ============================================
+// BACKGROUNDS CUSTOM
+// ============================================
+
+// URLs de imágenes de fondo
+$bg-image-light: url("https://firebasestorage.googleapis.com/v0/b/misitioweb-d59d3.appspot.com/o/imagesApi%2Fbackground-ligth.webp?alt=media&token=56cc6c90-3e08-4f2e-8141-1885c282eaf0");
+$bg-image-light: url("https://firebasestorage.googleapis.com/v0/b/misitioweb-d59d3.appspot.com/o/imagesApi%2Fbackground-ligth.webp?alt=media&token=56cc6c90-3e08-4f2e-8141-1885c282eaf0");
+$bg-image-dark: url("https://firebasestorage.googleapis.com/v0/b/misitioweb-d59d3.appspot.com/o/imagesApi%2Fbackground-dark.webp?alt=media&token=8880fd28-c185-4f4d-bfa2-7d4bd6516de4");
+$bg-gradient-dark-blue: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+
+// ============================================
+// GLASSMORPHISM
+// ============================================
+
+$glass-light-bg: rgba(255, 255, 255, 0.5);
+$glass-dark-bg: rgba(255, 255, 255, 0.4);
+$glass-blur: blur(5px);
+$glass-blur-webkit: blur(10px);
+
+// ============================================
+// OVERRIDE BOOTSTRAP DEFAULTS
+// ============================================
+
+// Esto hace que Bootstrap use tus colores
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark,
+  "nomades": $nomades
+);
+
+// Bordes
+$border-radius: 5px;
+$border-radius-sm: 3px;
+$border-radius-lg: 8px;
+
+// Botones - Ajustes específicos del primary
+$btn-padding-x: 0.70rem;
+$btn-padding-y: 0.375rem;

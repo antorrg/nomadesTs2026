@@ -1,0 +1,153 @@
+// ============================================
+// COMPONENTES GLASSMORPHISM Y CUSTOM
+// ============================================
+
+@use './variables' as v;
+
+// Backgrounds con imágenes
+.backgroundOnlyImage {
+    background-image: var(--ar-background-image);
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+.backgroundPages {
+    background-image: var(--ar-background-image);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.backgroundFormColor {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+.backgroundElements {
+    background-color: var(--bs-tertiary-bg);
+}
+
+// ============================================
+// GLASSMORPHISM COVERS
+// ============================================
+
+.coverBack {
+    margin-top: 0;
+    z-index: 10;
+    padding: 0.2rem;
+    border-radius: v.$border-radius;
+    height: 100vh;
+    min-width: 80vw;
+
+    [data-bs-theme="light"] & {
+        background: var(--ar-glass-bg);
+        backdrop-filter: var(--ar-glass-blur);
+        -webkit-backdrop-filter: var(--ar-glass-blur-webkit);
+        color: black;
+    }
+
+    [data-bs-theme="dark"] & {
+        background-color: transparent;
+        border: none;
+    }
+}
+
+.coverAdmin {
+    margin-top: 0;
+    z-index: 10;
+    padding: 0.2rem;
+    border-radius: v.$border-radius;
+    min-height: fit-content;
+    min-width: 80vw;
+    color: var(--bs-body-color);
+
+    [data-bs-theme="light"] & {
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    [data-bs-theme="dark"] & {
+        background: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+}
+
+.coverBackPages {
+    margin-top: 0;
+    z-index: 10;
+    padding: 0.2rem;
+    border-radius: v.$border-radius;
+    min-height: 100vh;
+    min-width: calc(fit-content(100%) + 10%);
+
+    [data-bs-theme="light"] & {
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(10px);
+        color: black;
+    }
+
+    [data-bs-theme="dark"] & {
+        background-color: transparent;
+        border: none;
+    }
+}
+
+// ============================================
+// FORM CONTAINERS
+// ============================================
+
+.formProductContainer {
+    margin-top: 8%;
+    max-width: 40%;
+}
+
+.textFormPagesContainer {
+    margin-top: 10%;
+    min-width: 80%;
+    max-width: 90%;
+}
+
+// ============================================
+// RESPONSIVE
+// ============================================
+
+@media (max-width: 768px) {
+    .formProductContainer {
+        min-width: 80%;
+        max-width: 90%;
+    }
+
+    .textFormPagesContainer {
+        min-width: 100%;
+        max-width: 100%;
+    }
+}
+
+.caption-nav,
+.caption-title {
+    z-index: 10;
+    background: var(--bg-glass);
+    backdrop-filter: var(--blur-glass);
+    -webkit-backdrop-filter: var(--blur-glass);
+    padding: 0.2rem;
+    border-radius: 5px;
+    color: black; // color: var(--text-secondary);
+}
+
+
+.caption-title {
+    max-width: 60vw;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+// Social Media Colors
+.text-facebook {
+    color: #1877F2 !important;
+}

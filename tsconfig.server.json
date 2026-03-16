@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "target": "ESNext",
+    "module": "NodeNext",
+    "removeComments": true,
+    "moduleResolution": "NodeNext",
+    "types": [
+      "node"
+    ],
+    "resolveJsonModule": true,
+    "noEmit": false,
+    "outDir": "dist",
+    "rootDirs": [
+      "server",
+      "Models"
+    ],
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictPropertyInitialization": true,
+    "composite": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./server/@types"
+    ]
+  },
+  "include": [
+    "server.ts",
+    "server/**/*.ts",
+    "Models/**/*.ts",
+    "server/@types/**/*.d.ts",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "data",
+    "test",
+    "src",
+    "**/*.test.ts",
+    "**/*.help.ts"
+  ]
+}

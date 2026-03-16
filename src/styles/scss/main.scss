@@ -1,0 +1,54 @@
+// ============================================
+// BOOTSTRAP CON SASS - MAIN FILE (Sintaxis Moderna con @use)
+// ============================================
+
+// 1. Cargar las funciones iniciales para manipular mapas y colores
+@use 'sass:map';
+
+// 2. Tus variables custom
+@use './variables' as custom_vars;
+
+// 3. Bootstrap completo, inyectando tus sobreescrituras (overrides)
+@use 'bootstrap/scss/bootstrap' with ($theme-colors: custom_vars.$theme-colors,
+    $border-radius: custom_vars.$border-radius,
+    $border-radius-sm: custom_vars.$border-radius-sm,
+    $border-radius-lg: custom_vars.$border-radius-lg,
+    $btn-padding-x: custom_vars.$btn-padding-x,
+    $btn-padding-y: custom_vars.$btn-padding-y);
+
+// 4. Dark mode y Componentes core
+@use './dark-mode';
+@use './components';
+
+// 5. Dependencias CSS externas 
+@use 'bootstrap-icons/font/bootstrap-icons.css';
+@use 'sweetalert2/dist/sweetalert2.css';
+@use 'sweetalert2/themes/bootstrap-5.css';
+
+// 6. Custom Components
+@use '../customComponents/error';
+@use '../customComponents/home';
+@use '../customComponents/forms';
+@use '../customComponents/login';
+@use '../customComponents/loaders';
+@use '../customComponents/carouselMarketingFeatures';
+@use '../customComponents/about';
+@use '../customComponents/contact';
+@use '../customComponents/admin';
+
+
+
+
+// ============================================
+// LINKS - Override después de Bootstrap
+// ============================================
+
+a,
+.nav-link {
+    color: inherit !important;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

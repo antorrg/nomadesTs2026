@@ -1,0 +1,138 @@
+// ============================================
+// DARK MODE OVERRIDES
+// ============================================
+
+@use './variables' as v;
+
+[data-bs-theme="dark"] {
+    // Overrides específicos de Bootstrap para dark mode
+    --bs-secondary-border-subtle: hsl(210, 7%, 27%) !important;
+
+    // Variables custom para tu app
+    --ar-background-image: #{v.$bg-gradient-dark-blue};
+    --ar-glass-bg: #{v.$glass-dark-bg};
+    --ar-glass-blur: #{v.$glass-blur};
+    --ar-glass-blur-webkit: #{v.$glass-blur-webkit};
+
+    // Variables para glassmorphism en texto
+    --bg-glass: rgba(255, 255, 255, 0.5);
+    --blur-glass: blur(10px);
+    --text-main: #f8f9fa;
+
+    // Contrast for Cards and Forms in Dark Mode
+    .card,
+    .form-control,
+    .form-select,
+    .list-group-item {
+        background-color: rgba(31, 41, 55, 0.7); // Darker semi-transparent background
+        border-color: rgba(75, 85, 99, 0.5);
+        color: #f8f9fa;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        background-color: rgba(31, 41, 55, 0.9);
+        color: #f8f9fa;
+        border-color: #3b82f6; // Blue focus border
+    }
+
+    // SweetAlert2 Dark Mode
+    .swal2-popup.swal2-toast {
+        background: #1f2937;
+        color: #e5e7eb;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .swal2-popup {
+        background: #1f2937;
+        color: #e5e7eb;
+
+        .swal2-title {
+            color: #f8f9fa !important;
+        }
+
+        .swal2-html-container {
+            color: #d1d5db !important;
+        }
+
+        .swal2-close {
+            color: #9ca3af !important;
+
+            &:hover {
+                color: #f3f4f6 !important;
+            }
+        }
+
+        .swal2-input,
+        .swal2-file,
+        .swal2-textarea,
+        .swal2-select,
+        .swal2-radio,
+        .swal2-checkbox {
+            background: #374151 !important;
+            color: #f8f9fa !important;
+            border-color: #4b5563 !important;
+        }
+    }
+}
+
+[data-bs-theme="light"] {
+    // Overrides específicos de Bootstrap para light mode
+    --bs-secondary: hsl(206, 9%, 32%) !important;
+    --bs-secondary-text-emphasis: hsl(206, 9%, 15%) !important;
+    --bs-secondary-border-subtle: #c4c8cb !important;
+
+    // Variables custom para tu app
+    --ar-background-image: #{v.$bg-image-light};
+    --ar-glass-bg: #{v.$glass-light-bg};
+    --ar-glass-blur: #{v.$glass-blur};
+    --ar-glass-blur-webkit: #{v.$glass-blur-webkit};
+
+    // Variables para glassmorphism en texto
+    --bg-glass: rgba(255, 255, 255, 0.4);
+    --blur-glass: blur(5px);
+    --text-main: #212529;
+
+    // Contrast for Cards and Forms in Light Mode
+    .card,
+    .form-control,
+    .form-select,
+    .list-group-item {
+        background-color: rgba(240, 240, 240, 0.95); // Slightly darker off-white for better contrast
+        border-color: #d1d5db; // Slightly darker border
+        color: #212529;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); // Subtle shadow for separation
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        background-color: #ffffff;
+        border-color: #86b7fe;
+    }
+
+    // Button Secondary Contrast Fix
+    .btn-secondary {
+
+        &:hover,
+        &:focus,
+        &:active {
+            color: #ffffff !important; // Ensure white text on hover
+            background-color: hsl(206, 9%, 25%) !important; // Slightly darker background on hover
+            border-color: hsl(206, 9%, 25%) !important;
+        }
+    }
+
+    // Button Outline Secondary Contrast Fix
+    .btn-outline-secondary {
+        color: hsl(206, 9%, 25%); // Darker text color in normal state for visibility
+        border-color: hsl(206, 9%, 25%);
+
+        &:hover,
+        &:focus,
+        &:active {
+            color: #ffffff !important; // White text on hover
+            background-color: hsl(206, 9%, 25%) !important; // Dark background on hover
+            border-color: hsl(206, 9%, 25%) !important;
+        }
+    }
+}

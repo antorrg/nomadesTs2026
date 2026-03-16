@@ -1,0 +1,11 @@
+@use '../scss/variables' as v;
+
+.navbar-color {
+    background-color: v.$dark !important;
+    color: v.$light !important;
+
+    [data-bs-theme="dark"] & {
+        background-color: v.$nomades !important;
+        color: v.$light !important;
+    }
+}

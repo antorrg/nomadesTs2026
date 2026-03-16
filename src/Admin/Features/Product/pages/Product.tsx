@@ -1,0 +1,144 @@
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useReduxFetch } from '../../../../hooks/useReduxFetch'
+import { getProductById, clearError } from "../productAdminSlice";
+import { booleanState } from '../../../AdminUtils/helpers'
+import Loader2 from '../../../../components/Loader2';
+import ProductButtons from '../components/ProductButtons';
+import { productsApi } from '../../../AdminApi/productsApi'
+
+
+const Product = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  
+  const {selectedProduct, adminLoading } = useReduxFetch({
+    action: getProductById,
+    arg: Number(id),
+    selector: (state) => state.adminProduct,
+    deps: [id],
+    condition: !!id,
+    cleanupAction: clearError
+  })
+  const [load, setLoad] = useState<boolean>(adminLoading ?? true);
+
+  const onClose = () => {
+    setLoad(false);
+    navigate("/admin?tab=producto");
+  };
+
+  const toEdition = () => {
+    navigate(`/admin/producto/edicion/${selectedProduct!.id}`);
+  };
+  const itemCreate = () => {
+    navigate(`/admin/producto/creacion/item/${selectedProduct!.id}`);
+  };
+  const deleteCurrentProduct = async () => {
+    const confirmed = await productsApi.confirmAction({title:'¿Esta seguro que quiere eliminar el producto?'})
+    if(!confirmed) return
+    try{
+      setLoad(true)
+     await productsApi.delete(
+      selectedProduct!.id,
+      {
+        success: () => onClose(),
+        reject: () => setLoad(false)
+      } 
+    )     
+  }catch(error){
+    setLoad(false)
+  }
+  };
+  const delItem = async (id:number ) => {
+      setLoad(true);
+    await productsApi.deleteItem(Number(id),{ success: onClose, reject: () => setLoad(false)})
+  };
+  
+
+  return (
+    <>
+      {load ? (
+        <Loader2 />
+       ) : (
+        <>
+          <section className="py-5 text-center container">
+            <div className="row py-lg-5">
+              <div className="col-lg-6 col-md-8 mx-auto">
+                <h1 className="fw-light">Proyecto: {selectedProduct?.title}</h1>
+                <img
+                  className={`bd-placeholder-img-fluid ${
+                    selectedProduct && !selectedProduct.enabled ? "deactivate" : ""
+                  }`}
+                  src={selectedProduct?.picture!}
+                  alt="Imagen"
+                  style={{ maxWidth: "22rem" }}
+                />
+                <h4>Info posicionamiento:</h4>
+                <p className="lead text-muted">{selectedProduct?.info_header}</p>
+                <hr></hr>
+                <h4>Descripcion:</h4>
+                <p className="lead text-muted">{selectedProduct?.info_body}</p>
+                <hr></hr>
+                <h4>Estado:</h4>
+                <p className="lead text-muted">{booleanState(selectedProduct?.enabled!)}</p>
+                <ProductButtons
+                fn1={onClose}
+                fn2={toEdition}
+                fn3={itemCreate}
+                fn4={deleteCurrentProduct}
+                />
+              </div>
+            </div>
+          </section>
+          <section className="album.py-5.bg-light">
+            <div className="container">
+              <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {selectedProduct?.Items?.map((item) => (
+                  <div className="col" key={item.id}>
+                    <div className="card shadow-sm">
+                      <img
+                        className={`card-img-top ${
+                          !item.enabled ? "deactivate" : ""
+                        }`}
+                        src={item.picture!}
+                        alt="Card image"
+                        style={{maxWidth: '25rem', height:'15rem', objectFit:'cover', objectPosition:'center'}}
+                      />
+                      <div className="card-body">
+                        <p className="card-text">{item.text}</p>
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div className="btn-group">
+                            <button
+                              className="btn btn-sm btn-outline-secondary me-3"
+                              onClick={() =>
+                                navigate(`/admin/producto/detalles/item/${item.id}`)
+                              }
+                              disabled={item.id === 0 ? true : false}
+                            >
+                              Ver mas
+                            </button>
+                            <button
+                              className="btn btn-sm btn-outline-danger"
+                              onClick={() => {
+                                delItem(item.id);
+                              }}
+                              disabled={item.id === 0 ? true : false}
+                            >
+                              Borrar
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </>
+      )}
+    </>
+  );
+};
+
+export default Product;
