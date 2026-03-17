@@ -1,8 +1,8 @@
 import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from 'cloudinary'
-import { Request } from 'express'
 import envConfig from '../Configs/envConfig.js'
 import path from 'path'
 import {throwError} from '../Configs/errorHandlers.js'
+import logger from '../Configs/logger.js'
 
 // Tipos
 interface CloudinaryUploadOptions {
@@ -30,7 +30,7 @@ async function testCloudinaryConnection(): Promise<boolean> {
     console.log('Conexión exitosa con Cloudinary:', result)
     return true
   } catch (error) {
-    console.error('Error al conectar con Cloudinary:', error)
+    logger.error('Error al conectar con Cloudinary')
     return false
   }
 }
@@ -74,7 +74,7 @@ function extractPublicIdFromUrl(url: string): string {
     }
     
     const publicId = lastPart.substring(0, lastDotIndex)
-    console.log(publicId)
+    //console.log(publicId)
     return publicId
   } catch (error) {
     throw new Error('URL de Cloudinary inválida')
@@ -84,10 +84,10 @@ function extractPublicIdFromUrl(url: string): string {
 async function deleteFromCloudinary(imageUrl: string): Promise<DeleteResponse> {
   try {
     const publicId = decodeURIComponent(extractPublicIdFromUrl(imageUrl))
-    console.log('publicId:', publicId)
+//    console.log('publicId:', publicId)
     
     const result = await cloudinary.uploader.destroy(publicId)
-    console.log(result)
+    //console.log(result)
     
     if (result.result === 'ok') {
       return {
@@ -109,7 +109,7 @@ const configureCloudinary = async (): Promise<void> => {
     api_key: envConfig.CloudApiKey,
     api_secret: envConfig.CloudApiSecret
   })
-  console.log('Configuración de Cloudinary aplicada')
+  logger.info('Configuración de Cloudinary aplicada')
 }
 
 export { uploadToCloudinary, configureCloudinary, deleteFromCloudinary }

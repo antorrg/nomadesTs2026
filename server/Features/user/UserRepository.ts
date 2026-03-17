@@ -63,7 +63,6 @@ export class UserRepository extends BaseRepository<IUserDTO, CreateUserInput, Up
             
             const hashedPassword = await Hasher.hashPassword(data.newPassword)
             const updated = await model!.update({password: hashedPassword} as Partial<IUserDTO>)
-            console.log('contraseña actualizada')
             return {
                 message: `Contraseña actualizada correctamente`,
                 results: userParser(updated)

@@ -16,11 +16,8 @@ mainRouter.use('/api/v1/product', productRouter)
 mainRouter.use('/api/v1/landing', landingRouter)
 mainRouter.use('/api/v1/work', workRouter)
 mainRouter.use('/api/v1/media', mediaRouter)
-
 mainRouter.use('/api/v1/user', userRouter)
-mainRouter.use('/api/v1/images', 
-    //isAuthenticated,
-    imagesRouter)
+mainRouter.use('/api/v1/images', isAuthenticated, imagesRouter)
 mainRouter.use('/api/v1/admin/logs', isAuthenticated, authorizeMinRole(UserRole.ADMIN),logRouter)
 
 export default mainRouter

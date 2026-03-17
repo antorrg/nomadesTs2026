@@ -25,7 +25,6 @@ export class ImageController<Images, CreateImages> {
     }
     try {
       const result = await ImgsService.uploadNewImage(req.file)
-      console.log('URL generada:', result)
       res.status(200).json({
         message: 'Imagen guardada',
         results: {

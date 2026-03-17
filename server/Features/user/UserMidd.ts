@@ -19,9 +19,7 @@ export class UserMidd {
   }
   static profileGuard(req: Request, res: Response, next: NextFunction){
     const {id} = req.params
-    console.log('este es el id: ', id)
     const session = req.session as SessionData
-    console.log('esta es la sesion: ', session)
     if(!session){return next(middError('No autorizado', 401))}
     if(id !== session.user!.id){return next(middError('Solo el propietario puede actualizar su perfil', 400))}
     next()
