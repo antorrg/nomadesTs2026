@@ -38,7 +38,7 @@ logRouter.delete(
     logger.delete)
 
 logRouter.delete(
-    '/clean/:id',
+    '/:id/clean',
     Validator.paramId('id', Validator.ValidReg.INT),
     logger.deleteAll)
 

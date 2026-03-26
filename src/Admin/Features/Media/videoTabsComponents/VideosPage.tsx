@@ -20,7 +20,6 @@ const VideoPage = () => {
     action: getAllMedia,
     selector: (state) => state.adminMedia
   })
-
 // Lee el parámetro "tab" de la URL. Si no existe, usa un valor predeterminado.
 const queryParams = new URLSearchParams(location.search);
 const initialTab = queryParams.get('subtab') || 'facebook';

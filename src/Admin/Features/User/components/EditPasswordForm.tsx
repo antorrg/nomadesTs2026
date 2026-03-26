@@ -37,6 +37,9 @@ const EditPassword = ({ show, handleClose, user, onSuccess }: EditPasswordProps)
   });
 
   const onSubmit = async (data: PasswordChangeFormValues) => {
+    const confirmed = await userApi.confirmAction({ title: '¿Está seguro de actualizar la contraseña?' });
+    if (!confirmed) return;
+
     try {
       console.log('passwordUpd: ', {id:user.id, password:data.password,newPassword: data.newPassword})
       await userApi.changePassword(user.id, {

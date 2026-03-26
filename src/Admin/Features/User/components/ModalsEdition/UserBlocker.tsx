@@ -24,6 +24,9 @@ const UserBlocker = ({ show, handleClose, user, onSuccess }: UserBlockerProps) =
     });
 
     const onSubmit = async (data: FormValues) => {
+        const confirmed = await userApi.confirmAction({ title: '¿Está seguro de realizar esta acción?' });
+        if (!confirmed) return;
+
         try {
             await userApi.upgradeRole(user.id, {
                 enabled: data.enabled === "true",

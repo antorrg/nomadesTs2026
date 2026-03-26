@@ -26,16 +26,16 @@ const AdminFrontPage= () => {
 
   return (
     <section className="container">
-    <div className=" py-5 bg-light row py-lg-5">
+    <div className=" py-5 row py-lg-5">
         {!loaderSelect? 
         <>
       <div className="col-lg-6 col-md-8 col-sm-12 mx-auto text-center">
         <h2 className="fw-light">Gestion de portada:</h2>
         <div className=''>
           {(info?.id !==0)?
-        <Link className="btn btn-sm btn-outline-success mb-3" to={`/admin/land/update/${info?.id}`}>Editar</Link>
+        <Link className="btn btn-sm btn-outline-success mb-3" to={`/admin/front-page/${info?.id}/edicion`}>Editar</Link>
         :
-        <Link className="btn btn-sm btn-outline-danger me-3 mb-3" to='/admin/land/create'>Crear</Link>
+        <Link className="btn btn-sm btn-outline-danger me-3 mb-3" to='/admin/front-page/creacion'>Crear</Link>
           }
         </div>
         <h4>Titulo:</h4>

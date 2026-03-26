@@ -9,8 +9,8 @@ interface VideoTabsLayoutProps {
 
 const VideoLayout = ({ activeTab, handleTabChange, children }:VideoTabsLayoutProps) => {
   return (
-    <div>
-     <Container className="colorAdmin pb-3">
+    <div className='coverBack'>
+     <Container className="coverAdmin pb-3">
           <Row>
             {/* Navegación por tabs */}
             <Nav variant="tabs" className="ms-2 mb-0" id="nav-tab" role="tablist">
@@ -31,7 +31,7 @@ const VideoLayout = ({ activeTab, handleTabChange, children }:VideoTabsLayoutPro
               </Nav.Item>
             </Nav>
           </Row>
-          <Container fluid className="d-flex flex-nowrap colorTab ">
+          <Container fluid className="d-flex flex-nowrap backgroundFormColor ">
             {/* Contenido dinámico */}
             {children}
           </Container>

@@ -113,6 +113,24 @@ export const userTests = () => {
       })
     })
 
+    describe('PATCH /:id/reset-password', () => {
+      it('should trigger admin forced reset sequence validating backend hasher bindings', async () => {
+        const userId = store.getStringId()
+        
+        // This is sent via standard admin authorization global 'agent' which has XSRF set up 
+        const response = await agent
+          .patch(`/api/v1/user/${userId}/reset-password`)
+          .set('x-xsrf-token', getCsrfToken())
+          .send()
+
+        expect(response.status).toBe(200)
+        console.log(response.body.results)
+        expect(response.body.success).toBe(true)
+        // Ensure standard object return matches what an update does
+        expect(response.body.results).toBeDefined()
+      })
+    })
+
     describe('PATCH /:id/blocker', () => {
       it('should block user', async () => {
         const userId = store.getStringId()

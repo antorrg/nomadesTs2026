@@ -61,6 +61,10 @@ const AdminUserUpdate = () => {
 
   const onSubmit = async (data: UserUpdateFormValues) => {
     if (!id) return;
+
+    const confirmed = await userApi.confirmAction({ title: 'Esta seguro de actualizar este perfil?' });
+    if (!confirmed) return;
+
     setLoad(true);
     try {
       await userApi.updateProfile(id, {

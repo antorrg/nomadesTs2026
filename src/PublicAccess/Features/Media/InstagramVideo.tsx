@@ -36,11 +36,11 @@ const InstagramVideo = ({ media }: InstagramVideoProps) => {
 
   const showCarousel = videoList.length > 1 ? true : false;
 
-  const handleVideoSelect = (video) => {
+  const handleVideoSelect = (video: IMedia) => {
     setMainVideo(video);
   };
 
-  const getEmbedUrl = (url) => {
+  const getEmbedUrl = (url: string) => {
     const parts = url.split("/");
     const videoId = parts[parts.length - 2];
     return `https://www.instagram.com/reel/${videoId}/embed`;
@@ -56,7 +56,7 @@ const InstagramVideo = ({ media }: InstagramVideoProps) => {
               className="mt-2 me-3 w-20"
               variant="outline-primary"
               size="sm"
-              onClick={() => navigate("/admin/media/create?type=instagram")}
+              onClick={() => navigate("/admin/videos/type:instagram/creacion")}
             >
               Crear
             </Button>
@@ -68,12 +68,18 @@ const InstagramVideo = ({ media }: InstagramVideoProps) => {
         </Col>
         <Col xs={12} md={7}>
           <Ratio aspectRatio="16x9">
-            <iframe
-              src={getEmbedUrl(mainVideo.url)}
-              title="Instagram Reel"
-              frameBorder="0"
-              allowFullScreen
-            />
+            {mainVideo.url ? (
+              <iframe
+                src={getEmbedUrl(mainVideo.url)}
+                title="Instagram Reel"
+                frameBorder="0"
+                allowFullScreen
+              />
+            ) : (
+              <div className="d-flex align-items-center justify-content-center border rounded bg-body-tertiary">
+                No hay video disponible
+              </div>
+            )}
           </Ratio>
         </Col>
       </Row>
@@ -81,16 +87,24 @@ const InstagramVideo = ({ media }: InstagramVideoProps) => {
       {showCarousel ? (
         <Row className="mt-4">
           <Slider {...sliderSettings}>
-            {videoList.map((video) => (
+            {videoList.map((video) => {
+              const selected = mainVideo.id === video.id;
+
+              return (
               <div key={video.id} className="p-2">
-                <Ratio aspectRatio="16x9">
-                  <iframe
-                    src={getEmbedUrl(video.url)}
-                    title={`Miniatura ${video.id}`}
-                    frameBorder="0"
-                    allowFullScreen
-                  />
-                </Ratio>
+                <div
+                  className={`border rounded overflow-hidden ${
+                    selected ? "border-primary" : ""
+                  }`}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleVideoSelect(video)}
+                >
+                  <Ratio aspectRatio="16x9">
+                    <div className="d-flex align-items-center justify-content-center bg-body-tertiary">
+                      Video Instagram
+                    </div>
+                  </Ratio>
+                </div>
                 <Button
                   className="mt-2 w-20"
                   variant="outline-success"
@@ -100,7 +114,7 @@ const InstagramVideo = ({ media }: InstagramVideoProps) => {
                   Ver video
                 </Button>
               </div>
-            ))}
+            )})}
           </Slider>
         </Row>
       ) : null}

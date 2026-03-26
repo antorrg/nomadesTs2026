@@ -41,9 +41,6 @@ export const userApi = {
     },
     create: async (data: CreateUserInput): Promise<IUser> => {
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de crear este usuario?',
-            },
             request: {
                 method: 'post',
                 endpoint: 'user/create',
@@ -56,9 +53,6 @@ export const userApi = {
     },
     updateProfile: async (id: string, data: UpdateUserInput): Promise<IUser> => {
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de actualizar este perfil?',
-            },
             request: {
                 method: 'patch',
                 endpoint: `user/${id}/profile`,
@@ -71,9 +65,6 @@ export const userApi = {
     },
     upgradeRole: async (id: string, data: UpgradeUserInput): Promise<IUser> => {
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de actualizar el rol?',
-            },
             request: {
                 method: 'patch',
                 endpoint: `user/${id}/upgrade`,
@@ -83,12 +74,10 @@ export const userApi = {
             errorMessage: 'Error al actualizar rol'
         });
         return response as IUser;
-    }, changePassword: async (id: string, data: UpgradeUserInput): Promise<IUser> => {
+    },
+    changePassword: async (id: string, data: UpgradeUserInput): Promise<IUser> => {
         console.log(data)
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de actualizar la contraseña?',
-            },
             request: {
                 method: 'patch',
                 endpoint: `user/${id}/change-password`,
@@ -101,9 +90,6 @@ export const userApi = {
     },
         blockerUser: async (id: string, data: UpgradeUserInput): Promise<IUser> => {
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de realizar esta acción?',
-            },
             request: {
                 method: 'patch',
                 endpoint: `user/${id}/blocker`,
@@ -116,9 +102,6 @@ export const userApi = {
     },
     delete: async (id: string): Promise<void> => {
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de eliminar este usuario?',
-            },
             request: {
                 method: 'delete',
                 endpoint: `user/${id}`

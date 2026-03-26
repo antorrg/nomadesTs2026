@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Ratio, Button } from "react-bootstrap";
+import { Container, Row, Col, Ratio, Button, Image } from "react-bootstrap";
 import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
@@ -40,9 +40,14 @@ const YouTubeVideo = ({ media }: YouTubeVideoProps) => {
 
   const videoId = (url: string) => {
     const match = url.match(
-      /(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/))([^\s&]+)/
+      /(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/))([^?\s&]+)/
     );
     return match ? match[1] : null;
+  };
+
+  const getThumbnailUrl = (url: string): string => {
+    const id = videoId(url);
+    return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : "";
   };
 
   return (
@@ -55,7 +60,7 @@ const YouTubeVideo = ({ media }: YouTubeVideoProps) => {
               className="mt-2 me-3 w-20"
               variant="outline-primary"
               size="sm"
-              onClick={() => navigate("/admin/media/create?type=youtube")}
+              onClick={() => navigate("/admin/videos/type:youtube/creacion")}
             >
               Crear
             </Button>
@@ -67,13 +72,19 @@ const YouTubeVideo = ({ media }: YouTubeVideoProps) => {
         </Col>
         <Col xs={12} md={7}>
           <Ratio aspectRatio="16x9">
-            <iframe
-              src={`https://www.youtube-nocookie.com/embed/${videoId(mainVideo.url)}`}
-              title={mainVideo.title}
-              allowFullScreen
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              referrerPolicy="strict-origin-when-cross-origin"
-            />
+            {videoId(mainVideo.url) ? (
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${videoId(mainVideo.url)}`}
+                title={mainVideo.title}
+                allowFullScreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
+            ) : (
+              <div className="d-flex align-items-center justify-content-center border rounded bg-body-tertiary">
+                No hay video disponible
+              </div>
+            )}
           </Ratio>
         </Col>
       </Row>
@@ -82,17 +93,35 @@ const YouTubeVideo = ({ media }: YouTubeVideoProps) => {
       {showCarousel ? (
         <Row className="mt-4">
           <Slider {...sliderSettings}>
-            {videoList.map((video) => (
+            {videoList.map((video) => {
+              const thumbnailUrl = getThumbnailUrl(video.url);
+              const selected = mainVideo.id === video.id;
+
+              return (
               <div key={video.id} className="p-2">
-                <Ratio aspectRatio="16x9">
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${videoId(video.url)}`}
-                    title={`Miniatura ${video.id}`}
-                    allowFullScreen
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                  />
-                </Ratio>
+                <div
+                  className={`border rounded overflow-hidden ${
+                    selected ? "border-primary" : ""
+                  }`}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleVideoSelect(video)}
+                >
+                  <Ratio aspectRatio="16x9">
+                    {thumbnailUrl ? (
+                      <Image
+                        src={thumbnailUrl}
+                        alt={video.title}
+                        fluid
+                        className="w-100 h-100"
+                        style={{ objectFit: "cover" }}
+                      />
+                    ) : (
+                      <div className="d-flex align-items-center justify-content-center bg-body-tertiary">
+                        Sin miniatura
+                      </div>
+                    )}
+                  </Ratio>
+                </div>
                 <Button
                   className="mt-2 w-20"
                   variant="outline-success"
@@ -102,7 +131,7 @@ const YouTubeVideo = ({ media }: YouTubeVideoProps) => {
                   Ver video
                 </Button>
               </div>
-            ))}
+            )})}
           </Slider>
         </Row>
       ) : null}

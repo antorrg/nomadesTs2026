@@ -9,7 +9,10 @@ export interface IUserDTO {
   role: string
   enabled: boolean
 }
-
+export type IResetPassword = {
+  hashedPassword: string,
+  plainPassword:string
+}
 export interface IUserWithCredentials extends IUserDTO {
   password?: string | null
 }

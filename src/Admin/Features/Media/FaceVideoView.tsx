@@ -49,9 +49,14 @@ const FaceVideoView = ({ media }:VideoProps) => {
       await mediaApi.delete(id)
     }
   };
+  const disabledEdit = ():boolean=>{
+    if(videoList[0].id === 0){
+      return true
+    }return false
+  }
 
   return (
-    <Container>
+    <Container className="card">
       {/* Video Principal */}
       <Row className="featurette mt-5">
         <Col xs={12} md={5}>
@@ -59,7 +64,7 @@ const FaceVideoView = ({ media }:VideoProps) => {
             className="mt-2 me-3 w-20"
             variant="outline-primary"
             size="sm"
-            onClick={() => navigate("/admin/media/create?type=facebook")}
+            onClick={() => navigate("/admin/videos/type:facebook/creacion")}
           >
             Crear
           </Button>
@@ -73,16 +78,22 @@ const FaceVideoView = ({ media }:VideoProps) => {
         </Col>
         <Col xs={12} md={7}>
           <Ratio aspectRatio="16x9">
-            <iframe
-              src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(
-                mainVideo.url
-              )}&show_text=true&width=500&height=300&appId`}
-              style={{ border: "none", overflow: "hidden" }}
-              scrolling="no"
-              frameBorder="0"
-              allowFullScreen={true}
-              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-            />
+            {mainVideo.url ? (
+              <iframe
+                src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(
+                  mainVideo.url
+                )}&show_text=true&width=500&height=300&appId`}
+                style={{ border: "none", overflow: "hidden" }}
+                scrolling="no"
+                frameBorder="0"
+                allowFullScreen={true}
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+              />
+            ) : (
+              <div className="d-flex align-items-center justify-content-center border rounded bg-body-tertiary">
+                No hay video disponible
+              </div>
+            )}
           </Ratio>
         </Col>
       </Row>
@@ -90,18 +101,24 @@ const FaceVideoView = ({ media }:VideoProps) => {
       {/* Lista de Miniaturas con Botones */}
       <Row className="mt-4">
         <Slider {...sliderSettings}>
-          {videoList.map((video) => (
-            <div key={video.id} xs={4} md={3} className="p-2">
-              <Ratio aspectRatio="16x9">
-                <iframe
-                  src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(
-                    video.url
-                  )}&show_text=true&width=500&height=300&appId`}
-                  title={`Miniatura ${video.id}`}
-                  frameBorder="0"
-                  allowFullScreen
-                />
-              </Ratio>
+          {videoList.map((video) => {
+            const selected = mainVideo.id === video.id;
+            
+            return (
+            <div key={video.id} className="p-2">
+              <div
+                className={`border rounded overflow-hidden ${
+                  selected ? "border-primary" : ""
+                }`}
+                style={{ cursor: "pointer" }}
+                onClick={() => handleVideoSelect(video)}
+              >
+                <Ratio aspectRatio="16x9">
+                  <div className="d-flex align-items-center justify-content-center bg-body-tertiary">
+                    Video Facebook
+                  </div>
+                </Ratio>
+              </div>
               <Button
                 className="mt-2 me-3 w-20"
                 variant="outline-success"
@@ -115,8 +132,9 @@ const FaceVideoView = ({ media }:VideoProps) => {
                 variant="outline-primary"
                 size="sm"
                 onClick={() =>
-                  navigate(`/admin/media/update/${video.id}?type=facebook`)
+                  navigate(`/admin/videos/${video.id}/edicion`)
                 }
+                disabled={disabledEdit()}
               >
                 Editar
               </Button>
@@ -124,12 +142,13 @@ const FaceVideoView = ({ media }:VideoProps) => {
                 className="mt-2 me-3 w-20"
                 variant="outline-danger"
                 size="sm"
-                onClick={() => delVideo(video.id)}
+                onClick={() => delVideo(video.id as number)}
+                disabled={disabledEdit()}
               >
                 Eliminar
               </Button>
             </div>
-          ))}
+          )})}
         </Slider>
       </Row>
     </Container>

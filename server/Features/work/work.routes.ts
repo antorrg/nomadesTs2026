@@ -32,27 +32,35 @@ workRouter.get(
  */
 workRouter.get(
     '/',
+    isAuthenticated,
     workController .getAll
 )
 
 workRouter.get(
     '/:id',
+    isAuthenticated,
     workController .getById
 )
 
 workRouter.post(
     '/',
-    workController .create
+    isAuthenticated,
+    authorizeMinRole(UserRole.MODERATOR),
+    workController.create
 )
 
 workRouter.put(
     '/:id',
-    workController .update
+    isAuthenticated,
+    authorizeMinRole(UserRole.MODERATOR),
+    workController.update
 )
 
 workRouter.delete(
     '/:id',
-    workController .delete
+    isAuthenticated,
+    authorizeMinRole(UserRole.ADMIN),
+    workController.delete
 )
 
 export default workRouter

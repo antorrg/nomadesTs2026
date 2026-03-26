@@ -3,11 +3,13 @@ import { useReduxFetch } from "../../../hooks/useReduxFetch";
 import { getAllUsers } from "./userAdminSlice";
 import { booleanState } from "../../AdminUtils/helpers";
 import { userApi } from "../../AdminApi/userApi";
+import { useAuth } from "../../../context/AuthContext";
 //imports experimentales
 
 
 
 const UserView = () => {
+  const { user: authUser } = useAuth()
 const { users } = useReduxFetch({
   action: getAllUsers,
   selector: (state) => state.user
@@ -23,21 +25,24 @@ const { users } = useReduxFetch({
   };
   
   return (
-    <section className="container album py-1 bg-light mb-3 ">
+    <section className="container album py-1 mb-3 ">
       <div className=" row py-lg-5">
         <div className="col-lg-6 col-md-8 col-sm-12 mx-auto text-center">
           <h2 className="fw-light">Usuarios:</h2>
+         {(authUser?.role === 'ADMIN')?
           <Link
             className="btn btn-sm btn-outline-success me-3 mb-3"
             to="/admin/usuarios/creacion"
           >
             Crear Usuario
           </Link>
+          : null
+          }
         </div>
         <div className="">
           {users?.map((info) => (
             <div
-              className="d-flex flex-column flex-md-row justify-content-between align-items-start w-100 mb-3 shadow-sm"
+              className="d-flex flex-column flex-md-row justify-content-between align-items-start w-100 mb-3 shadow-sm card"
               key={info?.id}
               style={{ borderRadius: "0.5rem" }}
             >
@@ -70,7 +75,7 @@ const { users } = useReduxFetch({
                   </p>
                 </div>
                 <div className="mt-3 mt-lg-0">
-                  {(info?.role=== 'ADMIN')?
+                  {(authUser?.role=== 'ADMIN')?
                   <button
                     className="btn btn-sm btn-outline-danger me-3"
                     onClick={() => deleteUser(info.id)}

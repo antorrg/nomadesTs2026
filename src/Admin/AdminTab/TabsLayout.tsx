@@ -11,8 +11,8 @@ interface TabsLayoutProps {
 
 const TabsLayout: React.FC<TabsLayoutProps> = ({ activeTab, handleTabChange, sessionCleaner, isLoading, children }) => {
   return (
-    <div>
-      <div className="">
+    <div className='backgroundPages'>
+      <div className="coverBack">
         <Container className="coverAdmin pb-3">
           <Row>
             {/* Navegación por tabs */}

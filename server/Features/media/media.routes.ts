@@ -34,26 +34,34 @@ mediaRouter.get(
  */
 mediaRouter.get(
     '/',
+    isAuthenticated,
     mediaController.getAll
 )
 
 mediaRouter.get(
     '/:id',
+    isAuthenticated,
     mediaController.getById
 )
 
 mediaRouter.post(
     '/',
+    isAuthenticated,
+    authorizeMinRole(UserRole.MODERATOR),
     mediaController.create
 )
 
 mediaRouter.put(
     '/:id',
+    isAuthenticated,
+    authorizeMinRole(UserRole.MODERATOR),
     mediaController.update
 )
 
 mediaRouter.delete(
     '/:id',
+    isAuthenticated,
+    authorizeMinRole(UserRole.MODERATOR),
     mediaController.delete
 )
 

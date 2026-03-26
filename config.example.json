@@ -4,13 +4,17 @@
         "DATABASE_URL": "postgresql://postgres:password@localhost:5432/dbname",
         "USER_PICTURE" :"https://imagen.com",
         "IMAGES_DIR": "serverAssets/uploads",
-        "SESSION_SECRET": "test-secret"
+        "SESSION_SECRET": "test-secret",
+        "GMAIL_USER":"email",
+        "GMAIL_APP_PASS": "pass"
     },
     "test":{
         "PORT": "8080",
         "DATABASE_URL": "postgresql://postgres:password@localhost:5432/dbnametest",
         "USER_PICTURE" :"https://imagen.com",
         "IMAGES_DIR": "serverAssets/uploads",
-        "SESSION_SECRET": "test-secret"
+        "SESSION_SECRET": "test-secret",
+         "GMAIL_USER":"email",
+        "GMAIL_APP_PASS": "pass"
     }
 }

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import { authApi } from '../api/authApi';
 import type { AuthState } from '../types/auth';
+import interceptor from '../api/network/interceptor';
 
 interface AuthContextType extends AuthState {
     login: (credentials: any) => Promise<void>;
@@ -65,13 +66,25 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
 
     const logout = async () => {
-        await authApi.logout();
-        setState({
-            user: null,
-            isAuthenticated: false,
-            loading: false,
-        });
+        try {
+            await authApi.logout();
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setState({
+                user: null,
+                isAuthenticated: false,
+                loading: false,
+            });
+        }
     };
+
+    useEffect(() => {
+        // Setup Axios interceptor to trap 401s globally and force a logout redirect.
+        interceptor(logout, (status, message) => {
+            console.warn(`[Interceptor Auth] ${status} - ${message}`);
+        });
+    }, []);
 
     return (
         <AuthContext.Provider value={{ ...state, login, logout, checkAuth }}>

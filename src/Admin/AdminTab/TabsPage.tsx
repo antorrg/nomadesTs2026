@@ -39,11 +39,11 @@ const TabsPage = () => {
       "¿Está seguro de cerrar sesión?"
     );
     if (confirmed) {
+      try {
+        await logout();
+      } catch(e) { console.error(e) }
       showSuccess("Sesión cerrada");
-      navigate("/");
-      setTimeout(() => {
-        logout();
-      }, 1000);
+      navigate("/ingresar", { replace: true });
     }
   };
 

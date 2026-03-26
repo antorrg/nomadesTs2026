@@ -27,6 +27,7 @@ export class UserMidd {
     static resetPassword = async(req: Request, res: Response, next: NextFunction) => {
     const passwordGenerated = UserMidd.generatePassword(12)
     const hashedPass = await Hasher.hashPassword(passwordGenerated)
+    if (!req.body) { req.body = {}; }
     req.body.hashedPassword = hashedPass
     req.body.plainPassword = passwordGenerated
     next()

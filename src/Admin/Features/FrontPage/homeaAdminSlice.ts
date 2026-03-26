@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { landingApi } from '../../AdminApi/landingApi';
-import type { ILanding, LandingResults } from '../../../types/landing';
+import { frontPageApi } from '../../AdminApi/frontPageApi';
+import type { IFrontPage, FrontPageResults } from '../../../types/frontPage';
 
 // Estado del slice
 interface HomeState {
 
     // Estados admin
-    landing: LandingResults[];
-    selectedLanding: ILanding | null;
+    landing: FrontPageResults[];
+    selectedLanding: IFrontPage | null;
     adminLoading: boolean;
 
     // Error compartido
@@ -29,7 +29,7 @@ export const getAllLanding = createAsyncThunk(
     'home/getAllLanding',
     async (_, { rejectWithValue }) => {
         try {
-            return await landingApi.getAll();
+            return await frontPageApi.getAll();
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || 'Error al cargar landing');
         }
@@ -40,7 +40,7 @@ export const getLandingById = createAsyncThunk(
     'home/getLandingById',
     async (id: number, { rejectWithValue }) => {
         try {
-            return await landingApi.getById(id);
+            return await frontPageApi.getById(id);
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || 'Error al cargar landing');
         }

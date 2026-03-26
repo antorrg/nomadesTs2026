@@ -26,6 +26,9 @@ const ChangeRole = ({ show, handleClose, user, onSuccess }: ChangeRoleProps) => 
     });
 
     const onSubmit = async (data: FormValues) => {
+        const confirmed = await userApi.confirmAction({ title: '¿Está seguro de actualizar el rol?' });
+        if (!confirmed) return;
+
         try {
             await userApi.upgradeRole(user.id, {
                 enabled: user.enabled,

@@ -15,4 +15,13 @@ export class UserController extends BaseController<IUserDTO, CreateUserInput, Up
     
     BaseController.responder(res, 200, true, message, results)
   }
+  resetPassword = async (req: Request, res: Response) => {
+    const { id } = req.params
+    const data = req.body
+    
+    // We access the changePassword method formally through the UserService layer
+    const { message, results } = await (this.service as UserService).resetPassword(id as string, data)
+    
+    BaseController.responder(res, 200, true, message, results)
+  }
 }

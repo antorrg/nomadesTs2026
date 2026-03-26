@@ -9,11 +9,12 @@ import { UserRepository } from './UserRepository.js'
 import { Validator } from 'req-valid-express'
 import { create, update, upgrade, banner, changePassword as changePasswordSchema } from './schemas.js'
 import { UserMidd } from './UserMidd.js'
+import { MailController } from '../../ExternalServices/nodeMailer/MailController.js'
 import { authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
 import { allowedQueryValues } from '../../Shared/Utils/allowedQueryValues.js'
 
 export const userRepository = new UserRepository(User, userParser, 'User', 'email', mockData as any)
-export const userService = new UserService(userRepository, ImgsService as any, false, 'picture')
+export const userService = new UserService(userRepository, ImgsService as any, false, 'picture', MailController.resetPasswordEmail)
 const user = new UserController(userService as any)
 
 const password: RegExp = /^(?=.*[A-Z]).{8,}$/
@@ -72,6 +73,15 @@ userRouter.patch(
   ),
   user.changePassword
 )
+
+userRouter.patch(
+  '/:id/reset-password',
+  authorizeMinRole(UserRole.ADMIN),
+  Validator.paramId('id', Validator.ValidReg.UUIDv4),
+  UserMidd.resetPassword,
+  user.resetPassword
+)
+
 userRouter.patch(
   '/:id/blocker',
   authorizeMinRole(UserRole.ADMIN),

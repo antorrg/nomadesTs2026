@@ -34,6 +34,17 @@ export const getAllMedia = createAsyncThunk(
     }
 );
 
+export const getMediaById = createAsyncThunk(
+    'media/getMediaById',
+    async (id: number, { rejectWithValue }) => {
+        try {
+            return await mediaApi.getById(id);
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || 'Error al cargar media');
+        }
+    }
+);
+
 
 
 const adminMediaSlice = createSlice({
@@ -56,6 +67,9 @@ const adminMediaSlice = createSlice({
             // Admin Media
             .addCase(getAllMedia.fulfilled, (state, action) => {
                 state.media = action.payload;
+            })
+            .addCase(getMediaById.fulfilled, (state, action) => {
+                state.selectedMedia = action.payload;
             })
 
             // Matchers

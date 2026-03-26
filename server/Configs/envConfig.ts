@@ -52,7 +52,9 @@ const envConfig = {
   RootPass : getStringEnv('ROOT_PASS',''),
   CloudName: getStringEnv("CLOUD_NAME", ''),
   CloudApiKey : getStringEnv("CLOUD_API_KEY", ''),
-  CloudApiSecret : getStringEnv("CLOUD_API_SECRET",'')
+  CloudApiSecret : getStringEnv("CLOUD_API_SECRET",''),
+  GmailUser: getStringEnv("GMAIL_USER",''),
+  GmailPass: getStringEnv("GMAIL_APP_PASS",''),
 }
 
 export default envConfig

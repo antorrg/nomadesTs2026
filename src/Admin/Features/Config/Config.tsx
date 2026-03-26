@@ -1,5 +1,6 @@
+import SystemLogsViewer from './SystemLogsViewer';
 
-type ConfigProps = {
+export type ConfigProps = {
   user: {
     id?: string | null | undefined,
     email?:string | null | undefined,
@@ -10,19 +11,25 @@ type ConfigProps = {
 const Config = ({user}: ConfigProps) => {
 
   return (
-    <div>
+    <div className="container pb-5">
       <h2>Configuración</h2>
-    <p>Contenido específico para configuraciones en caso de futura ampliacion.</p>
+    <p>Contenido específico para configuraciones necesita permiso de administrador para entrar aqui.</p>
       {(user && user.role === 'ADMIN')?
-      <div style={{border:'solid', color:'GrayText',borderRadius:'2px'}}>
-        <ul>
-          <li><strong>Usuario activo:</strong></li>
-          <li>(Esta ventana solo aparece si el usuario tiene rol de administrador)</li>
-          <li>Id: {user.id}</li>
-          <li>Email: {user.email}</li>
-          <li>Rol: {user.role}</li>
-        </ul>
-      </div>
+      <>
+        <div className='card mb-4' style={{border:'solid', color:'GrayText',borderRadius:'2px'}}>
+          <div className="card-body">
+            <ul>
+              <li><strong>Usuario activo:</strong></li>
+              <li>(Esta ventana solo aparece si el usuario tiene rol de administrador)</li>
+              <li>Id: {user.id}</li>
+              <li>Email: {user.email}</li>
+              <li>Rol: {user.role}</li>
+            </ul>
+          </div>
+        </div>
+        <hr />
+        <SystemLogsViewer />
+      </>
       : 
       null
       }

@@ -53,6 +53,11 @@ const InstVideoView = ({ media }: VideoProps) => {
       await mediaApi.delete(id)
     }
   };
+    const disabledEdit = ():boolean=>{
+    if(videoList[0].id === "02" ||videoList[0].id === 0){
+      return true
+    }return false
+  }
 
   return (
     <Container>
@@ -63,7 +68,7 @@ const InstVideoView = ({ media }: VideoProps) => {
             className="mt-2 me-3 w-20"
             variant="outline-primary"
             size="sm"
-            onClick={() => navigate("/admin/media/create?type=facebook")}
+            onClick={() => navigate("/admin/videos/type:instagram/creacion")}
           >
             Crear
           </Button>
@@ -77,12 +82,18 @@ const InstVideoView = ({ media }: VideoProps) => {
         </Col>
         <Col xs={12} md={7}>
           <Ratio aspectRatio="16x9">
-            <iframe
-              src={getEmbedUrl(mainVideo.url)}
-              title="Instagram Reel"
-              frameBorder="0"
-              allowFullScreen
-            />
+            {mainVideo.url ? (
+              <iframe
+                src={getEmbedUrl(mainVideo.url)}
+                title="Instagram Reel"
+                frameBorder="0"
+                allowFullScreen
+              />
+            ) : (
+              <div className="d-flex align-items-center justify-content-center border rounded bg-body-tertiary">
+                No hay video disponible
+              </div>
+            )}
           </Ratio>
         </Col>
       </Row>
@@ -90,16 +101,24 @@ const InstVideoView = ({ media }: VideoProps) => {
       {/* Lista de Miniaturas */}
       <Row className="mt-4">
         <Slider {...sliderSettings}>
-          {videoList.map((video) => (
-            <div key={video.id} xs={5} md={3} lg={3} className="p-2">
-              <Ratio aspectRatio="16x9">
-                <iframe
-                  src={getEmbedUrl(video.url)}
-                  title={`Miniatura ${video.id}`}
-                  frameBorder="0"
-                  allowFullScreen
-                />
-              </Ratio>
+          {videoList.map((video) => {
+            const selected = mainVideo.id === video.id;
+
+            return (
+            <div key={video.id} className="p-2">
+              <div
+                className={`border rounded overflow-hidden ${
+                  selected ? "border-primary" : ""
+                }`}
+                style={{ cursor: "pointer" }}
+                onClick={() => handleVideoSelect(video)}
+              >
+                <Ratio aspectRatio="16x9">
+                  <div className="d-flex align-items-center justify-content-center bg-body-tertiary">
+                    Video Instagram
+                  </div>
+                </Ratio>
+              </div>
               <Button
                 className="mt-2 me-3 w-20"
                 variant="outline-success"
@@ -113,8 +132,9 @@ const InstVideoView = ({ media }: VideoProps) => {
                 variant="outline-primary"
                 size="sm"
                 onClick={() =>
-                  navigate(`/admin/media/update/${video.id}?type=instagram`)
+                  navigate(`/admin/videos/${video.id}/edicion`)
                 }
+                disabled={disabledEdit()}
               >
                 Editar
               </Button>
@@ -122,12 +142,13 @@ const InstVideoView = ({ media }: VideoProps) => {
                 className="mt-2 me-3 w-20"
                 variant="outline-danger"
                 size="sm"
-                onClick={() => delVideo(video.id)}
+                onClick={() => delVideo(video.id as number)}
+                disabled={disabledEdit()}
               >
                 Eliminar
               </Button>
             </div>
-          ))}
+          )})}
         </Slider>
       </Row>
     </Container>

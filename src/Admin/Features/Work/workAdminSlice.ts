@@ -35,6 +35,17 @@ export const getAllWorks = createAsyncThunk(
     }
 );
 
+export const getWorkById = createAsyncThunk(
+    'work/getWorkById',
+    async (id: number, { rejectWithValue }) => {
+        try {
+            return await workApi.getById(id);
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || 'Error al cargar trabajo');
+        }
+    }
+);
+
 
 
 const adminWorkSlice = createSlice({
@@ -63,6 +74,19 @@ const adminWorkSlice = createSlice({
                 state.works = action.payload;
             })
             .addCase(getAllWorks.rejected, (state, action) => {
+                state.adminLoading = false;
+                state.error = action.payload as string;
+            })
+            // Get by ID
+            .addCase(getWorkById.pending, (state) => {
+                state.adminLoading = true;
+                state.error = null;
+            })
+            .addCase(getWorkById.fulfilled, (state, action) => {
+                state.adminLoading = false;
+                state.selectedWork = action.payload;
+            })
+            .addCase(getWorkById.rejected, (state, action) => {
                 state.adminLoading = false;
                 state.error = action.payload as string;
             });

@@ -10,7 +10,7 @@ export const workApi = {
                 method: 'get',
                 endpoint: 'work'
             },
-            hasMessage: true
+            hasMessage: false
         });
         return response as IWork[];
     },
@@ -20,15 +20,12 @@ export const workApi = {
                 method: 'get',
                 endpoint: `work/${id}`
             },
-            hasMessage: true
+            hasMessage: false
         });
         return response as IWork;
     },
     create: async (data: CreateWork): Promise<IWork> => {
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de crear este trabajo?',
-            },
             request: {
                 method: 'post',
                 endpoint: 'work',
@@ -41,9 +38,6 @@ export const workApi = {
     },
     update: async (id: number, data: UpdateWork): Promise<IWork> => {
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de actualizar este trabajo?',
-            },
             request: {
                 method: 'put',
                 endpoint: `work/${id}`,
@@ -56,9 +50,6 @@ export const workApi = {
     },
     delete: async (id: number): Promise<void> => {
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de eliminar este trabajo?',
-            },
             request: {
                 method: 'delete',
                 endpoint: `work/${id}`

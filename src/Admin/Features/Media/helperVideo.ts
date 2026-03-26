@@ -5,3 +5,7 @@ export const booleanState = (st: boolean|string ):string=>{
       return 'Bloqueado'
     }else{return 'Bloqueado'}
 }
+export const displayType = (str: string): string => {
+  if (!str) return '';
+  return str.includes(':') ? str.split(':')[1] : str;
+};

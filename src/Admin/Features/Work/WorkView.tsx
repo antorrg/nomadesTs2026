@@ -23,12 +23,12 @@ const WorkView = () => {
 
   return (
     <>
-      <section className="container album py-5 bg-light mb-3">
+      <section className="container album py-5 mb-3">
         <div className="">
           <div className="col-lg-6 col-md-8 mx-auto text-center">
             <h2 className="fw-light">Nuestro trabajo</h2>
             <Link
-              to="/admin/work/create"
+              to="/admin/trabajo/creacion"
               className="btn btn-sm btn-outline-success mb-2"
             >
               Crear Item
@@ -59,7 +59,7 @@ const WorkView = () => {
                         </button>
                         <Link
                           className="btn btn-sm btn-outline-primary me-3"
-                          to={`/admin/work/update/${work.id}`}
+                          to={`/admin/trabajo/${work.id}/edicion`}
                         >
                           Editar
                         </Link>

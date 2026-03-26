@@ -7,11 +7,13 @@ import { getUserById } from '../userAdminSlice'
 import { banned, showButton } from '../../../AdminUtils/helpers'
 import ChangeRole from '../components/ModalsEdition/ChangeRole'
 import UserBlocker from '../components/ModalsEdition/UserBlocker'
+import { useAuth } from '../../../../context/AuthContext'
 
 
 
 
 const AdminUserDetail = () => {
+const { user: userAuth} = useAuth()
 const navigate = useNavigate()
 const dispatch = useAppDispatch()
 const [showChangeRole, setShowChangeRole] = useState(false)
@@ -33,9 +35,9 @@ const goToBack= ()=>navigate(-1)
   }
 
 const switched = banned(user?.enabled ?? false)
-const showBtn = showButton(user?.role)
+const showBtn = showButton(userAuth?.role)
   return (
-    
+    <div className='imageBack'>
      <div className='coverBack'>
       <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4 mb-3">
 
@@ -55,23 +57,27 @@ const showBtn = showButton(user?.role)
             <dd className="col-sm-9">{user?.nickname}</dd>
             
             <dt className="col-sm-3">Rol:</dt>
-            <dd className="col-sm-9">{user?.role}</dd>
-            
-            <dt className="col-sm-3">Nombre:</dt>
-            <dd className="col-sm-9">  <span>{user?.name}</span>
+            <dd className="col-sm-9"><span>{user?.role}</span>
+                {showBtn?
                   <button 
                     className="btn btn-sm btn-outline-primary ms-3"
                     onClick={() => setShowChangeRole(true)}
                   >
                     Cambiar rol
                   </button>
+                  : null
+                  }
+            </dd>
+            
+            <dt className="col-sm-3">Nombre:</dt>
+            <dd className="col-sm-9">{user?.name}
             </dd>
             
             <dt className="col-sm-3">Estado:</dt>
             <dd className="col-sm-9">
               <span>{user && booleanState(user.enabled)}</span>
               {showBtn?
-                                <button 
+                    <button 
                     className={switched.styleButton}
                     onClick={() => setShowUserBlocker(true)}
                   >
@@ -117,6 +123,7 @@ const showBtn = showButton(user?.role)
           }} 
         />
       )}
+    </div>
     </div>
     </div>
   )

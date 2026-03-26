@@ -7,8 +7,8 @@
      .imageBack {
        margin-top: 0;
        z-index: 10;
-       max-height: 100%;
-       max-width: 100%;
+       min-height: 100vh;
+       width: 100%;
        background-image: image-set(url('/cabañaBackground.avif') type('image/avif'),
            url('/cabañaBackground.webp') type('image/webp'),
            linear-gradient(0deg, rgba(91, 139, 241, 1) 0%, rgba(38, 125, 222, 1) 11%, rgba(6, 27, 48, 1) 100%));

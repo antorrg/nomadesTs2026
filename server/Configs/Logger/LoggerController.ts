@@ -12,13 +12,13 @@ export class LoggerController {
   getAll = async (req: Request, res: Response) => {
     const query = req?.context?.query
     const { info, results } = await this.service.getAll(query!)
-    res.status(200).json({ info, results })
+    res.status(200).json({ message: 'OK', results: { info, results } })
   }
 
   getById = async (req: Request, res: Response) => {
     const { id } = req.params
     const results = await this.service.getById(Number(id))
-    res.status(200).json(results)
+    res.status(200).json({ message: 'OK', results })
   }
 
   update = async (req: Request, res: Response) => {
@@ -31,11 +31,11 @@ export class LoggerController {
   delete = async (req: Request, res: Response) => {
     const { id } = req.params
     const results = await this.service.delete(Number(id))
-    res.status(200).json(results)
+    res.status(200).json({ message: 'OK', results })
   }
 
   deleteAll = async (req: Request, res: Response) => {
     const response = await this.service.deleteAll()
-    res.status(200).json(response)
+    res.status(200).json({ message: 'Logs limpiados correctamente', results: response })
   }
 }

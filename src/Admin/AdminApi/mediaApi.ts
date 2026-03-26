@@ -26,9 +26,6 @@ export const mediaApi = {
     },
     create: async (data: CreateMedia): Promise<IMedia> => {
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de crear este elemento?',
-            },
             request: {
                 method: 'post',
                 endpoint: 'media',
@@ -41,9 +38,6 @@ export const mediaApi = {
     },
     update: async (id: number, data: UpdateMedia): Promise<IMedia> => {
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de actualizar este elemento?',
-            },
             request: {
                 method: 'put',
                 endpoint: `media/${id}`,
@@ -56,9 +50,6 @@ export const mediaApi = {
     },
     delete: async (id: number): Promise<void> => {
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de eliminar este elemento?',
-            },
             request: {
                 method: 'delete',
                 endpoint: `media/${id}`

@@ -12,7 +12,7 @@ const { products }= useReduxFetch({
 
 
   return (
-        <section className="container album py-1 bg-light mb-3 ">
+        <section className="container album py-1 mb-3 ">
       <div className=" row py-lg-5">
         <div className="col-lg-6 col-md-8 col-sm-12 mx-auto text-center">
           <h2 className="fw-light">Productos:</h2>
@@ -26,7 +26,7 @@ const { products }= useReduxFetch({
         <div className="">
           {products?.map((info) => (
             <div
-              className="d-flex  flex-column flex-lg-row justify-content-between align-items-start w-100 mb-3 shadow-sm bg-white"
+              className="d-flex flex-column flex-lg-row justify-content-between align-items-start w-100 mb-3 shadow-md card"
               key={info?.id}
               style={{ borderRadius: "0.5rem" }}
             >

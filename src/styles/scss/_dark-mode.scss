@@ -9,7 +9,8 @@
     --bs-secondary-border-subtle: hsl(210, 7%, 27%) !important;
 
     // Variables custom para tu app
-    --ar-background-image: #{v.$bg-gradient-dark-blue};
+    --ar-background-image: #{v.$bg-image-dark};
+    --ar-background-color: #{v.$bg-gradient-dark-blue};
     --ar-glass-bg: #{v.$glass-dark-bg};
     --ar-glass-blur: #{v.$glass-blur};
     --ar-glass-blur-webkit: #{v.$glass-blur-webkit};
@@ -24,7 +25,7 @@
     .form-control,
     .form-select,
     .list-group-item {
-        background-color: rgba(31, 41, 55, 0.7); // Darker semi-transparent background
+        background-color: hsla(215, 28%, 17%, 0.7); // Darker semi-transparent background
         border-color: rgba(75, 85, 99, 0.5);
         color: #f8f9fa;
     }
@@ -84,6 +85,7 @@
 
     // Variables custom para tu app
     --ar-background-image: #{v.$bg-image-light};
+    --ar-background-color: #{v.$bg-arcolor-light};
     --ar-glass-bg: #{v.$glass-light-bg};
     --ar-glass-blur: #{v.$glass-blur};
     --ar-glass-blur-webkit: #{v.$glass-blur-webkit};

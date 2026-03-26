@@ -40,26 +40,34 @@ landRouter.get(
  */
 landRouter.get(
     '/',
+    isAuthenticated,
     landController.getAll
 )
 
 landRouter.get(
     '/:id',
+    isAuthenticated,
     landController.getById
 )
 
 landRouter.post(
     '/',
+    isAuthenticated,
+    authorizeMinRole(UserRole.MODERATOR),
     landController.create
 )
 
 landRouter.put(
     '/:id',
+    isAuthenticated,
+    authorizeMinRole(UserRole.MODERATOR),
     landController.update
 )
 
 landRouter.delete(
     '/:id',
+    isAuthenticated,
+    authorizeMinRole(UserRole.ADMIN),
     landController.delete
 )
 
