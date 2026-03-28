@@ -17,7 +17,7 @@ const YouTubeVideo = ({ media }: YouTubeVideoProps) => {
   const navigate = useNavigate();
 
   const videoList = media?.filter((video) => video.type === "youtube");
-  let videos = videoList[0] ?? {
+  const videos = videoList[0] ?? {
     id: "0",
     title: "Videos de you tube",
     text: "Aguarde un momento...",

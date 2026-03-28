@@ -100,6 +100,17 @@ export const userApi = {
         });
         return response as IUser;
     },
+    resetPassword: async(id: string):Promise<void> => {
+            const response = await adminApi.execute({
+            request: {
+                method: 'patch',
+                endpoint: `user/${id}/reset-password`
+            },
+            hasMessage: true,
+            errorMessage: 'Error al resetear contraseña'
+        });
+        return response as void;
+    },
     delete: async (id: string): Promise<void> => {
         const response = await adminApi.execute({
             request: {

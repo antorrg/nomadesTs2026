@@ -1,7 +1,7 @@
 //import { type LoginUser } from "../../../types/user";
 
 export const ValidLogin = (input: any) => {
-  let errors: any = {};
+  const errors: any = {};
 
   // Using Regular Expressions to validate the appropriate use
   const validEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;

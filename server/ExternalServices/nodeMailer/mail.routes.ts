@@ -9,8 +9,8 @@ const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 mailRouter.post(
   '/contact',
   Validator.validateBody({
-    name: 'string',
     email: 'string',
+    issue: 'string',
     message: 'string'
   }),
   Validator.validateRegex(emailRegex, 'email', 'Enter a valid email address'),

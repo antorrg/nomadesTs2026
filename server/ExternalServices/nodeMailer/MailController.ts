@@ -11,21 +11,21 @@ export class MailController {
         }
         
         try {
-            const { name, email, message } = req.body;
+            const {email, issue, message } = req.body;
             const mailer = new NodeMailer();
             
             // Forward contact messages securely to the admin's inbox
             const adminEmail = envConfig.GmailUser;
-            const subject = `Nuevo mensaje de contacto de: ${name}`;
-            const text = `Remitente: ${name} (${email})\n\n${message}`;
+            const subject = `Nuevo mensaje de contacto de: ${email}`;
+            const text = `Remitente: nomades-webSite (${email})\n\nAsunto: ${issue}\n\n${message}`;
+            const replyTo= email
 
-            await mailer.sendMail(adminEmail!, subject, text);
+            await mailer.sendMail(adminEmail!, subject, text, replyTo);
             res.status(200).json({ message: "Mensaje de contacto enviado exitosamente" });
         } catch (error) {
             logger.error(error);
         }
     }
-
     // Direct binding for UserService injection (not a raw Express middleware)
     static resetPasswordEmail = async(email: string, plainPassword: string): Promise<void> => {
         if (envConfig.Status === 'test') {

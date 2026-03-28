@@ -14,12 +14,13 @@ export class NodeMailer {
     });
   }
 
-  async sendMail(to: string, subject: string, text?: string, html?: string) {
+  async sendMail(to: string, subject: string, text?: string, replyTo?:string, html?: string) {
     const mailOptions = {
       from: envConfig.GmailUser,
       to,
       subject,
       text,
+      replyTo,
       html
     };
     return await this.transporter.sendMail(mailOptions);

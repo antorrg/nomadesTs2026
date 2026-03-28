@@ -1,8 +1,9 @@
 import fs from 'fs/promises'
 import path from 'path'
+import envConfig from '../../server/Configs/envConfig.js'
 
 const fixturesDir = './serverAssets/fixtures'
-const uploadDir = './serverAssets/uploads'
+const uploadDir = envConfig.TestImagesUploadDir
 
 export default async function prepareTestImages (q: number): Promise<string[]> {
   // asegurar que la carpeta uploads existe

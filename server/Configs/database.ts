@@ -39,10 +39,12 @@ function getNameDb(dbUri:string):string {
 async function startUp (syncDb: boolean = false, rewrite: boolean = false) {
   try {
     await sequelize.authenticate()
+    console.log(`Database ${getNameDb(envConfig.DatabaseUrl)} is connected`)
     if (envConfig.Status !== 'production' && syncDb) {
       try {
         await sequelize.sync({ force: rewrite })
-        logger.info(`🧪 Synced database ${getNameDb(envConfig.DatabaseUrl)}: "force ${rewrite}"`)
+        let message = `🧪 Synced database ${getNameDb(envConfig.DatabaseUrl)}: "force ${rewrite}"`
+        logger.info(message)
       } catch (error) {
         logger.error(error)
         //console.error(`❗Error syncing database ${getNameDb(envConfig.DatabaseUrl)}`, error)

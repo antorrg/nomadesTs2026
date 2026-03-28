@@ -7,7 +7,7 @@ export interface EmailInput {
 export type EmailErrors = Partial<Record<keyof EmailInput, string>>
 
 export const ValidContact = (input:EmailInput) => {
-    let errors:EmailErrors = {};
+    const errors:EmailErrors = {};
   
     // Using Regular Expressions to validate the appropriate use
     const validEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;

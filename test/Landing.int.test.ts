@@ -2,11 +2,12 @@ import { describe, it, expect, beforeAll } from 'vitest'
 import { agent, getCsrfToken } from './testHelpers/sharedAgent.help.js'
 import fs from 'fs/promises'
 import path from 'path'
+import envConfig from '../server/Configs/envConfig.js'
 
 export const landingTests = () => {
     describe('INTEGRATION TEST - "/api/v1/landing"', () => {
         let landingId: number
-        const uploadDir = 'serverAssets/uploads'
+        const uploadDir = envConfig.TestImagesUploadDir
 
         const fileExists = async (filename: string) => {
             try {

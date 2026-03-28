@@ -15,7 +15,7 @@ const FaceVideoView = ({ media }:VideoProps) => {
   const navigate = useNavigate();
 
   const videoList = media.filter((video) => video.type === "facebook");
-  let videos:IMedia = videoList[0] || {
+  const videos:IMedia = videoList[0] || {
     id: 0,
     type: "facebook",
     title: "Facebook",

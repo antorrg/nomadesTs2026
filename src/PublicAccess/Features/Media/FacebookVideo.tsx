@@ -17,7 +17,7 @@ const FacebookVideo = ({ media }: FacebookVideoProps) => {
   const navigate = useNavigate();
 
   const videoList = media?.filter((video) => video.type === "facebook");
-  let videos = videoList[0] ?? {
+  const videos = videoList[0] ?? {
     id: "01",
     type: "facebook",
     title: "Facebook",

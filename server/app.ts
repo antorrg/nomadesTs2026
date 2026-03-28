@@ -27,19 +27,25 @@ app.use(express.json()) // json parser might be needed for csrf if token in body
 app.use(csrfProtection)
 app.use(setCsrfToken)
 
-if (envConfig.Status === 'production') {
-  app.use(express.static(path.join(dirname, 'dist')))
-  app.get('/', (req: Request, res: Response) => {
-    res.sendFile(path.join(dirname, 'dist', 'index.html'))
-  })
-}
-if(envConfig.Status === 'development') {
-   app.use( '/serverAssets/uploads',express.static(path.join(path.resolve(), 'serverAssets/uploads')))
-}
-
 app.use(eh.jsonFormat)
 
 app.use(mainRouter)
+
+if (envConfig.Status === 'production') {
+ const indexPath = path.join(path.resolve(), 'dist', 'index.html')
+    app.use(express.static(path.join(path.resolve(), 'dist')));
+    app.get('/', (req, res) => {
+        res.sendFile(indexPath);
+    });
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(indexPath)
+})
+}
+if (envConfig.Status === 'development' || envConfig.Status === 'test') {
+   const uploadDir = envConfig.TestImagesUploadDir || 'serverAssets/uploads';
+   app.use(`/${uploadDir}`, express.static(path.join(path.resolve(), uploadDir)))
+}
+
 app.use(eh.notFoundRoute)
 app.use(eh.errorEndWare)
 

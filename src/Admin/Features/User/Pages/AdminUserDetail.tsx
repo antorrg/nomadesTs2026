@@ -8,6 +8,7 @@ import { banned, showButton } from '../../../AdminUtils/helpers'
 import ChangeRole from '../components/ModalsEdition/ChangeRole'
 import UserBlocker from '../components/ModalsEdition/UserBlocker'
 import { useAuth } from '../../../../context/AuthContext'
+import { userApi } from '../../../AdminApi/userApi'
 
 
 
@@ -33,7 +34,17 @@ const goToBack= ()=>navigate(-1)
   const goToEdition = (id: string)=>{
     navigate(`/admin/usuarios/edicion/${id}`)
   }
+const resetPassword = async(id:string):Promise<void>=>{
+    const confirmed = await userApi.confirmAction({ title: 'Esta seguro de resetear la contraseña?' });
+      if (!confirmed) return;
+          try {
+            await userApi.resetPassword(id);
+          } catch (error) {
+            console.error(error);
+          } finally {
+          }
 
+}
 const switched = banned(user?.enabled ?? false)
 const showBtn = showButton(userAuth?.role)
   return (
@@ -77,12 +88,20 @@ const showBtn = showButton(userAuth?.role)
             <dd className="col-sm-9">
               <span>{user && booleanState(user.enabled)}</span>
               {showBtn?
-                    <button 
+                   <>
+                  <button 
                     className={switched.styleButton}
                     onClick={() => setShowUserBlocker(true)}
                   >
                    {switched.title}
                   </button>
+                  <button 
+                    className="btn btn-sm btn-outline-danger ms-3"
+                    onClick={() => resetPassword(user!.id)}
+                  >
+                   Resetear contraseña
+                  </button>
+                  </>
                   :null
                   }
               </dd>

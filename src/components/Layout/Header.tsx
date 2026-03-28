@@ -27,14 +27,12 @@ const Header: React.FC = () => {
           </Link>
           {isAuthenticated ? (
             <>
-              {user?.role === 'ADMIN' && (
                 <button
                   className="nav-link fw-bold py-1 px-0 active border-0 bg-transparent me-2"
                   onClick={() => navigate("/admin")}
                 >
                   Admin
                 </button>
-              )}
               {/* <button
                 className="nav-link fw-bold py-1 px-0 active border-0 bg-transparent me-2"
                 onClick={logout}

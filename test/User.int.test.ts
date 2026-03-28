@@ -124,7 +124,7 @@ export const userTests = () => {
           .send()
 
         expect(response.status).toBe(200)
-        console.log(response.body.results)
+       // console.log(response.body.results)
         expect(response.body.success).toBe(true)
         // Ensure standard object return matches what an update does
         expect(response.body.results).toBeDefined()

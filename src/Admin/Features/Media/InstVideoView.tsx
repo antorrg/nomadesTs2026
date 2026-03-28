@@ -14,7 +14,7 @@ import { mediaApi } from "../../AdminApi/mediaApi";
 const InstVideoView = ({ media }: VideoProps) => {
   const navigate = useNavigate();
   const videoList = media.filter((video) => video.type === "instagram");
-  let videos:IMedia = videoList[0] || {
+  const videos:IMedia = videoList[0] || {
     id: "02",
     type: "instagram",
     title: "Instagram",

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ValidContact } from "./validContact";
 import type { EmailInput, EmailErrors } from "./validContact";
 import { showConfirmationDialog } from "../../../utils/sweetalert";
-import { sendEmails, handleWhatsApp } from "../Endpoints/publicEndpoints";
+import { emailPublicApi } from "../../publicApi/emailApi";
 
 // depende de: './styles/contact.css'
 interface EmailFormProp {
@@ -56,7 +56,7 @@ const EmailForm = ({ setIsReject }: EmailFormProp) => {
       if (confirmed) {
         // Aquí iría la lógica para crear el producto
         setLoad(true);
-        await sendEmails(input, onClose, onReject);
+        await emailPublicApi.sendEmails(input,onClose, onReject)
         //console.log("Formulario enviado", input);
       }
     } else {
@@ -166,7 +166,7 @@ const EmailForm = ({ setIsReject }: EmailFormProp) => {
                 <button
                   className="btn btn-sm btn-outline-success mb-3 ms-5 me-2"
                   type="button"
-                  onClick={handleWhatsApp}
+                  onClick={emailPublicApi.handleWhatsApp}
                 >
                   <i className="bi bi-whatsapp me-1"></i>
                   WhatsApp

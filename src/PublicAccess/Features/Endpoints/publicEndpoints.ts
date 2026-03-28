@@ -1,3 +1,4 @@
+import { publicApi } from "../../../api/api";
 import type { EmailInput } from "../Contact/validContact";
 
 export const sendEmails = async (

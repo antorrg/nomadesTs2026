@@ -8,6 +8,7 @@ import { throwError } from '../../Configs/errorHandlers.js'
 
 export class UserService extends BaseServiceWithImages<IUserDTO, CreateUserInput, UpdateUserInput> {
   protected override repository: UserRepository
+  protected emailService: (email: string, plainPassword: string) => Promise<void>
 
   constructor(
     repository: UserRepository,

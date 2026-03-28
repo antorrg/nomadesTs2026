@@ -20,7 +20,7 @@ const Login: React.FC<Props> = ({ loginFn, setLoad }) => {
   };
   const successLogin = () => {
     setLoad(false);
-    navigate("/");
+    navigate("/admin");
   };
   const loginReject = () => {
     setLoad(false);

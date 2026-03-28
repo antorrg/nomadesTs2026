@@ -16,8 +16,8 @@ type DoubleButtonProps = {
 }
 
 const DoubleButton = ({ onClick1, buttonText1, type1 = 'button', disabled1, className1, id1, onClick2, buttonText2, type2 = 'button', disabled2, className2, id2 }: DoubleButtonProps) => {
-  let customClass1 = className1 ? className1 : style.button
-  let customClass2 = className2 ? className2 : style.button
+  const customClass1 = className1 ? className1 : style.button
+  const customClass2 = className2 ? className2 : style.button
 
   return (
     <>

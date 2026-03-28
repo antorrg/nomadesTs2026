@@ -110,6 +110,7 @@ const configureCloudinary = async (): Promise<void> => {
     api_secret: envConfig.CloudApiSecret
   })
   logger.info('Configuración de Cloudinary aplicada')
+  console.log('Configuración de Cloudinary aplicada')
 }
 
 export { uploadToCloudinary, configureCloudinary, deleteFromCloudinary }

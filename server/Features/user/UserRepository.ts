@@ -71,7 +71,7 @@ export class UserRepository extends BaseRepository<IUserDTO, CreateUserInput, Up
             return processError(error, `ChangePassword ${this.Model.name} repository error`)
         }
     }
-    override async delete(id: string ): Promise<IRepositoryResponse<string>> {
+    override async delete(id: string | number): Promise<IRepositoryResponse<string>> {
         try {
             const model = await this.Model.findByPk(id)
             if (!model) throwError(`${this.Model.name} no encontrado`, 404)

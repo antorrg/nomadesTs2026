@@ -6,16 +6,18 @@ type Email = EmailInput
 
 
 export const emailPublicApi = {
-    sendEmails: async (data:Email ): Promise<void> => {
+    sendEmails: async (data:Email, onSuccess:()=>void,onReject:()=>void  ): Promise<void> => {
         const response = await publicApi.execute({
 
             request: {
                 method: 'post',
-                endpoint: 'mail',
+                endpoint: 'mail/contact',
                 data
             },
             hasMessage: true,
             // errorMessage: 'Algo paso'
+            success: onSuccess,
+            reject: onReject
         })
         return 
     },

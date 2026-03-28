@@ -17,7 +17,7 @@ const InstagramVideo = ({ media }: InstagramVideoProps) => {
   const navigate = useNavigate();
 
   const videoList = media?.filter((video) => video.type === "instagram");
-  let videos = videoList[0] ?? {
+  const videos = videoList[0] ?? {
     id: "02",
     type: "instagram",
     title: "Instagram",
