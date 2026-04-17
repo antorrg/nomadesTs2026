@@ -9,7 +9,8 @@ export type CreateImages = Omit<Images, 'id'>
 export interface ImagesRepository<Images, CreateImages> {
     saveImage: (url: CreateImages) => Promise<Images>
     getImages: () => Promise<Images[]>
-    deleteImage: (dataImage: string | number, isId:boolean)=>Promise<string>
+    deleteImageFromDbById: (id: string | number)=>Promise<string>
+    deleteImageFromDbByUrl: (dataImage: string | number)=>Promise<string>
 }
 
 export const parser =(u:  InstanceType<typeof Image>):Images => {

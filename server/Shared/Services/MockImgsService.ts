@@ -23,6 +23,8 @@ export default class MockImgsService {
 
   static mockFunctionDelete = async (imageUrl: string) => {
     const filename = path.basename(imageUrl)
+    console.log('la imagen', imageUrl)
+    console.log('el path', filename)
     if (!path.extname(filename)) {
       throw new Error(`URL inválida, no contiene archivo: ${imageUrl}`)
     }
@@ -30,6 +32,7 @@ export default class MockImgsService {
     try {
       await new Promise(res => setTimeout(res, 1000))
       await fs.unlink(filePath)
+      console.log(`Image ${filePath} deleted successfully`)
       return `Image ${filePath} deleted successfully`
     } catch (err: any) {
       if (err.code === 'ENOENT') {

@@ -61,17 +61,26 @@ const Product = () => {
         <Loader2 />
        ) : (
         <>
-          <section className="py-5 text-center container">
+          <section className="py-5 text-center container card">
+              <button
+                    type="button"
+                    onClick={onClose}
+                    className="btn btn-outline-secondary d-flex align-items-center justify-content-center rounded-4 ms-1 mb-3"
+                    aria-label="Volver Atrás"
+                    style={{ width: "96px", height: "40px", flexShrink: 0 }}
+              >
+                <i className="bi bi-arrow-left fs-4 me-3"></i>Volver
+              </button>
             <div className="row py-lg-5">
               <div className="col-lg-6 col-md-8 mx-auto">
-                <h1 className="fw-light">Proyecto: {selectedProduct?.title}</h1>
+                  <h1 className="fw-light m-0 mb-3">Proyecto: {selectedProduct?.title}</h1>
                 <img
-                  className={`bd-placeholder-img-fluid ${
+                  className={`bd-placeholder-img-fluid img-fluid mb-3 ${
                     selectedProduct && !selectedProduct.enabled ? "deactivate" : ""
                   }`}
                   src={selectedProduct?.picture!}
                   alt="Imagen"
-                  style={{ maxWidth: "22rem" }}
+                  style={{ width: "100%", maxWidth: "22rem", objectFit: 'cover', objectPosition: 'center' }}
                 />
                 <h4>Info posicionamiento:</h4>
                 <p className="lead text-muted">{selectedProduct?.info_header}</p>

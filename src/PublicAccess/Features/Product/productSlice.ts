@@ -97,7 +97,7 @@ const productSlice = createSlice({
             })
             // Matchers for Loading/Error/Fulfilled state management
             .addMatcher(
-                (action) => action.type.endsWith('/pending'),
+                (action) => action.type.startsWith('product/') && action.type.endsWith('/pending'),
                 (state, action) => {
                     state.error = null;
                     if (action.type.includes('Public')) {
@@ -106,7 +106,7 @@ const productSlice = createSlice({
                 }
             )
             .addMatcher(
-                (action): action is AnyAction => action.type.endsWith('/rejected'),
+                (action): action is AnyAction => action.type.startsWith('product/') && action.type.endsWith('/rejected'),
                 (state, action: AnyAction) => {
                     if (action.type.includes('Public')) {
                         state.publicLoading = false;
@@ -119,7 +119,7 @@ const productSlice = createSlice({
                 }
             )
             .addMatcher(
-                (action): action is AnyAction => action.type.endsWith('/fulfilled'),
+                (action): action is AnyAction => action.type.startsWith('product/') && action.type.endsWith('/fulfilled'),
                 (state, action) => {
                     if (action.type.includes('Public')) {
                         state.publicLoading = false;

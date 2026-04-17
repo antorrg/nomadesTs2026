@@ -45,16 +45,27 @@ export class ImageRepository<Images, CreateImages> implements ImagesRepository<I
             throw error
         }
     }
-    async deleteImage(dataImage: string | number, isId: boolean = false): Promise<string> {
+    
+        async deleteImageFromDbById(id: string | number): Promise<string> {
         try {
-            const image = isId ?
-                await this.model.findByPk(ImageRepository.#dataParsed(dataImage))
-                :
-                await this.model.findOne({ where: { imageUrl: ImageRepository.#dataParsed(dataImage) } })
-            if (!image) { throwError('Imagen no hallada', 404) }
-            await image!.destroy()
-            logger.info('imagen borrada')
-            return 'Imagen borrada exitosamente'
+            let imgResult: string
+            const image = await this.model.findByPk(ImageRepository.#dataParsed(id))
+                imgResult = image!.get().imageUrl
+                await image!.destroy()
+                logger.info('imagen borrada')
+                return imgResult 
+        } catch (error) {
+            logger.error(`Error elminando imagen`);
+            throw error
+        }
+    }
+        async deleteImageFromDbByUrl(dataImage: string | number, isId: boolean = false): Promise<string> {
+        try {
+            const image = await this.model.findOne({ where: { imageUrl: ImageRepository.#dataParsed(dataImage) } })
+                if (!image) { throwError('Imagen no hallada', 404) }
+                await image!.destroy()
+                logger.info('imagen borrada')
+                return dataImage as string
         } catch (error) {
             logger.error(`Error elminando imagen`);
             throw error

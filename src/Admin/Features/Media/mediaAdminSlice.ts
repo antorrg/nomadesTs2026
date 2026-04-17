@@ -74,7 +74,7 @@ const adminMediaSlice = createSlice({
 
             // Matchers
             .addMatcher(
-                (action) => action.type.endsWith('/pending'),
+                (action) => action.type.startsWith('media/') && action.type.endsWith('/pending'),
                 (state) => {
                     state.error = null;
                         state.adminLoading = true;
@@ -82,7 +82,7 @@ const adminMediaSlice = createSlice({
                 }
             )
             .addMatcher(
-                (action): action is AnyAction => action.type.endsWith('/rejected'),
+                (action): action is AnyAction => action.type.startsWith('media/') && action.type.endsWith('/rejected'),
                 (state, action: AnyAction) => {
                         state.adminLoading = false;
                     if (action.payload) {
@@ -93,7 +93,7 @@ const adminMediaSlice = createSlice({
                 }
             )
             .addMatcher(
-                (action): action is AnyAction => action.type.endsWith('/fulfilled'),
+                (action): action is AnyAction => action.type.startsWith('media/') && action.type.endsWith('/fulfilled'),
                 (state) => {
                         state.adminLoading = false;
                     

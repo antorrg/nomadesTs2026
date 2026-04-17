@@ -2,7 +2,7 @@ import { uploadToCloudinary, deleteFromCloudinary } from '../../ExternalServices
 import MockImgsService from './MockImgsService.js'
 import envConfig from '../../Configs/envConfig.js'
 import { throwError } from '../../Configs/errorHandlers.js'
-import { imageRepository } from '../../Features/images/images.routes.js'
+import { imageRepository } from '../dependencies.js'
 import logger from '../../Configs/logger.js'
 
 //Cambiar la segunda opcion por el servicio de imagenes creado
@@ -26,8 +26,11 @@ export class ImgsService {
     // 1. Borrar de almacenamiento (Cloudinary o Mock)
     const storageRes = await this.handleImages(imageUrl, false)
     // 2. Borrar del repositorio (DB)
-    await imageRepository.deleteImage(imageUrl)
+    await imageRepository.deleteImageFromDbByUrl(imageUrl as any)
     return storageRes
+  }
+  static releaseImageFromDb = async (imageUrl: string) => {
+    await imageRepository.deleteImageFromDbByUrl(imageUrl as any)
   }
   static handleImages = async (data: DataImage, isSaved: boolean) => {
     try {

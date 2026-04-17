@@ -1,11 +1,9 @@
 import express from 'express'
-import { Image } from '../../Configs/database.js'
-import { ImageRepository } from './ImageRepository.js'
+import { imageRepository } from '../../Shared/dependencies.js'
 import { ImageController } from './ImageController.js'
-import { parser } from './Images.interface.js'
+
 import { upload } from './ImageController.js'
 
-export const imageRepository = new ImageRepository(Image, parser as any)
 const controller = new ImageController(imageRepository)
 
 const imagesRouter = express.Router()

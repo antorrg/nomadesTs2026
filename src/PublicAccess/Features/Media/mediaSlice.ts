@@ -74,7 +74,7 @@ const mediaSlice = createSlice({
 
             // Matchers
             .addMatcher(
-                (action) => action.type.endsWith('/pending'),
+                (action) => action.type.startsWith('media/') && action.type.endsWith('/pending'),
                 (state, action) => {
                     state.error = null;
                     if (action.type.includes('Public')) {
@@ -83,7 +83,7 @@ const mediaSlice = createSlice({
                 }
             )
             .addMatcher(
-                (action): action is Action => action.type.endsWith('/rejected'),
+                (action): action is Action => action.type.startsWith('media/') && action.type.endsWith('/rejected'),
                 (state, action: Action) => {
                     if (action.type.includes('Public')) {
                         state.publicLoading = false;
@@ -94,7 +94,7 @@ const mediaSlice = createSlice({
                 }
             )
             .addMatcher(
-                (action): action is Action => action.type.endsWith('/fulfilled'),
+                (action): action is Action => action.type.startsWith('media/') && action.type.endsWith('/fulfilled'),
                 (state, action) => {
                     if (action.type.includes('Public')) {
                         state.publicLoading = false;

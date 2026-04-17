@@ -6,7 +6,7 @@ const baseURL = `${import.meta.env.VITE_BASE_URL}/api/v1`|| '/api/v1';
 
 const publicHttp = new HttpClient(baseURL, {withCredentials: false, requireAuth: false})
 
-const adminHttp = new HttpClient(baseURL, {withCredentials: true, requireAuth: true})
+const adminHttp = new HttpClient(baseURL, {withCredentials: true, requireAuth: false})
 
 export const publicApi = new AdminApi(publicHttp)
 

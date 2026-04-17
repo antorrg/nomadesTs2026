@@ -46,44 +46,11 @@ export class ImageController<Images, CreateImages> {
   }
   deleteImages = async (req: Request, res: Response) => {
     const { id } = req.params
-
     try {
-      const tasks = [
-        ImgsService.deleteImage(id as any)
-      ]
-
-      // Si el id parece un ID numérico, intentamos borrar también por ID primario en repo
-      if (!isNaN(Number(id))) {
-        tasks.push(this.service.deleteImage(id as any, true))
-      }
-
-      const results = await Promise.allSettled(tasks)
-      const [cloudResult, repoResult] = results
-
-      const errors: any[] = []
-      if (cloudResult.status === 'rejected') errors.push({ service: 'ImgsService', reason: cloudResult.reason })
-      if (repoResult && repoResult.status === 'rejected') errors.push({ service: 'Repository', reason: repoResult.reason })
-
-      // Si todas las tareas fallaron, lanzamos un error explícito
-      if (errors.length === tasks.length) {
-        throwError('Error total al eliminar imagen: fallaron todas las tareas de eliminación', 500)
-      }
-
-      // Si hubo algún error (pero no total), lo logueamos pero permitimos que continúe si algo tuvo éxito
-      if (errors.length > 0) {
-        errors.forEach(err => logger.error(err))
-      }
-
-      // Preparamos los datos de respuesta
-      const response = repoResult && repoResult.status === 'fulfilled' ? repoResult.value : null
-      const cloudInfo = cloudResult.status === 'fulfilled' ? cloudResult.value : null
-
-      // Determinamos el mensaje según el éxito parcial o total
-      const message = errors.length > 0
-        ? 'Imagen eliminada con errores parciales'
-        : 'Imagen eliminada exitosamente'
-
-      return ImageController.responder(res, 200, true, message, { response, cloudInfo, warnings: errors })
+      const identityUrl = await this.service.deleteImageFromDbById(id as any)
+      if(!identityUrl) return
+      await ImgsService.handleImages(identityUrl, false)
+      return ImageController.responder(res, 200, true, 'Imagen borrada ', '')
     } catch (error) {
       processError(error, 'Error en ImageController.deleteImages')
     }

@@ -99,7 +99,7 @@ const adminProductSlice = createSlice({
 
             // Matchers for Loading/Error/Fulfilled state management
             .addMatcher(
-                (action) => action.type.endsWith('/pending'),
+                (action) => action.type.startsWith('product/') && action.type.endsWith('/pending'),
                 (state) => {
                     state.error = null;
                     state.adminLoading = true;
@@ -107,7 +107,7 @@ const adminProductSlice = createSlice({
                 }
             )
             .addMatcher(
-                (action): action is AnyAction => action.type.endsWith('/rejected'),
+                (action): action is AnyAction => action.type.startsWith('product/') && action.type.endsWith('/rejected'),
                 (state, action: AnyAction) => {
                         state.adminLoading = false;
                     if (action.payload) {
@@ -118,7 +118,7 @@ const adminProductSlice = createSlice({
                 }
             )
             .addMatcher(
-                (action): action is AnyAction => action.type.endsWith('/fulfilled'),
+                (action): action is AnyAction => action.type.startsWith('product/') && action.type.endsWith('/fulfilled'),
                 (state) => {
                         state.adminLoading = false;
                 }

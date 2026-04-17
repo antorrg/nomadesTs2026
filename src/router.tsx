@@ -7,7 +7,7 @@ import ProtectedRoute from './Admin/ProtectedRoute'
 export const router = createBrowserRouter([
     {
         path: '/',
-        element: <AppLayout />,
+        element: <AppLayout/>,
         children: publicRoutes
     },
     {

@@ -87,14 +87,14 @@ const userSlice = createSlice({
 
             // Matchers for Loading/Error/Fulfilled state management
             .addMatcher(
-                (action) => action.type.endsWith('/pending'),
+                (action) => action.type.startsWith('user/') && action.type.endsWith('/pending'),
                 (state) => {
                     state.loading = true;
                     state.error = null;
                 }
             )
             .addMatcher(
-                (action): action is AnyAction => action.type.endsWith('/rejected'),
+                (action): action is AnyAction => action.type.startsWith('user/') && action.type.endsWith('/rejected'),
                 (state, action: AnyAction) => {
                     state.loading = false;
                     if (action.payload) {
@@ -105,7 +105,7 @@ const userSlice = createSlice({
                 }
             )
             .addMatcher(
-                (action) => action.type.endsWith('/fulfilled'),
+                (action) => action.type.startsWith('user/') && action.type.endsWith('/fulfilled'),
                 (state) => {
                     state.loading = false;
                 }

@@ -39,7 +39,8 @@ function getNameDb(dbUri:string):string {
 async function startUp (syncDb: boolean = false, rewrite: boolean = false) {
   try {
     await sequelize.authenticate()
-    console.log(`Database ${getNameDb(envConfig.DatabaseUrl)} is connected`)
+    const successMessage =`🟢​ Database postgreSQL "${getNameDb(envConfig.DatabaseUrl)}" initialized successfully!!`
+    console.log(successMessage)
     if (envConfig.Status !== 'production' && syncDb) {
       try {
         await sequelize.sync({ force: rewrite })
@@ -50,7 +51,7 @@ async function startUp (syncDb: boolean = false, rewrite: boolean = false) {
         //console.error(`❗Error syncing database ${getNameDb(envConfig.DatabaseUrl)}`, error)
       }
     }
-    logger.info(`🟢​ Database postgreSQL ${getNameDb(envConfig.DatabaseUrl)} initialized successfully!!`)
+    logger.info(successMessage)
   } catch (error) {
     //console.error('❌ Error conecting database!', error)
     logger.error(error)

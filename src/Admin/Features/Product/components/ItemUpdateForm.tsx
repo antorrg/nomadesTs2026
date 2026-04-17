@@ -1,10 +1,9 @@
 import { useForm, Controller } from "react-hook-form";
 import { Form } from "react-bootstrap";
-import ImageSelector from "../../Images/SelectImages/ImageSelector";
-import ImageUploader from "../../Images/SelectImages/ImageUploader";
 import DoubleButton from "./DoubleButton/DoubleButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type ItemUpdateFormData, itemUpdateSchema } from "../validations/productSchema";
+import SelectImages from "../../Images/SelectImages/SelectImages";
 
 interface ItemUpdateFormProps {
     defaultValues: ItemUpdateFormData;
@@ -30,56 +29,7 @@ export function ItemUpdateForm({ defaultValues, onSubmit, onCancel }: ItemUpdate
     return (
         <div className="container mt-5">
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
-                <div className="row">
-                    {useImg ? (
-                        <div className="col-md-6 mb-3">
-                            <Controller
-                                name="picture"
-                                control={control}
-                                render={({ field }) => (
-                                    <ImageSelector value={field.value} onChange={field.onChange} />
-                                )}
-                            />
-                        </div>
-                    ) : (
-                        <div className="col-md-6 mb-3">
-                            <Controller
-                                name="picture"
-                                control={control}
-                                render={({ field }) => (
-                                    <ImageUploader
-                                        titleField="Imagen del item:"
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                    />
-                                )}
-                            />
-                        </div>
-                    )}
-                </div>
-
-                <div className="mb-3 form-check form-switch">
-                    <Controller
-                        name="useImg"
-                        control={control}
-                        render={({ field }) => (
-                            <Form.Check
-                                type="switch"
-                                id="useImg"
-                                checked={field.value || false}
-                                label={
-                                    field.value
-                                        ? "Desactive para subir una imagen nueva"
-                                        : "Active para elegir imagen guardada"
-                                }
-                                onChange={(e) => {
-                                    field.onChange(e.target.checked);
-                                    setValue("picture", null);
-                                }}
-                            />
-                        )}
-                    />
-                </div>
+                 <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
                 <div className="mb-3">
                     <label htmlFor="text" className="form-label">

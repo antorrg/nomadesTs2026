@@ -29,15 +29,17 @@ export class HttpClient {
   async request<T = unknown>(config: RequestConfig): Promise<T> {
     const headers: Record<string, string> = {};
 
-    if (this.requireAuth && this.getToken) {
-      const token = this.getToken();
+    if (this.requireAuth) {
+      const token = this.getToken?.();
       if (!token) throw new Error('Token no encontrado');
       headers.Authorization = `Bearer ${token}`;
     }
 
+    const url = this.buildURL(config.endpoint);
+
     const response = await axios<T>({
       method: config.method,
-      url: `${this.baseURL}/${config.endpoint}`,
+      url,
       data: config.data,
       params: config.params,
       headers,
@@ -45,5 +47,11 @@ export class HttpClient {
     });
 
     return response.data;
+  }
+
+  private buildURL(endpoint: string): string {
+    const normalizedBaseURL = this.baseURL.replace(/\/+$/, '');
+    const normalizedEndpoint = endpoint.replace(/^\/+/, '');
+    return `${normalizedBaseURL}/${normalizedEndpoint}`;
   }
 }

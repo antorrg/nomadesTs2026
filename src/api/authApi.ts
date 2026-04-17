@@ -1,4 +1,4 @@
-import { adminApi } from './api';
+import { publicApi, adminApi } from './api';
 import { type AuthUser, type LoginUser } from '../types/user'
 
 

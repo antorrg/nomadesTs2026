@@ -35,6 +35,7 @@ const ViewImages = () => {
         reject: () => onRetry()
       } 
       )
+      getAllImages()
       //console.log('soy la imagen a borrar: ',id)
     }
   };
@@ -60,14 +61,21 @@ const ViewImages = () => {
                         alt="Card image"
                       />
                       <div className="card-body">
+                      {(img.id === 'L')?
+                        <p className="card-text">
+                          No hay imagenes guardadas
+                        </p>
+                        :
                         <p className="card-text">
                           Imagen guardada Nª: {index + 1}
                         </p>
+                          }
                         <div className="d-flex justify-content-between align-items-center">
                           <div className="btn-group">
                             <button
                               className="btn btn-sm btn-outline-danger me-3"
                               onClick={() => delImage(`${img.id}`)}
+                              disabled={img.id==='L'}
                             >
                               Eliminar
                             </button>

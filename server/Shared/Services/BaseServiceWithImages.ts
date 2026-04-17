@@ -35,6 +35,11 @@ export class BaseServiceWithImages<TDTO, TCreate, TUpdate> extends BaseService<T
    * @param imageUrl The URL of the image.
    * @param isSaved If true, the image is marked as saved/kept. If false, it's deleted.
    */
+  async releaseImage(imageUrl: string) {
+    if (this.useImage && imageUrl?.trim()) {
+      return await this.imageHandlerService.releaseImageFromDb(imageUrl)
+    }
+  }
   async handleImages(imageUrl: string, isSaved: boolean) {
     if (this.useImage && imageUrl?.trim()) {
       return await this.imageHandlerService.handleImages(imageUrl, isSaved)
@@ -65,8 +70,7 @@ export class BaseServiceWithImages<TDTO, TCreate, TUpdate> extends BaseService<T
     if (this.useImage && payload.useImg) {
       const imageUrl = payload[this.nameImage as unknown as keyof TCreate] as unknown as string
       if (imageUrl) {
-        // "Un solo uso": asumo que handleImages(url, false) la "consume" (la borra de la DB temporal)
-        await this.handleImages(imageUrl, false)
+        await this.releaseImage(imageUrl)
       }
     }
 
@@ -93,7 +97,7 @@ export class BaseServiceWithImages<TDTO, TCreate, TUpdate> extends BaseService<T
 
       // 1. Manejar imagen NUEVA (si viene useImg)
       if (this.useImage && payload.useImg && newImageUrl) {
-        await this.handleImages(newImageUrl, false) // Consumirla
+        await this.releaseImage(newImageUrl) // Consumirla
       }
 
       // 2. Manejar imagen VIEJA (si ha cambiado)

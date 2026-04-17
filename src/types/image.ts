@@ -1,5 +1,5 @@
 export interface IImage {
-    id: number;
+    id: number | string;
     imageUrl: string;
     filename: string;
     mimetype: string;
