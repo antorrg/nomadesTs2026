@@ -13,7 +13,7 @@ const Footer = () => {
   const handleWhatsApp = landingPublicApi.handleWhatsApp
 
   return (
-    <div className='text-muted py-5'>
+    <div className='text-muted py-5 bg-body'>
       <div className='container'>
         <div className="row">
           <div className="col-12">

@@ -7,13 +7,24 @@ type ProductProps ={
     items: IItem[]
 }
 
-const Product = ({ info, items }:ProductProps) => {
+const ProductView = ({ info, items }:ProductProps) => {
     const navigate = useNavigate()
     const [zoomedImg, setZoomedImg] = useState<string | null>(null);
 
   return (
        <>
-      <section className="py-5 text-center container">
+      <section className="py-5 container bg-body rounded-3 mt-3">
+        {/* Header */}
+        <div className="mb-3">
+          <Link
+            to="/"
+            className="btn btn-outline-secondary d-inline-flex align-items-center rounded-4 px-3 py-1"
+          >
+            <i className="bi bi-arrow-left fs-5 me-2"></i>
+            Volver
+          </Link>
+        </div>
+          <div className="text-center">
         <div className="row py-lg-5">
           <div className="col-lg-6 col-md-8 mx-auto">
             <h1 className="fw-light">Proyecto: {info?.title}</h1>
@@ -27,15 +38,13 @@ const Product = ({ info, items }:ProductProps) => {
                   onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 />
             <p className="lead text-muted mt-3">{info?.info_body}</p>
-            <Link className="btn btn-sm btn-outline-secondary my-2" to="/">
-              Volver
-            </Link>
           </div>
         </div>
+        </div>
       </section>
-      <section className="album py-5 bg-light">
-        <div className="container">
-          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <section className="album py-5">
+        <div className="container bg-body rounded-3">
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-1">
             {items?.map((item) => (
                  <div key={item.id} className="col">
                  <div className="card shadow-sm h-100">
@@ -98,4 +107,4 @@ const Product = ({ info, items }:ProductProps) => {
   )
 }
 
-export default Product
+export default ProductView

@@ -46,7 +46,7 @@ const Home: React.FC = () => {
         <div className='mx-2 '></div>
       </section>
       <section>
-        <div className='feturette-divider'></div>
+        <br className='feturette-divider'></br>
 
         <MyCarousel products={publicProducts} />
         <Marketing products={publicProducts} />

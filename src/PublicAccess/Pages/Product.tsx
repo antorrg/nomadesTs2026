@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useReduxFetch } from '../../hooks/useReduxFetch'
 import { getPublicProductById, clearSelectedProduct } from '../Features/Product/productSlice'
-import ProductFeature from '../Features/Product/Product' // Renamed to avoid conflict
+import ProductView from '../Features/Product/ProductView' // Renamed to avoid conflict
 import Footer from '../../components/Layout/Footer'
 import Loader2 from '../../components/Loader2'
 
@@ -24,15 +24,15 @@ const Product: React.FC = () => {
   if (!selectedPublicProduct) return null // Or a "Not Found" component
 
   return (
-    <>
+    <div className='coverBackPublic'>
       <title>{selectedPublicProduct.title ?? 'Cabaña'}</title>
       <meta name="description" content={selectedPublicProduct.info_header ?? 'Mas informacion en nuestra web...'} />
-      <ProductFeature
+      <ProductView
         info={selectedPublicProduct}
         items={selectedPublicProduct.Items || []}
       />
       <Footer/>
-    </>
+    </div>
   )
 }
 

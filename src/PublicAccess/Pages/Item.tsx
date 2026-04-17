@@ -1,9 +1,11 @@
 import React from 'react'
-import ItemFeature from '../Features/Product/Item'
+import ItemView from '../Features/Product/ItemView'
 
 const Item: React.FC = () => {
   return (
-    <ItemFeature />
+    <div className='coverBackPublic'>
+    <ItemView />
+    </div>
   )
 }
 
