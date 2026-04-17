@@ -3,8 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "react-bootstrap";
 import { workUpdateSchema, type WorkUpdateFormData } from "../validations/workSchema";
-import ImageSelector from "../../Images/SelectImages/ImageSelector";
-import ImageUploader from "../../Images/SelectImages/ImageUploader";
+import SelectImages from "../../Images/SelectImages/SelectImages";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
 
 type WorkUpdateFormProps = {
@@ -40,52 +39,7 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel }: WorkUpdate
         <div className="container mt-5">
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
 
-                <div className="row">
-                    {useImg ? (
-                        <div className="col-md-6 mb-3">
-                            <Controller
-                                name="picture"
-                                control={control}
-                                render={({ field }) => (
-                                    <ImageSelector value={field.value} onChange={field.onChange} />
-                                )}
-                            />
-                        </div>
-                    ) : (
-                        <div className="col-md-6 mb-3">
-                            <Controller
-                                name="picture"
-                                control={control}
-                                render={({ field }) => (
-                                    <ImageUploader
-                                        titleField="Imagen principal:"
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                    />
-                                )}
-                            />
-                        </div>
-                    )}
-                </div>
-
-                <div className="mb-3 form-check form-switch">
-                    <Controller
-                        name="useImg"
-                        control={control}
-                        render={({ field }) => (
-                            <Form.Check
-                                type="switch"
-                                id="imgUrlSwitch"
-                                checked={field.value || false}
-                                label="Active para elegir imagen guardada"
-                                onChange={(e) => {
-                                    field.onChange(e.target.checked);
-                                    setValue("picture", null);
-                                }}
-                            />
-                        )}
-                    />
-                </div>
+            <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
                 {!useImg && (
                     <div className="mb-3 form-check form-switch">

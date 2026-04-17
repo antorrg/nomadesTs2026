@@ -1,7 +1,6 @@
 import { useForm, Controller } from "react-hook-form";
 import { Form } from "react-bootstrap";
-import ImageSelector from "../../Images/SelectImages/ImageSelector";
-import ImageUploader from "../../Images/SelectImages/ImageUploader";
+import SelectImages from "../../Images/SelectImages/SelectImages";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type ItemCreateFormData, itemCreateSchema } from "../validations/productSchema";
@@ -38,33 +37,7 @@ export function ItemCreateForm({ productId, onSubmit, onCancel }: ItemCreateForm
                 {/* ProductId */}
                 <input type="hidden" {...register("ProductId", { valueAsNumber: true })} />
 
-                <div className="row">
-                    {useImg ? (
-                        <div className="col-md-6 mb-3">
-                            <Controller
-                                name="picture"
-                                control={control}
-                                render={({ field }) => (
-                                    <ImageSelector value={field.value} onChange={field.onChange} />
-                                )}
-                            />
-                        </div>
-                    ) : (
-                        <div className="col-md-6 mb-3">
-                            <Controller
-                                name="picture"
-                                control={control}
-                                render={({ field }) => (
-                                    <ImageUploader
-                                        titleField="Imagen del item:"
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                    />
-                                )}
-                            />
-                        </div>
-                    )}
-                </div>
+            <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
                 <div className="mb-3 form-check form-switch">
                     <Controller

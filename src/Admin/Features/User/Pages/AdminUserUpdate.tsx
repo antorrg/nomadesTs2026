@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-
 import { useReduxFetch } from '../../../../hooks/useReduxFetch'
 import { getUserById } from '../userAdminSlice'
 import { userApi } from '../../../AdminApi/userApi'

@@ -7,6 +7,7 @@ export const imageUpladmessage = "Puede elegir una imagen nueva y subirla desde 
 export const aboutSeo = "Info posicionamiento es un campo muy importante ya que va a formar parte de lo que se conoce como SEO (motores de busqueda), por lo tanto debe estar compuesto por informacion breve y concisa (no más de 140 caracteres) acerca del producto y deberia en lo posible terminar con un llamado a la acción. Ej: 'Entre y vea mas!' o 'No te lo pierdas...!' etc."
 export const aboutSaveImage ='Puede elegir guardar la imagen o desecharla, por defecto la desechará para evitar utilizar espacio innecesario en el almacenamiento.'
 export const createItemProd = "Necesita crear por lo menos 1 item para crear el nuevo producto, podrá agregar y quitar items a su gusto luego. Si desea utilizar una imagen guardada puede crearlo sin imagen y luego seleccionar una al actualizar el item."
+export const updateUserProfile = "La actualización del perfil de usuario solo puede hacerla el propietario de la cuenta, las tareas permitidas al administrador son: resetear password, cambiar un role, bloquear a un usuario o borrar una cuenta"
 
 // Informacion para el componente HelpView (accordion)
 

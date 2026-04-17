@@ -31,9 +31,9 @@ const user = selectedUser
 
 const goToBack= ()=>navigate(-1)
 
-  const goToEdition = (id: string)=>{
-    navigate(`/admin/usuarios/edicion/${id}`)
-  }
+  // const goToEdition = (id: string)=>{
+  //   navigate(`/admin/usuarios/edicion/${id}`)
+  // }
 const resetPassword = async(id:string):Promise<void>=>{
     const confirmed = await userApi.confirmAction({ title: 'Esta seguro de resetear la contraseña?' });
       if (!confirmed) return;
@@ -111,9 +111,6 @@ const showBtn = showButton(userAuth?.role)
         <div className="btn-group">
         <button className="btn btn-sm btn-outline-success me-3" onClick={goToBack}>
           Volver
-        </button>
-        <button className="btn btn-sm btn-outline-primary" onClick={() => user?.id && goToEdition(user.id)}>
-          Editar
         </button>
         </div>
         </div>
