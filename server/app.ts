@@ -1,5 +1,6 @@
 import express, { type Request, type Response } from 'express'
 import morgan from 'morgan'
+import helmet from 'helmet'
 import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -10,6 +11,7 @@ import eh from './Configs/errorHandlers.js'
 import mainRouter from './routes.js'
 import envConfig from './Configs/envConfig.js'
 import { corsConfig } from './Configs/corsConfig.js'
+import { helmetMainConfig } from './Configs/helmetConfig.js'
 
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -19,6 +21,7 @@ if (envConfig.Status === 'development') {
   app.use(morgan('dev'))
 }
 app.use(cors(corsConfig))
+//app.use(helmet(helmetMainConfig))
 app.use(cookieParser())
 app.use(sessionMiddleware)
 app.use(express.json()) // json parser might be needed for csrf if token in body (though here cookie)

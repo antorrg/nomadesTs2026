@@ -1,12 +1,21 @@
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content'
-import 'sweetalert2/themes/bootstrap-5.css'
+let mySwalInstance: any = null;
 
-
-export const MySwal = withReactContent(Swal)
+export const getSwal = async () => {
+    if (!mySwalInstance) {
+        const [{ default: Swal }, { default: withReactContent }] = await Promise.all([
+            import('sweetalert2'),
+            import('sweetalert2-react-content'),
+            import('sweetalert2/themes/bootstrap-5.css')
+        ]);
+        mySwalInstance = withReactContent(Swal);
+        mySwalInstance.DismissReason = Swal.DismissReason;
+    }
+    return mySwalInstance;
+};
 
 const showConfirmationDialog = async (message: string) => {
-    const result = await MySwal.fire({
+    const swal = await getSwal();
+    const result = await swal.fire({
         title: message,
         icon: 'warning',
         showCancelButton: true,
@@ -21,7 +30,7 @@ const showConfirmationDialog = async (message: string) => {
     return result.isConfirmed;
 };
 
-const complexDialog = (
+const complexDialog = async (
     qTitle: string = '¿Esta seguro?',
     qText: string = 'Esta acción no puede deshacerse',
     aTitle: string = 'Realizado',
@@ -29,7 +38,8 @@ const complexDialog = (
     retTitle: string = 'Cancelado',
     retText: string = 'Su archivo esta a salvo'
 ) => {
-    const swalWithBootstrapButtons = MySwal.mixin({
+    const swal = await getSwal();
+    const swalWithBootstrapButtons = swal.mixin({
         customClass: {
             confirmButton: "btn btn-sm btn-primary me-2",
             cancelButton: "btn btn-sm btn-danger me-2",
@@ -44,7 +54,7 @@ const complexDialog = (
         confirmButtonText: "Si",
         cancelButtonText: "No, cancelar",
         reverseButtons: true
-    }).then((result) => {
+    }).then((result: any) => {
         if (result.isConfirmed) {
             swalWithBootstrapButtons.fire({
                 title: aTitle,
@@ -53,8 +63,7 @@ const complexDialog = (
                 timer: 1500
             });
         } else if (
-            /* Read more about handling dismissals below */
-            result.dismiss === Swal.DismissReason.cancel
+            result.dismiss === swal.DismissReason.cancel
         ) {
             swalWithBootstrapButtons.fire({
                 title: retTitle,
@@ -65,8 +74,9 @@ const complexDialog = (
         }
     });
 }
-const successAlert = (message: string = 'Su trabajo esta guardado') => {
-    MySwal.fire({
+const successAlert = async (message: string = 'Su trabajo esta guardado') => {
+    const swal = await getSwal();
+    swal.fire({
         position: "top-end",
         icon: "success",
         title: message,
@@ -75,8 +85,9 @@ const successAlert = (message: string = 'Su trabajo esta guardado') => {
     });
 }
 
-const errorAlert = (message: string = 'algo paso') => {
-    MySwal.fire({
+const errorAlert = async (message: string = 'algo paso') => {
+    const swal = await getSwal();
+    swal.fire({
         position: "top-end",
         icon: "error",
         title: message,

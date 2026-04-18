@@ -2,9 +2,9 @@ import { describe, it, expect, vi } from 'vitest';
 
 // Mock dependencies BEFORE importing the module under test to prevent side effects
 vi.mock('../../utils/sweetalert', () => ({
-  MySwal: {
+  getSwal: vi.fn().mockResolvedValue({
     fire: vi.fn(),
-  },
+  }),
 }));
 
 vi.mock('react-toastify', () => ({

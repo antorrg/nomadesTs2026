@@ -1,14 +1,20 @@
 import { type RouteObject } from "react-router-dom";
-import CreateFrontPagePage from "./pages/CreateFrontPagePage";
-import UpdateFrontPagePage from "./pages/UpdateFrontPagePage";
+
 
 export const frontPageRouter: RouteObject[] = [
     {
         path: 'creacion',
-        element: <CreateFrontPagePage />
+        lazy: async()=>{
+            const {default: CreateFrontPagePage} = await import("./pages/CreateFrontPagePage")
+            return { element: <CreateFrontPagePage />}
+        }
     },
     {
         path: ':id/edicion',
-        element: <UpdateFrontPagePage />
+        lazy: async()=>{
+            const {default: UpdateFrontPagePage} = await import("./pages/UpdateFrontPagePage")
+            return { element: <UpdateFrontPagePage />}
+        }
+        
     }
 ]

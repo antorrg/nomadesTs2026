@@ -1,6 +1,6 @@
- import { HttpClient, type RequestConfig } from './HttpClient';
- import { type SweetAlertOptions } from 'sweetalert2';
- import { MySwal } from '../../utils/sweetalert';
+import { HttpClient, type RequestConfig } from './HttpClient';
+import type { SweetAlertOptions } from 'sweetalert2';
+import { getSwal } from '../../utils/sweetalert';
 import { toast } from 'react-toastify';
 
 export type ConfirmFn = (options: SweetAlertOptions) => Promise<boolean>;
@@ -17,8 +17,8 @@ export interface ApiResponse<T> {
 interface ExecuteOptions<T> {
   request: RequestConfig;
   confirm?: SweetAlertOptions;
-  hasMessage?:boolean;
-  successMessage?: string|null|undefined;
+  hasMessage?: boolean;
+  successMessage?: string | null | undefined;
   errorMessage?: string;
   success?: (data: T) => void;
   reject?: (error: unknown) => void;
@@ -26,7 +26,8 @@ interface ExecuteOptions<T> {
 //* SweetAler y toastify
 
 const defaultConfirm: ConfirmFn = async (options) => {
-  const result = await MySwal.fire({
+  const swal = await getSwal();
+  const result = await swal.fire({
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'Sí',
@@ -47,7 +48,7 @@ export class AdminApi {
     private http: HttpClient,
     private notify: NotifyFn = defaultNotify,
     private confirm: ConfirmFn = defaultConfirm,
-  ) {}
+  ) { }
 
   async execute<T>({
     request,
@@ -82,8 +83,8 @@ export class AdminApi {
   }
 
   async confirmAction(options: SweetAlertOptions): Promise<boolean> {
-  const result = await this.confirm(options);
-  return result;
-}
+    const result = await this.confirm(options);
+    return result;
+  }
 
 }

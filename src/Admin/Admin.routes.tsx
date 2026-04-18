@@ -1,5 +1,4 @@
 import type { RouteObject } from 'react-router-dom'
-import TabsPage from './AdminTab/TabsPage'
 import { productRoutes } from './Features/Product/product.route'
 import { userRouter } from './Features/User/user.route'
 import { workRouter } from './Features/Work/work.route'
@@ -9,7 +8,10 @@ import { frontPageRouter } from './Features/FrontPage/frontPage.route'
 export const adminRoutes: RouteObject[] = [
   {
     index: true,
-    element: <TabsPage />,
+    lazy: async ()=>{
+      const {default: TabsPage} = await import('./AdminTab/TabsPage')
+      return {element: <TabsPage />}
+    }
   },
   {
     path:'producto',

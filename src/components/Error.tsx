@@ -2,17 +2,17 @@ import {useEffect} from 'react'
 import {useLocation, Link, useNavigate} from 'react-router-dom'
 //import './styles/error.css'
 
-const Error:React.FC = () => {
+
+const Error = () => {
     const location = useLocation()
     const navigate = useNavigate()
 
     useEffect(()=>{
-      setTimeout(()=>{
-        navigate('/')
-      },5000)
+        const timer = setTimeout(() => navigate('/'), 5000)
+        return () => clearTimeout(timer)
     },[])
-    
-    const error = location.state || { status: 'Desconocido', message: 'Ha ocurrido un error inesperado' };
+  
+    const error = location.state ||{ status: '404', message: 'Pagina no encontrada' };
   return (
     <div className='error-page'>
     <h1>Error {error.status}</h1>

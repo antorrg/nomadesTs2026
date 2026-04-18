@@ -42,7 +42,7 @@ const AdminNav: React.FC = () => {
       aria-label="Dark offcanvas navbar"
     >
       <div className="container-fluid">
-        <p className="navbar-brand text-start ms-1">Panel Administrador</p>
+        <p className="navbar-brand navbar-color text-start ms-1">Panel Administrador</p>
         
         <div className="d-flex justify-content-start">
           <Dropdown align="end" className="">

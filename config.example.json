@@ -1,20 +1,32 @@
 {
     "development":{
         "PORT": "4000",
-        "DATABASE_URL": "postgresql://postgres:password@localhost:5432/dbname",
-        "USER_PICTURE" :"https://imagen.com",
+        "DATABASE_URL": "postgres://postgres:axxxxx@localhost:5432/nomades2026",
+        "USER_PICTURE" :"https://c0.klipartz.com/pngpicture/813/118/gratis-png-icono-de-silueta-plantilla-de-persona-en-blanco.png",
+        "BASE_PICTURE" : "",
+        "ROOT_EMAIL":"nomadesadmin@gmail.com",
+        "ROOT_PASS": "L1234567",
         "IMAGES_DIR": "serverAssets/uploads",
-        "SESSION_SECRET": "test-secret",
-        "GMAIL_USER":"email",
-        "GMAIL_APP_PASS": "pass"
+        "SESSION_SECRET": "28249b97c25749273146de2da15ea0438c06327e9faa62eb75bd59ce51a98955",
+        "CLOUD_NAME": "xxxxx",
+        "CLOUD_API_KEY" :"xxxxxxxx",
+        "CLOUD_API_SECRET" :"xxxxx",
+        "GMAIL_USER":"xxxxx",
+        "GMAIL_APP_PASS": "xxxxx"
     },
     "test":{
         "PORT": "8080",
-        "DATABASE_URL": "postgresql://postgres:password@localhost:5432/dbnametest",
-        "USER_PICTURE" :"https://imagen.com",
+        "DATABASE_URL": "postgres://postgres:xxxx@localhost:5432/testing",
+        "USER_PICTURE" :"https://c0.klipartz.com/pngpicture/813/118/gratis-png-icono-de-silueta-plantilla-de-persona-en-blanco.png",
+        "BASE_PICTURE" : "",
+        "ROOT_EMAIL":"nomadesadmin@gmail.com",
+        "ROOT_PASS": "L1234567",
         "IMAGES_DIR": "serverAssets/test_uploads",
-        "SESSION_SECRET": "test-secret",
-         "GMAIL_USER":"email",
-        "GMAIL_APP_PASS": "pass"
+        "SESSION_SECRET": "28249b97c25749273146de2da15ea0438c06327e9faa62eb75bd59ce51a98955",
+        "CLOUD_NAME": "xxxxx",
+        "CLOUD_API_KEY" :"xxxxxxxx",
+        "CLOUD_API_SECRET" :"xxxxx",
+        "GMAIL_USER":"xxxxx",
+        "GMAIL_APP_PASS": "xxxxx"
     }
 }

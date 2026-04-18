@@ -1,14 +1,18 @@
 import { type RouteObject } from "react-router-dom";
-import CreateMediaPage from "./pages/CreateMediaPage";
-import UpdateMediaPage from "./pages/UpdateMediaPage";
 
 export const mediaRouter: RouteObject[] = [
     {
         path: ':type/creacion',
-        element: <CreateMediaPage />
+        lazy: async ()=>{
+            const {default: CreateMediaPage} = await import("./pages/CreateMediaPage")
+            return { element: <CreateMediaPage/>}
+        }
     },
     {
         path: ':id/edicion',
-        element: <UpdateMediaPage />
+        lazy: async()=>{
+            const {default: UpdateMediaPage} = await import("./pages/UpdateMediaPage")
+            return {element: <UpdateMediaPage/>}
+        }
     }
 ]

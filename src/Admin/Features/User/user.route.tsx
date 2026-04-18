@@ -1,20 +1,28 @@
 import {type RouteObject } from "react-router-dom";
-import AdminUserDetail from "./Pages/AdminUserDetail";
-import AdminUserCreate from "./Pages/AdminUserCreate";
-import AdminUserUpdate from "./Pages/AdminUserUpdate";
 
 
 export const userRouter: RouteObject[] = [
     {
         path: 'detalles/:id',
-        element: <AdminUserDetail/>
+        lazy: async()=>{
+            const {default: AdminUserDetail} = await import("./Pages/AdminUserDetail")
+            return {element: <AdminUserDetail/>}
+        }
     },
     {
         path: 'creacion',
-        element: <AdminUserCreate/>
+        lazy: async()=>{
+            const {default: AdminUserCreate} = await import("./Pages/AdminUserCreate")
+            return {element: <AdminUserCreate/>}
+        }
+        
     },
     {
         path: 'edicion/:id',
-        element: <AdminUserUpdate/>
+        lazy: async()=>{
+            const {default: AdminUserUpdate} = await import("./Pages/AdminUserUpdate")
+            return {element: <AdminUserUpdate/>}
+        }
+        
     }
 ]

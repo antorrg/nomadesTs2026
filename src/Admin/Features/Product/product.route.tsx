@@ -1,34 +1,50 @@
 import type { RouteObject } from 'react-router-dom'
-import Product from './pages/Product'
-import CreateProductPage from './pages/CreateProductPage'
-import UpdateProductPage from './pages/UpdateProductPage'
-import Item from './pages/Item'
-import CreateItemPage from './pages/CreateItemPage'
-import UpdateItemPage from './pages/UpdateItemPage'
+
 
 export const productRoutes: RouteObject[] = [
     {
         path: 'detalles/:id',
-        element: <Product />
+        lazy: async()=>{
+            const {default: Product} = await import('./pages/Product')
+            return {element: <Product/>}
+        }
+      
     },
     {
         path: 'creacion',
-        element: <CreateProductPage />
+        lazy: async()=>{
+            const {default: CreateProductPage } = await import('./pages/CreateProductPage')
+            return {element: <CreateProductPage />}
+        }
     },
     {
         path: 'edicion/:id',
-        element: <UpdateProductPage />
+                lazy: async()=>{
+            const {default: UpdateProductPage } = await import('./pages/UpdateProductPage')
+            return {element: <UpdateProductPage />}
+        }
+   
     },
     {
         path: 'detalles/item/:id',
-        element: <Item />
+        lazy: async ()=>{
+            const {default: Item } = await import('./pages/Item')
+            return { element: <Item />}
+        }
     },
     {
         path: 'creacion/item/:productId',
-        element: <CreateItemPage />
+        lazy: async ()=>{
+            const {default: CreateItemPage} = await import('./pages/CreateItemPage')
+            return { element: <CreateItemPage />}
+        }
+       
     },
     {
         path: 'edicion/item/:id',
-        element: <UpdateItemPage />
+        lazy: async ()=>{
+            const {default: UpdateItemPage } = await import('./pages/UpdateItemPage')
+            return { element: <UpdateItemPage />}
+        }
     }
 ]

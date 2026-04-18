@@ -37,14 +37,14 @@ const CreateItemPage = () => {
         const result = await productsApi.createItem(payload);
 
         if (result) {
-          alert("Item creado con éxito"); // Fallback alert
+          //alert("Item creado con éxito"); // Fallback alert
           navigate(-1);
         } else {
-          alert("Error al crear item");
+          //alert("Error al crear item");
           onClose();
         }
       } catch (error) {
-        alert("Error al procesar la solicitud");
+        //alert("Error al procesar la solicitud");
         console.error(error);
         onClose();
       }
