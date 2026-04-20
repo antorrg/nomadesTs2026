@@ -1,4 +1,5 @@
 import { type IWork } from "../../../types/work"
+import Header from "../../../components/Layout/Header"
 
 type WorkProps = {
   featurettes: IWork[]
@@ -7,6 +8,7 @@ const OurWork = ({featurettes}:WorkProps) => {
 
   return (
     <div className="container coverAbout">
+         <Header/>
       <div className="caption-nav">
         <h2 className="about-h2">Nuestro trabajo:</h2>
       </div>

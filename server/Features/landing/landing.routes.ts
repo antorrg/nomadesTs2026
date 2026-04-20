@@ -52,7 +52,7 @@ landRouter.get(
 
 landRouter.post(
     '/',
-    isAuthenticated,
+    //isAuthenticated,
     authorizeMinRole(UserRole.MODERATOR),
     landController.create
 )
