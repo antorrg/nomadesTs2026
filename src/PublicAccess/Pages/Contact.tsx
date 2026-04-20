@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/Layout/Header"
 import EmailForm from "../Features/Contact/EmailForm";
 import MailReject from "../Features/Contact/MailReject";
 
@@ -18,7 +17,6 @@ const Contact = () => {
     <title>Nomades Cabañas de pastores Contacto</title>
     <meta name="description" content='Contactenos por email o whatsapp' />
     <div className="imageBack">
-         <Header />
       <div className="coverMail">
         {isReject?
         <MailReject retry={onClose}/>

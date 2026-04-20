@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import Header from '../../../components/Layout/Header';
 import type { LandingResults } from '../../../types/landing';
 
 type FrontPagePublicProps = {
@@ -13,7 +12,6 @@ const FrontPagePublic = ({ publicLand }: FrontPagePublicProps) => {
   return (
     <div className='min-vh-100 cover-container d-flex w-100 p-3 mx-auto flex-column'
       style={{ backgroundImage: `url(${backgroundImageRender})` }}>
-      <Header />
 
       <main className="px-3 text-center mt-5">
         <section>

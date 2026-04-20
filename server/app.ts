@@ -35,7 +35,7 @@ app.use(eh.jsonFormat)
 
 app.use(mainRouter)
 
-if (envConfig.Status === 'production') {
+if (envConfig.Status !== 'development' && envConfig.Status !== 'test') {
  const indexPath = path.join(path.resolve(), 'dist', 'index.html')
     app.use(express.static(path.join(path.resolve(), 'dist')));
     app.get('/', (req, res) => {
