@@ -3,7 +3,6 @@ import FacebookVideo from '../Features/Media/FacebookVideo';
 import InstagramVideo from '../Features/Media/InstagramVideo';
 import YouTubeVideo from '../Features/Media/YouTubeVideo';
 import { getPublicMedia } from '../Features/Media/mediaSlice';
-import Header from '../../components/Layout/Header'
 import Footer from '../../components/Layout/Footer';
 
 const Videos = () => {
@@ -15,9 +14,8 @@ const Videos = () => {
     <>
       <div className="imageBack">
         {/* <MetaInfo info={info}/> */}
-        <Header />
         <div className="container coverAbout">
-          <div className="caption-nav mb-2" style={{marginTop:'4rem', maxWidth:'fit-content', alignItems:'center'}}>
+          <div className="caption-nav mb-2" style={{ marginTop: '4rem', maxWidth: 'fit-content', alignItems: 'center' }}>
             <h2 className="about-h1">Videos:</h2>
           </div>
           <div className=" container-fluid colorBack rounded-4 shadow">

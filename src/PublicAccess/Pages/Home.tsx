@@ -9,7 +9,6 @@ import MyCarousel from '../Features/FrontPage/Carousel'
 import Marketing from '../Features/FrontPage/Marketing';
 import SocialNetworks from '../Features/FrontPage/SocialNetworks';
 import Footer from '../../components/Layout/Footer';
-import Header from '../../components/Layout/Header';
 
 const Home: React.FC = () => {
   const { publicLanding, publicLoading, error } = useReduxFetch({
@@ -42,7 +41,6 @@ const Home: React.FC = () => {
     <div>
       <title>Nomades Cabañas de pastores</title>
       <meta name="description" content={publicMeta as string} />
-      <Header />
       <section>
         <FrontPagePublic publicLand={publicLanding} />
         <div className='mx-2 '></div>

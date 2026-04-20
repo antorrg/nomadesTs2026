@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom'
 import { useReduxFetch } from '../../../hooks/useReduxFetch'
 import { getPublicLanding } from './homeSlice'
 
+
 interface FrontData {
   id: number
   title: string

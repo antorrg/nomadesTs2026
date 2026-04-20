@@ -22,7 +22,7 @@ if (envConfig.Status === 'development') {
 }
 app.use(cors(corsConfig))
 //app.use(helmet(helmetMainConfig))
-//app.set('trust proxy', 1)
+app.set('trust proxy', 1)
 app.use(cookieParser())
 app.use(sessionMiddleware)
 app.use(express.json()) // json parser might be needed for csrf if token in body (though here cookie)

@@ -1,1 +1,3 @@
  //"postgres://postgres:antonio@localhost:5432/nomades2026",
+
+  /* "DATABASE_URL": "postgresql://postgres:ecAoKQRYnWVivKsNzpZShmVAuzfIZdQZ@monorail.proxy.rlwy.net:25403/railway",*/
