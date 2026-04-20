@@ -104,7 +104,8 @@ export const helmetDevConfig: HelmetOptions = {
     reportOnly: true
   },
 
-  crossOriginEmbedderPolicy: false
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: 'cross-origin' }
 }
 
 export const helmetProdConfig: HelmetOptions = {
