@@ -63,8 +63,8 @@ export const errorEndWare = (err: any, req: Request, res: Response, next: NextFu
   const contexts = Array.isArray(err.contexts) ? err.contexts : ['Error no controlado']
 
   // 2. Log en consola para visibilidad inmediata
-  console.error('Error Contexts:', contexts)
-  console.error('error completo.', err)
+  // console.error('Error Contexts:', contexts)
+  // console.error('error completo.', err)
 
   // 3. Enviamos al logger con el formato que el dbTransport espera (log.err.contexts)
   // Pasamos un objeto err explícito porque Pino no serializa propiedades personalizadas de los Error por defecto

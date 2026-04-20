@@ -1,11 +1,12 @@
-import { type Request, type Response } from "express";
+import { type NextFunction, type Request, type Response } from "express";
 import { NodeMailer } from "./NodeMailer.js";
+import { middError } from "../../Configs/errorHandlers.js";
 import logger from '../../Configs/logger.js';
 import envConfig from "../../Configs/envConfig.js";
 
 export class MailController {
 
-    static sendContactEmail = async(req: Request, res: Response) => {
+    static sendContactEmail = async(req: Request, res: Response, next: NextFunction) => {
         if (envConfig.Status === 'test') {
             return res.status(200).json({ message: "Mock enviado exitosamente (TEST_ENV)" });
         }
@@ -24,6 +25,7 @@ export class MailController {
             res.status(200).json({ message: "Mensaje de contacto enviado exitosamente" });
         } catch (error) {
             logger.error(error);
+            return next(middError('Ocurrio un error, mensaje no enviado', 500))
         }
     }
     // Direct binding for UserService injection (not a raw Express middleware)

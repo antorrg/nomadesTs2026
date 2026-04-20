@@ -1,6 +1,6 @@
 # `nomadesTs2026`
 
-Applicación web refactorizada el dia 01-02-2026 para el sitio web de **Nomades, Cabañas de pastores**
+Plataforma integral Full-Stack construida para **Nomades-Cabañas de Pastores**. Combina un catálogo público interactivo para clientes con un robusto panel de administración (CMS propio) para gestionar productos, contenido, roles de usuarios e imágenes de forma segura y automatizada.
 
 ## Nomades — Cabañas de Pastores
 
@@ -264,6 +264,7 @@ Incluyo esto porque creo que entender los tradeoffs es parte del trabajo:
 - **`BaseServiceWithImages` duplica algunos métodos de `BaseService`** que debería heredar sin redefinir. Es un refactor pendiente.
 - **Algunos `as any` en Sequelize** son inevitables dado cómo Sequelize tipea sus modelos, pero hay algunos en lógica de negocio que podrían eliminarse con mejores interfaces.
 - **El manejo de errores** evolucionó durante el proyecto — hay código comentado en `errorHandlers.ts` que debería eliminarse (está en git history si hace falta recuperarlo).
+- **Cambiar herencia por composición:** Esto es lo que haría si lo hiciera nuevamente, conozco a la fecha el tema, pero no estaba listo aun para esto, ya que además de la composición, tambien implementaría el repositorio de cada feature (según necesidad) utilizando el sequelize.query, esto daría granularidad en las queries (como si trabajara con el driver) y aprovecha los metodos de conexión de sequelize
 
 ---
 
