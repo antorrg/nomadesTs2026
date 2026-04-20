@@ -39,6 +39,7 @@ const commonCspDirectives = {
     'https://*.cdninstagram.com',
 
     // Solo desarrollo/local
+    'https://projectproduct-production.up.railway.app',
     'http://localhost:4000'
   ],
 
