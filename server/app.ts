@@ -21,7 +21,7 @@ if (envConfig.Status === 'development') {
   app.use(morgan('dev'))
 }
 app.use(cors(corsConfig))
-app.use(helmet(helmetMainConfig))
+//app.use(helmet(helmetMainConfig))
 app.set('trust proxy', 1)
 app.use(cookieParser())
 app.use(sessionMiddleware)
