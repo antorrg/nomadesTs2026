@@ -15,8 +15,7 @@ const MyCarousel = ({ products }:ProducTypes) => {
             src={item.picture!}
             alt={item.title!}
             loading="lazy"
-            width={1200}
-            height={600}
+            width= '100%'
             style={{ objectFit: 'cover' }}
           />
           <Carousel.Caption className='carousel-caption'>

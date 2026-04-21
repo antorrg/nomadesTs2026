@@ -25,6 +25,10 @@ const OurWork = ({featurettes}:WorkProps) => {
                   className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto mt-3"
                   src={item.picture}
                   alt="Not found"
+                    width={600}
+                    height={400}
+                    loading="lazy"
+                    decoding="async"
                 />
               </div>
             </div>

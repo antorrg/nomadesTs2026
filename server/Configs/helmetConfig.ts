@@ -7,7 +7,6 @@ const commonCspDirectives = {
 
   scriptSrc: [
     "'self'",
-    "'unsafe-inline'",
 
     // YouTube
     'https://www.youtube.com',

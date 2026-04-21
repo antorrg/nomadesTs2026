@@ -19,6 +19,10 @@ const SocialNetworks = () => {
             className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto mt-3"
             src="/nomadesFace.png"
             alt="Not found"
+            width={600}
+            height={400}
+            loading="lazy"
+            decoding="async"
           />
         </div>
       </div>
