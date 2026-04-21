@@ -1,30 +1,25 @@
 import React from 'react';
 import FrontPagePublic from '../Features/FrontPage/FrontPagePublic'
-import { getPublicLanding, clearError } from '../Features/FrontPage/homeSlice';
-import { getPublicProducts } from '../Features/Product/productSlice';
 import ErrorScreen from '../../ErrorBoundary/ErrorScreen';
-import Loading from '../../components/Loading';
-import { useReduxFetch } from '../../hooks/useReduxFetch';
 import MyCarousel from '../Features/FrontPage/Carousel'
 import Marketing from '../Features/FrontPage/Marketing';
 import SocialNetworks from '../Features/FrontPage/SocialNetworks';
 import Footer from '../../components/Layout/Footer';
+import { useHomePageData } from '../../hooks/useHomePageData';
+import Loader2 from '../../components/Loader2';
 
 const Home: React.FC = () => {
-  const { publicLanding, publicLoading, error } = useReduxFetch({
-    action: getPublicLanding,
-    selector: (state) => state.home,
-    cleanupAction: clearError // Limpiamos errores al desmontar
-  });
-  const { publicProducts } = useReduxFetch({
-    action: getPublicProducts,
-    selector: (state) => state.product,
-    cleanupAction: clearError
-  })
+    const {
+    publicLanding,
+    publicProducts,
+    error,
+    isInitialLoading
+  } = useHomePageData()
 
-  if (publicLoading) {
+
+  if (isInitialLoading) {
     return <div className="d-flex justify-content-center align-items-center min-vh-100">
-     <Loading/>
+     <Loader2/>
     </div>;
   }
 

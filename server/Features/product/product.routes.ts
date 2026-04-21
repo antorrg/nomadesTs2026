@@ -7,6 +7,7 @@ import { Validator } from 'req-valid-express'
 import { create, update} from './validationSchemas/productschemas.js'
 import { itemCreate, itemUpdate } from "./validationSchemas/itemSchemas.js";
 import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
+import {measure} from '../../Shared/Middlewares/measure.js'
 
 const repository = new ProductRepository(mockProduct as any)
 const service = new ProductService(repository)
@@ -15,7 +16,7 @@ const controller = new ProductController(service)
 const productRouter = express.Router();
 
 // --- Rutas Públicas  ---
-productRouter.get("/public", controller.scopedGet);
+productRouter.get("/public", measure('ProductMeasure'), controller.scopedGet);
 productRouter.get("/public/:id", Validator.paramId('id', Validator.ValidReg.INT),controller.scopedGetById);
 productRouter.get("/public/item/:id", Validator.paramId('id', Validator.ValidReg.INT),controller.scopedGetItem);
 

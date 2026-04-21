@@ -6,7 +6,7 @@ import {BaseServiceWithImages} from '../../Shared/Services/BaseServiceWithImages
 import {ImgsService} from '../../Shared/Services/ImgsService.js'
 import {BaseController} from '../../Shared/Controllers/BaseController.js'
 import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
-
+import  {measure} from '../../Shared/Middlewares/measure.js'
 
 const workRepository = new BaseRepository(Work, parser as any, 'Work', 'title', mockData)
 const workService = new BaseServiceWithImages(workRepository, ImgsService as any, true, 'picture')
@@ -19,6 +19,7 @@ const workRouter = express.Router()
  */
 workRouter.get(
     '/public',
+    measure('WorkTime'),
     workController .getAllPublic
 )
 

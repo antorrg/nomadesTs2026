@@ -6,7 +6,8 @@ type FrontPagePublicProps = {
   publicLand: LandingResults[]
 }
 const FrontPagePublic = ({ publicLand }: FrontPagePublicProps) => {
-  if (!publicLand || publicLand.length === 0) return null;
+  //if (!publicLand || publicLand.length === 0) return null;
+  console.log(publicLand)
   const info = publicLand[0]
   const backgroundImageRender = info?.picture ? info.picture : '/public/cabañaBackground.webp';
 
