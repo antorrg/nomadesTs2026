@@ -1,5 +1,6 @@
 import { useReduxFetch } from '../../hooks/useReduxFetch';
 import FacebookVideo from '../Features/Media/FacebookVideo';
+import Header from '../../components/Layout/Header';
 import InstagramVideo from '../Features/Media/InstagramVideo';
 import YouTubeVideo from '../Features/Media/YouTubeVideo';
 import { getPublicMedia } from '../Features/Media/mediaSlice';
@@ -14,6 +15,7 @@ const Videos = () => {
     <>
       <div className="imageBack">
         {/* <MetaInfo info={info}/> */}
+        <Header/>
         <div className="container coverAbout">
           <div className="caption-nav mb-2" style={{ marginTop: '4rem', maxWidth: 'fit-content', alignItems: 'center' }}>
             <h2 className="about-h1">Videos:</h2>

@@ -11,11 +11,12 @@ interface CloudinaryUploadOptions {
   format: string
 }
 
-interface UploadResponse {
-  success: boolean
-  message: string
-  result: UploadApiResponse
-}
+// interface UploadResponse {
+//   success: boolean
+//   message: string
+//   result: UploadApiResponse
+// }
+
 
 interface DeleteResponse {
   success: boolean
@@ -49,7 +50,7 @@ const uploadStream = (buffer: Buffer, options: CloudinaryUploadOptions): Promise
   })
 }
 
-async function uploadToCloudinary(file: Express.Multer.File): Promise<UploadApiResponse> {
+async function uploadToCloudinary(file: Express.Multer.File): Promise<string> {
   const options: CloudinaryUploadOptions = {
     resource_type: 'auto',
     public_id: path.parse(file.originalname).name,
@@ -57,7 +58,8 @@ async function uploadToCloudinary(file: Express.Multer.File): Promise<UploadApiR
   }
   try {
     const result = await uploadStream(file.buffer, options)
-    return result
+    console.log('result', result.url)
+    return result.url as string
   } catch (error) {
     throw error
   }

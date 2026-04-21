@@ -20,12 +20,19 @@ productRouter.get("/public/:id", Validator.paramId('id', Validator.ValidReg.INT)
 productRouter.get("/public/item/:id", Validator.paramId('id', Validator.ValidReg.INT),controller.scopedGetItem);
 
 // --- Rutas de Productos ---
-productRouter.get("/", isAuthenticated, controller.getAll);
+productRouter.get("/", 
+    isAuthenticated, 
+    controller.getAll);
 
-productRouter.get("/:id", isAuthenticated, Validator.paramId('id', Validator.ValidReg.INT), controller.getById);
-productRouter.post("/", isAuthenticated, Validator.validateBody(create),controller.create);
-productRouter.put("/:id", isAuthenticated, Validator.paramId('id', Validator.ValidReg.INT),Validator.validateBody(update), controller.update);
-productRouter.delete("/:id", isAuthenticated, authorizeMinRole(UserRole.MODERATOR),Validator.paramId('id', Validator.ValidReg.INT),controller.delete);
+productRouter.get("/:id", 
+    isAuthenticated, 
+    Validator.paramId('id', Validator.ValidReg.INT), controller.getById);
+productRouter.post("/", 
+    isAuthenticated, Validator.validateBody(create),controller.create);
+productRouter.put("/:id", 
+    isAuthenticated, Validator.paramId('id', Validator.ValidReg.INT),Validator.validateBody(update), controller.update);
+productRouter.delete("/:id", 
+    isAuthenticated, authorizeMinRole(UserRole.MODERATOR),Validator.paramId('id', Validator.ValidReg.INT),controller.delete);
 
 // --- Rutas de Ítems ---
 productRouter.get("/item/:id", isAuthenticated, Validator.paramId('id', Validator.ValidReg.INT),controller.getItem);

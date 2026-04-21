@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useReduxFetch } from "../../../hooks/useReduxFetch";
 import { getAllWorks } from "./workAdminSlice";
 import { workApi } from "../../AdminApi/workApi";
+import { mockWork } from "./components/mockWork";
 
 const WorkView = () => {
  
@@ -21,6 +22,9 @@ const WorkView = () => {
     }
   };
 
+
+  let info = Array.isArray(works)? works : mockWork
+
   return (
     <>
       <section className="container album py-5 mb-3">
@@ -35,7 +39,7 @@ const WorkView = () => {
             </Link>
           </div>
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            {works?.map((work) => (
+            {info?.map((work) => (
               <div className="col" key={work.id}>
                 <div className="card shadow-sm">
                   <img
