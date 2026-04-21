@@ -11,5 +11,16 @@ export default defineConfig({
         silenceDeprecations: ['legacy-js-api', 'import', 'global-builtin', 'color-functions', 'mixed-decls'],
       }
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'bootstrap': ['bootstrap', 'react-bootstrap'],
+          'vendor': ['react', 'react-dom', 'react-router-dom'],
+          'redux': ['@reduxjs/toolkit', 'react-redux'],
+        }
+      }
+    }
   }
 })

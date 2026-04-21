@@ -67,6 +67,7 @@ const FacebookVideo = ({ media }: FacebookVideoProps) => {
                 src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(
                   mainVideo.url
                 )}&show_text=true&width=500&height=300&appId`}
+                title={`Video de Facebook: ${mainVideo.title}`}
                 style={{ border: "none", overflow: "hidden" }}
                 scrolling="no"
                 frameBorder="0"
