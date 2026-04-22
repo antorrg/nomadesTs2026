@@ -1,15 +1,18 @@
 import {Link} from 'react-router-dom'
 import { type ProductsResponse } from '../../../types/product';
+import { mockProduct } from './mockProduct';
 
 export type ProducTypes = {
   products: ProductsResponse[]
 }
 
 const Marketing = ({products}:ProducTypes) => {
+
+  const info = (!products|| products.length === 0)? mockProduct : products
   return (
     <div className='container marketing list-group-item'>
       <div className='row ps-3'>
-        {products?.map((info)=>
+        {info?.map((info)=>
         <div className='col-lg-5' key={info?.id}>
           <img className={`bd-placeholder-img-fluid ${!info.enabled? 'deactivate' : ''}`}  
               src={info?.picture!} 

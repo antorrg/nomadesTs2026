@@ -21,7 +21,7 @@ export const authApi = {
                 method: 'post',
                 endpoint: `auth/logout`,
             },
-            hasMessage: true,
+            hasMessage: false,
             errorMessage: 'Error de autenticacion'
         })
         return response as AuthUser

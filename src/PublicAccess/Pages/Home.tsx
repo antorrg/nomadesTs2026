@@ -6,22 +6,22 @@ import Marketing from '../Features/FrontPage/Marketing';
 import SocialNetworks from '../Features/FrontPage/SocialNetworks';
 import Footer from '../../components/Layout/Footer';
 import { useHomePageData } from '../../hooks/useHomePageData';
-import Loader2 from '../../components/Loader2';
+//import Loading from '../../components/Loading';
 
 const Home: React.FC = () => {
     const {
     publicLanding,
     publicProducts,
     error,
-    isInitialLoading
+   //isInitialLoading
   } = useHomePageData()
 
 
-  if (isInitialLoading) {
-    return <div className="d-flex justify-content-center align-items-center min-vh-100">
-     <Loader2/>
-    </div>;
-  }
+  // if (isInitialLoading) {
+  //   return <div className="d-flex justify-content-center align-items-center min-vh-100">
+  //    <Loading/>
+  //   </div>;
+  // }
 
   if (error) {
     return (

@@ -1,14 +1,17 @@
 import { Carousel } from 'react-bootstrap';
 import { type ProductsResponse } from '../../../types/product';
+import { mockProduct } from './mockProduct';
 
 export type ProducTypes = {
   products: ProductsResponse[]
 }
 
 const MyCarousel = ({ products }:ProducTypes) => {
+ 
+  const info = (!products|| products.length === 0)? mockProduct : products
   return (
     <Carousel>
-      {products?.map((item, index) => (
+      {info?.map((item, index) => (
         <Carousel.Item key={index}>
           <img
             className="d-block w-100"

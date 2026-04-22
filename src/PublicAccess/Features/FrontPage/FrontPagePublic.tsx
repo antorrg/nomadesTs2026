@@ -2,15 +2,24 @@ import { Link } from 'react-router-dom'
 import type { LandingResults } from '../../../types/landing';
 import Header from '../../../components/Layout/Header';
 
+
 type FrontPagePublicProps = {
   publicLand: LandingResults[]
 }
 const FrontPagePublic = ({ publicLand }: FrontPagePublicProps) => {
   //if (!publicLand || publicLand.length === 0) return null;
-  console.log(publicLand)
-  const info = publicLand[0]
-  const backgroundImageRender = info?.picture ? info.picture : '/public/cabañaBackground.webp';
-
+  const mockFrontPage: LandingResults[] = [
+    {
+            id: 0,
+            title: 'Aguarde un momento',
+            picture:'/public/cabañaBackground.webp',
+            info_header: 'Nomades - Cabañas de pastores. Diseño, construcción y confort para tu espacio ideal.',
+            description: 'Cargando...',
+            enabled: true
+    }]
+  const info = (!publicLand || publicLand.length === 0)?  mockFrontPage[0] : publicLand[0]
+  //const backgroundImageRender = info?.picture ? info.picture : '/public/cabañaBackground.webp';
+ const backgroundImageRender = info?.picture
   return (
     <div className='min-vh-100 cover-container d-flex w-100 p-3 mx-auto flex-column'
       style={{ backgroundImage: `url(${backgroundImageRender})` }}>
