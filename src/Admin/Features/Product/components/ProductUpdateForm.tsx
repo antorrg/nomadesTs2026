@@ -6,14 +6,16 @@ import SelectImages from "../../Images/SelectImages/SelectImages";
 import InfoFormField from "../../../InfoFormField";
 import { aboutSeo } from "../../../../utils/infoHelpers";
 import DoubleButton from "./DoubleButton/DoubleButton";
+import Loader2 from "../../../../components/Loader2";
 
 type ProductUpdateFormProps = {
     defaultValues: Partial<ProductUpdateFormData>;
     onSubmit: (data: ProductUpdateFormData) => void;
     onCancel: () => void;
+    load: boolean
 };
 
-export function ProductUpdateForm({ defaultValues, onSubmit, onCancel }: ProductUpdateFormProps) {
+export function ProductUpdateForm({ defaultValues, onSubmit, onCancel, load }: ProductUpdateFormProps) {
     const {
         register,
         handleSubmit,
@@ -30,6 +32,12 @@ export function ProductUpdateForm({ defaultValues, onSubmit, onCancel }: Product
 
     return (
         <div className="container mt-2">
+            {load?
+            <Loader2
+            fullScreen={false}
+            scale={0.7}
+            />
+            :
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
                 <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
@@ -128,6 +136,7 @@ export function ProductUpdateForm({ defaultValues, onSubmit, onCancel }: Product
                     />
                 </div>
             </form>
+            }
         </div>
     );
 }

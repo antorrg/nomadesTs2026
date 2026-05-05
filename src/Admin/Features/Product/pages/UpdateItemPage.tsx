@@ -3,9 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ItemUpdateForm } from "../components/ItemUpdateForm";
 import { type ItemUpdateFormData } from "../validations/productSchema";
 import { productsApi } from "../../../AdminApi/productsApi";
-import Loader2 from "../../../../components/Loader2";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { getItem, clearSelectedItem } from "../productAdminSlice";
+import Loader2 from "../../../../components/Loader2";
 
 const UpdateItemPage = () => {
   const navigate = useNavigate();
@@ -85,17 +85,11 @@ const UpdateItemPage = () => {
   }
 
   return (
-    <div className="section mt-5 mt-md-0 d-flex flex-column align-items-center">
-      {load && <Loader2 />}
-
-      <div className="card shadow-sm border-0 mb-4 p-4 w-100" style={{ maxWidth: '800px' }}>
-        <div className="d-flex justify-content-between align-items-center mb-4">
+    <div className="imageBack">
+      <div className="coverBack" >
+        <div className="container-md modal-content colorBack formProductContainer rounded-4 shadow p-4">
           <h2 className="title-form m-0">Actualizar Item</h2>
-          <button className="btn btn-outline-secondary btn-sm" onClick={cancel}>
-            Volver Atrás
-          </button>
-        </div>
-
+        
         {selectedItem && (
           <ItemUpdateForm
             defaultValues={{
@@ -107,9 +101,11 @@ const UpdateItemPage = () => {
             }}
             onSubmit={handleSubmit}
             onCancel={cancel}
+            load={load}
           />
         )}
       </div>
+    </div>
     </div>
   );
 };

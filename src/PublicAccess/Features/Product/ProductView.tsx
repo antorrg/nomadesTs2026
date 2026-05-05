@@ -27,7 +27,7 @@ const ProductView = ({ info, items }:ProductProps) => {
           <div className="text-center">
         <div className="row py-lg-5">
           <div className="col-lg-6 col-md-8 mx-auto">
-            <h1 className="fw-light">Proyecto: {info?.title}</h1>
+            <h1 className="fw-light">{info?.title}</h1>
             <img
                   className={`bd-placeholder-img-fluid mx-auto d-block ${info && !info.enabled? 'deactivate' : ''}`}
                   src={info?.picture!}

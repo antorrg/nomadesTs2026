@@ -107,16 +107,16 @@ const ImageUploader = ({ titleField = "Imagen:", value, onChange }: ImageUploade
 
         {imageUrl && !file ? (
           <div>
-            <img src={imageUrl} alt="Uploaded" style={{ maxWidth: "20rem" }} />
+            <img src={imageUrl} alt="Uploaded" style={{ maxWidth: "min(100%, 20rem)", height: "auto", objectFit: "contain" }} />
           </div>
         )
-        :
+        : previewUrl && (
           <img
-            src={previewUrl!}
+            src={previewUrl}
             alt="Preview"
-            style={{maxWidth: "20rem", marginTop: "10px" }}
+            style={{ maxWidth: "min(100%, 20rem)", height: "auto", marginTop: "10px", objectFit: "contain" }}
           />
-      }
+        )}
       </div>
     </div>
   );

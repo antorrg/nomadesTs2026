@@ -4,7 +4,7 @@ import { ProductCreateForm } from "../components/ProductCreateForm";
 import { type ProductCreateFormData } from "../validations/productSchema";
 import { productsApi } from "../../../AdminApi/productsApi";
 import { type CreateProduct } from "../../../../types/product";
-import Loader2 from "../../../../components/Loader2";
+
 
 const CreateProductPage = () => {
   const navigate = useNavigate();
@@ -54,19 +54,18 @@ const CreateProductPage = () => {
 
   return (
     <div className="imageBack">
-      {load ? (
-        <Loader2 />
-      ) : (
+    
         <div className="coverBack">
           <div className="container-md modal-content colorBack formProductContainer rounded-4 shadow p-4">
             <h3 className="mb-4">Creación de Producto: </h3>
             <ProductCreateForm
               onSubmit={handleSubmit}
               onCancel={onClose}
+              load={load}
             />
           </div>
         </div>
-      )}
+   
     </div>
   );
 };

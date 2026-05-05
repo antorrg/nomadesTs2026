@@ -1,5 +1,8 @@
 import { useState } from "react";
+
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { syncPublicProductsList } from "../../../../PublicAccess/Features/Product/productSlice";
 import { ProductUpdateForm } from "../components/ProductUpdateForm";
 import { type ProductUpdateFormData } from "../validations/productSchema";
 import { useReduxFetch } from "../../../../hooks/useReduxFetch";
@@ -9,6 +12,8 @@ import Loader2 from "../../../../components/Loader2";
 
 const UpdateProductPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
   const { id } = useParams();
 
 
@@ -49,9 +54,17 @@ const UpdateProductPage = () => {
         saver: data.saver,
         useImg: data.useImg,
       };
-
+      
       try {
-        await productsApi.update(Number(id), payload, { success: onClose, reject: onRetry });
+        await productsApi.update(Number(id), payload, { 
+          success: () => {
+            const updatedData = { id: Number(id), ...payload };
+            dispatch(syncPublicProductsList(updatedData));
+            onClose();
+          }, 
+          reject: onRetry 
+        });
+
       } catch (e) {
         console.error(e)
         setLoad(false)
@@ -65,9 +78,6 @@ const UpdateProductPage = () => {
 
   return (
     <div className="imageBack">
-      {load ? (
-        <Loader2 />
-      ) : (
         <div className="coverBack">
           <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4">
             <h2 className="title-form m-0">Actualizar producto:</h2>
@@ -84,11 +94,11 @@ const UpdateProductPage = () => {
                 }}
                 onSubmit={handleSubmit}
                 onCancel={onClose}
+                load={load}
               />
             )}
           </div>
         </div>
-      )}
     </div>
   );
 };

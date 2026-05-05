@@ -4,14 +4,16 @@ import SelectImages from "../../Images/SelectImages/SelectImages";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type ItemCreateFormData, itemCreateSchema } from "../validations/productSchema";
+import Loader2 from "../../../../components/Loader2";
 
 interface ItemCreateFormProps {
     productId: number;
     onSubmit: (data: ItemCreateFormData) => void;
     onCancel: () => void;
+    load:boolean
 }
 
-export function ItemCreateForm({ productId, onSubmit, onCancel }: ItemCreateFormProps) {
+export function ItemCreateForm({ productId, onSubmit, onCancel, load }: ItemCreateFormProps) {
     const {
         register,
         handleSubmit,
@@ -33,6 +35,12 @@ export function ItemCreateForm({ productId, onSubmit, onCancel }: ItemCreateForm
 
     return (
         <div className="container mt-5">
+            {load?
+            <Loader2
+                fullScreen={false}
+                scale={0.7}
+            />
+            :           
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
                 {/* ProductId */}
                 <input type="hidden" {...register("ProductId", { valueAsNumber: true })} />
@@ -62,10 +70,10 @@ export function ItemCreateForm({ productId, onSubmit, onCancel }: ItemCreateForm
                     <label htmlFor="text" className="form-label">
                         Texto del Item:
                     </label>
-                    <input
+                    <textarea
                         {...register("text")}
                         className={`form-control ${errors.text ? "is-invalid" : ""}`}
-                        type="text"
+                        rows={3}
                         id="text"
                         placeholder="Ej. Característica 1"
                     />
@@ -88,6 +96,7 @@ export function ItemCreateForm({ productId, onSubmit, onCancel }: ItemCreateForm
                     </button>
                 </div>
             </form>
+            }
         </div>
     );
 }

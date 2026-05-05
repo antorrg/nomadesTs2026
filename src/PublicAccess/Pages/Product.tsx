@@ -4,7 +4,8 @@ import { useReduxFetch } from '../../hooks/useReduxFetch'
 import { getPublicProductById, clearSelectedProduct } from '../Features/Product/productSlice'
 import ProductView from '../Features/Product/ProductView' // Renamed to avoid conflict
 import Footer from '../../components/Layout/Footer'
-import Loader2 from '../../components/Loader2'
+//import Loader2 from '../../components/Loader2'
+import { mockProductWithItem} from '../../PublicAccess/Features/Product/mockProduct'
 
 const Product: React.FC = () => {
   const { id } = useParams()
@@ -18,18 +19,20 @@ const Product: React.FC = () => {
   })
 
   // Optional: Handle metadata here using selectedPublicProduct?.info_header
+   let publicProduct =  publicLoading? mockProductWithItem : selectedPublicProduct
+   // let publicProduct =  mockProductWithItem 
 
-  if (publicLoading) return <Loader2 />
+  //if (publicLoading) return <Loader2 />
 
-  if (!selectedPublicProduct) return null // Or a "Not Found" component
+  
 
   return (
     <div className='coverBackPublic'>
-      <title>{selectedPublicProduct.title ?? 'Cabaña'}</title>
-      <meta name="description" content={selectedPublicProduct.info_header ?? 'Mas informacion en nuestra web...'} />
+      <title>{selectedPublicProduct?.title ?? 'Cabaña'}</title>
+      <meta name="description" content={publicProduct?.info_header ?? 'Mas informacion en nuestra web...'} />
       <ProductView
-        info={selectedPublicProduct}
-        items={selectedPublicProduct.Items || []}
+        info={publicProduct!}
+        items={publicProduct?.Items || []}
       />
       <Footer/>
     </div>

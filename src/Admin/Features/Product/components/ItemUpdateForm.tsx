@@ -4,14 +4,16 @@ import DoubleButton from "./DoubleButton/DoubleButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type ItemUpdateFormData, itemUpdateSchema } from "../validations/productSchema";
 import SelectImages from "../../Images/SelectImages/SelectImages";
+import Loader2 from "../../../../components/Loader2";
 
 interface ItemUpdateFormProps {
     defaultValues: ItemUpdateFormData;
     onSubmit: (data: ItemUpdateFormData) => void;
     onCancel: () => void;
+    load:boolean
 }
 
-export function ItemUpdateForm({ defaultValues, onSubmit, onCancel }: ItemUpdateFormProps) {
+export function ItemUpdateForm({ defaultValues, onSubmit, onCancel, load }: ItemUpdateFormProps) {
     const {
         register,
         handleSubmit,
@@ -28,6 +30,12 @@ export function ItemUpdateForm({ defaultValues, onSubmit, onCancel }: ItemUpdate
 
     return (
         <div className="container mt-5">
+            {load?
+            <Loader2
+                fullScreen={false}
+                scale={0.7}
+            />
+            :
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
                  <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
@@ -35,12 +43,12 @@ export function ItemUpdateForm({ defaultValues, onSubmit, onCancel }: ItemUpdate
                     <label htmlFor="text" className="form-label">
                         Texto del Item:
                     </label>
-                    <input
+                    <textarea
                         {...register("text")}
                         className={`form-control ${errors.text ? "is-invalid" : ""}`}
-                        type="text"
                         id="text"
                         placeholder="Ej. Característica 1"
+                        rows={3}
                     />
                     {errors.text && <div className="invalid-feedback">{errors.text.message}</div>}
                 </div>
@@ -102,6 +110,7 @@ export function ItemUpdateForm({ defaultValues, onSubmit, onCancel }: ItemUpdate
                     />
                 </div>
             </form>
+            }
         </div>
     );
 }

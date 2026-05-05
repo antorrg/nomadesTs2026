@@ -6,14 +6,16 @@ import InfoFormField from "../../../InfoFormField";
 import { aboutSeo, createItemProd } from "../../../../utils/infoHelpers";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
 import SelectImages from "../../Images/SelectImages/SelectImages";
+import Loader2 from "../../../../components/Loader2";
 
 type ProductCreateFormProps = {
     defaultValues?: Partial<ProductCreateFormData>;
     onSubmit: (data: ProductCreateFormData) => void;
     onCancel: () => void;
+    load: boolean
 };
 
-export function ProductCreateForm({ defaultValues, onSubmit, onCancel }: ProductCreateFormProps) {
+export function ProductCreateForm({ defaultValues, onSubmit, onCancel, load }: ProductCreateFormProps) {
     const {
         register,
         handleSubmit,
@@ -48,6 +50,12 @@ export function ProductCreateForm({ defaultValues, onSubmit, onCancel }: Product
 
     return (
         <div className="container mt-5">
+            {load?
+            <Loader2
+                fullScreen={false}
+                scale={0.7}
+            />
+            :
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
             <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
@@ -152,6 +160,7 @@ export function ProductCreateForm({ defaultValues, onSubmit, onCancel }: Product
                     </button>
                 </div>
             </form>
+            }
         </div>
     );
 }

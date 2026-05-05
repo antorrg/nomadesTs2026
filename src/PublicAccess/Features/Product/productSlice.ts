@@ -80,6 +80,15 @@ const productSlice = createSlice({
         },
         clearSelectedItem: (state) => {
             state.selectedPublicItem = null;
+        },
+        syncPublicProductsList: (state, action) => {
+            const updatedProduct = action.payload;
+            const index = state.publicProducts.findIndex(p => p.id === updatedProduct.id);
+            if (index !== -1) {
+                state.publicProducts[index] = { ...state.publicProducts[index], ...updatedProduct };
+            } else {
+                state.publicProducts.unshift(updatedProduct);
+            }
         }
     },
     extraReducers: (builder) => {
@@ -110,7 +119,7 @@ const productSlice = createSlice({
                 (state, action: AnyAction) => {
                     if (action.type.includes('Public')) {
                         state.publicLoading = false;
-                    } 
+                    }
                     if (action.payload) {
                         state.error = action.payload as string;
                     } else {
@@ -123,11 +132,11 @@ const productSlice = createSlice({
                 (state, action) => {
                     if (action.type.includes('Public')) {
                         state.publicLoading = false;
-                    } 
+                    }
                 }
             );
     }
 });
 
-export const { clearError, selectProduct, clearSelectedProduct, selectItem, clearSelectedItem } = productSlice.actions;
+export const { clearError, selectProduct, clearSelectedProduct, selectItem, clearSelectedItem, syncPublicProductsList } = productSlice.actions;
 export default productSlice.reducer;
