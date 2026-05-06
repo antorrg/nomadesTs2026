@@ -111,14 +111,15 @@ export const userApi = {
         });
         return response as void;
     },
-    delete: async (id: string): Promise<void> => {
+    delete: async (id: string, onSuccess?: () => void): Promise<void> => {
         const response = await adminApi.execute({
             request: {
                 method: 'delete',
                 endpoint: `user/${id}`
             },
             hasMessage: true,
-            errorMessage: 'Error al eliminar usuario'
+            errorMessage: 'Error al eliminar usuario',
+            success: () => onSuccess?.(),
         });
         return response as void;
     },

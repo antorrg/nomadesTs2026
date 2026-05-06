@@ -21,9 +21,6 @@ export const imagesApi = {
         }
     ): Promise<void> => {
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de borrar esta imagen?',
-            },
             request: {
                 method: 'delete',
                 endpoint: `images/${id}`

@@ -21,7 +21,7 @@ const Loader2: React.FC<LoaderProps> = ({
   return (
     <div className={`${fullScreen ? 'coverBack' : ''} ${className}`}>
       <div style={containerStyle}>
-        {text && <h2 className='loaderFont'>{text}</h2>}
+        {text && <h2 className='loaderFont' style={{ fontSize: `${scale * 2}rem` }}>{text}</h2>}
         <div className="loader2-container" style={{ fontSize: `${scale * 10}px` }}>
           <div className="loader2"></div>
           <div className="wagon-loader" role="status" aria-label="Cargando">

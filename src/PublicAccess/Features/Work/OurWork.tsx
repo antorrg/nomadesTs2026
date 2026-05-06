@@ -1,9 +1,11 @@
 import { type IWork } from "../../../types/work"
+import LoadingImage from "../../../components/LoadingImages/LoadingImage"
 
 type WorkProps = {
   featurettes: IWork[]
+  isLoading:boolean
 }
-const OurWork = ({featurettes}:WorkProps) => {
+const OurWork = ({featurettes, isLoading}:WorkProps) => {
 
   return (
     <div className="container coverAbout">
@@ -21,6 +23,11 @@ const OurWork = ({featurettes}:WorkProps) => {
                 <p className="lead">{item.text}</p>
               </div>
               <div className={`col-md-5 ${index % 2 !== 0 ? 'order-md-1' : ''}`}>
+                {isLoading?
+                <LoadingImage
+                className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto mt-3"
+                />
+                :
                 <img
                   className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto mt-3"
                   src={item.picture}
@@ -30,6 +37,7 @@ const OurWork = ({featurettes}:WorkProps) => {
                     loading="lazy"
                     decoding="async"
                 />
+                  }
               </div>
             </div>
             <hr className="featurette-divider" />

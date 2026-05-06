@@ -2,7 +2,6 @@ import {useState} from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useReduxFetch } from '../../../hooks/useReduxFetch'
 import { getPublicItem, clearSelectedItem } from './productSlice'
-import Loader2 from '../../../components/Loader2'
 import LoadingImage from '../../../components/LoadingImages/LoadingImage'
 
 const ItemView = () => {

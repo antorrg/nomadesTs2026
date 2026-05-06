@@ -31,9 +31,8 @@ const user = selectedUser
 
 const goToBack= ()=>navigate(-1)
 
-  // const goToEdition = (id: string)=>{
-  //   navigate(`/admin/usuarios/edicion/${id}`)
-  // }
+
+
 const resetPassword = async(id:string):Promise<void>=>{
     const confirmed = await userApi.confirmAction({ title: 'Esta seguro de resetear la contraseña?' });
       if (!confirmed) return;

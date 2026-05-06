@@ -1,18 +1,19 @@
 import { useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm  } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "react-bootstrap";
 import { workCreateSchema, type WorkCreateFormData } from "../validations/workSchema";
 import SelectImages from "../../Images/SelectImages/SelectImages";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
+import Loader2 from "../../../../components/Loader2";
 
 type WorkCreateFormProps = {
     defaultValues?: Partial<WorkCreateFormData>;
     onSubmit: (data: WorkCreateFormData) => void;
     onCancel: () => void;
+    loader:boolean
 };
 
-export function WorkCreateForm({ defaultValues, onSubmit, onCancel }: WorkCreateFormProps) {
+export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: WorkCreateFormProps) {
     const {
         register,
         handleSubmit,
@@ -39,6 +40,12 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel }: WorkCreate
 
     return (
         <div className="container mt-5">
+            {loader?
+            <Loader2
+            fullScreen={false}
+            scale={0.7}
+            />
+            :
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
             <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
@@ -84,6 +91,7 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel }: WorkCreate
                     </button>
                 </div>
             </form>
+            }
         </div>
     );
 }

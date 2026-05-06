@@ -52,13 +52,16 @@ const AdminUserCreate = () => {
 
   return (
     <div className="imageBack">
-      {load ? (
-        <Loader2 />
-      ) : (
         <div className="coverBack">
           <div className="container-md modal-content colorBack formProductContainer rounded-4 shadow mb-4">
             <div className="container mt-5">
               <h1>Creación de usuario:</h1>
+              {load ? (
+                <Loader2 
+                fullScreen={false}
+                scale={0.4}
+                />
+              ) : 
               <form
                 className="needs-validation"
                 id="createItemForm"
@@ -107,10 +110,10 @@ const AdminUserCreate = () => {
                   </div>
                 </div>
               </form>
+                }
             </div>
           </div>
         </div>
-      )}
     </div>
   )
 }

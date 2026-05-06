@@ -19,7 +19,7 @@ const UpdateWorkPage = () => {
         condition: !!id
     });
     
-    const [load, setLoad] = useState(false);
+    const [load, setLoad] = useState<boolean>(false);
 
     const onClose = () => {
         navigate(-1);
@@ -60,9 +60,6 @@ const UpdateWorkPage = () => {
 
     return (
         <div className="imageBack">
-            {load ? (
-                <Loader2 />
-            ) : (
                 <div className="coverBack">
                     <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4">
                         <h2 className="title-form m-0">Actualizar "nuestro trabajo":</h2>
@@ -78,11 +75,11 @@ const UpdateWorkPage = () => {
                                 }}
                                 onSubmit={handleSubmit}
                                 onCancel={onClose}
+                                loader={load}
                             />
                         )}
                     </div>
                 </div>
-            )}
         </div>
     );
 };

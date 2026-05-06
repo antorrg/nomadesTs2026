@@ -1,14 +1,19 @@
+import {useState} from 'react'
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useReduxFetch } from "../../../hooks/useReduxFetch";
 import { getAllUsers } from "./userAdminSlice";
 import { booleanState } from "../../AdminUtils/helpers";
 import { userApi } from "../../AdminApi/userApi";
 import { useAuth } from "../../../context/AuthContext";
+import Loader2 from '../../../components/Loader2';
 //imports experimentales
 
 
 
 const UserView = () => {
+  const [load, setLoad] =useState<boolean>(false)
+  const dispatch = useDispatch();
   const { user: authUser } = useAuth()
 const { users } = useReduxFetch({
   action: getAllUsers,
@@ -20,7 +25,11 @@ const { users } = useReduxFetch({
       title: "¿Está seguro de eliminar el usuario?"
   });
     if (confirmed) {
-      await userApi.delete(id);
+      setLoad(true)
+      await userApi.delete(id, () => {
+        dispatch(getAllUsers() as any);
+        setLoad(false)
+      });
     }
   };
   
@@ -39,8 +48,12 @@ const { users } = useReduxFetch({
           : null
           }
         </div>
-        <div className="">
+            {load?
+              <Loader2/>
+              :
+        <div>
           {users?.map((info) => (
+
             <div
               className="d-flex flex-column flex-md-row justify-content-between align-items-start w-100 mb-3 shadow-sm card"
               key={info?.id}
@@ -95,8 +108,10 @@ const { users } = useReduxFetch({
                 </p>
               </div>
             </div>
+            
           ))}
         </div>
+        }
       </div>
     </section>
   );
