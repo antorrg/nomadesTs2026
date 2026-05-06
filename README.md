@@ -6,7 +6,8 @@ Plataforma integral Full-Stack construida para **Nomades-Cabañas de Pastores**.
 
 Sitio web completo para **Nomades, Cabañas de Pastores**, desarrollado como proyecto freelance. Incluye un frontend público para visitantes y un panel de administración completo para gestión de contenido.
 
-> 🚀 **Demo en vivo:** `[URL del deploy]`  
+> 🚀 **Demo en vivo:** [URL del deploy](https://nomadests2026-production.up.railway.app/) 
+
 > 📦 **Stack:** Express 5 · TypeScript · PostgreSQL · Sequelize · React 19 · Redux Toolkit · Vite
 
 ---
@@ -36,6 +37,7 @@ Sitio web completo para **Nomades, Cabañas de Pastores**, desarrollado como pro
 - **Panel de administración** protegido por autenticación, con gestión completa de: portada, productos, ítems, imágenes, videos y usuarios.
 - **Sistema de roles** con cuatro niveles: `USER`, `EMPLOYEE`, `MODERATOR`, `ADMIN`.
 - **Gestión de imágenes** con subida a Cloudinary y limpieza automática al actualizar o eliminar registros.
+- **Auditoría y Trazabilidad:** Sistema de logs interno (`systemLogs`) para registrar acciones críticas en el panel de administración, aportando un nivel extra de seguridad y control.
 
 ---
 
@@ -71,6 +73,21 @@ HTTP Request
     → ProductService (extiende BaseServiceWithImages)
     → ProductRepository (extiende BaseRepository)
     → PostgreSQL / Cloudinary
+```
+
+### Arquitectura del Cliente (Frontend)
+
+El cliente en React está modularizado para escalar, separando claramente la experiencia pública de la gestión interna:
+
+```text
+src/
+├── Admin/         # Vistas y componentes exclusivos del Panel de Administración
+├── PublicAccess/  # Vistas públicas (Catálogo, Landing, Contacto)
+├── api/           # Configuración de Axios e interceptores
+├── components/    # Componentes UI reutilizables (Botones, Modales, Loaders)
+├── store/         # Estado global con Redux Toolkit
+├── hooks/         # Custom hooks de React
+└── router.tsx     # Configuración de React Router 7
 ```
 
 ---
@@ -136,6 +153,10 @@ La alternativa era dos repos separados (backend y frontend). El monorepo tiene v
 - El servidor en producción sirve el build del cliente como archivos estáticos — no se necesita un servidor separado para el frontend, lo que reduce los costos de despliegue en apps pequeñas como esta.
 
 El costo es que la configuración de TypeScript se complica (hay seis `tsconfig` distintos para server, client, tests, eslint, etc.).
+
+### ¿Por qué Redux Toolkit para el estado global?
+
+Para separar claramente el estado global complejo (como la sesión del administrador y preferencias compartidas) del estado local de la UI. Redux Toolkit elimina el boilerplate tradicional de Redux y proporciona herramientas de debugging muy potentes en desarrollo, algo que con puro React Context hubiese requerido construir soluciones desde cero.
 
 ---
 
@@ -264,7 +285,7 @@ Incluyo esto porque creo que entender los tradeoffs es parte del trabajo:
 - **`BaseServiceWithImages` duplica algunos métodos de `BaseService`** que debería heredar sin redefinir. Es un refactor pendiente.
 - **Algunos `as any` en Sequelize** son inevitables dado cómo Sequelize tipea sus modelos, pero hay algunos en lógica de negocio que podrían eliminarse con mejores interfaces.
 - **El manejo de errores** evolucionó durante el proyecto — hay código comentado en `errorHandlers.ts` que debería eliminarse (está en git history si hace falta recuperarlo).
-- **Cambiar herencia por composición:** Esto es lo que haría si lo hiciera nuevamente, conozco a la fecha el tema, pero no estaba listo aun para esto, ya que además de la composición, tambien implementaría el repositorio de cada feature (según necesidad) utilizando el sequelize.query, esto daría granularidad en las queries (como si trabajara con el driver) y aprovecha los metodos de conexión de sequelize
+- **Cambiar herencia por composición e Inyección de Dependencias:** Actualmente uso clases base (`BaseService`, `BaseController`). Hoy implementaría un enfoque de composición para desacoplar aún más las capas, y aprovecharía `sequelize.query` en los repositorios específicos cuando requiera queries muy granulares y optimizadas, en lugar de depender tanto de los métodos genéricos del ORM.
 
 ---
 
