@@ -17,8 +17,7 @@ const ItemView = () => {
     deps: [id],
     cleanupAction: clearSelectedItem
   });
-
-  if (publicLoading) return <Loader2 />
+// if (publicLoading) return <Loader2 />
 
   if (!item) return null // Or return standard 404/Empty component
 

@@ -17,8 +17,8 @@
     90deg,
     transparent 0px,
     transparent 60px,
-    rgba(0, 0, 0, 0.25) 60px,
-    rgba(0, 0, 0, 0.25) 120px
+    rgba(0, 0, 0, 0.05) 60px,
+    rgba(0, 0, 0, 0.05) 120px
   );
   animation: move-bars 1.5s linear infinite;
   pointer-events: none;
