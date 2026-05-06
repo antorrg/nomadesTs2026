@@ -6,14 +6,14 @@ import Marketing from '../Features/FrontPage/Marketing';
 import SocialNetworks from '../Features/FrontPage/SocialNetworks';
 import Footer from '../../components/Layout/Footer';
 import { useHomePageData } from '../../hooks/useHomePageData';
-//import Loading from '../../components/Loading';
+import Loading from '../../components/Loading';
 
 const Home: React.FC = () => {
     const {
     publicLanding,
     publicProducts,
     error,
-   //isInitialLoading
+   isInitialLoading
   } = useHomePageData()
 
 
@@ -43,8 +43,8 @@ const Home: React.FC = () => {
       <section>
         <br className='feturette-divider'></br>
 
-        <MyCarousel products={publicProducts} />
-        <Marketing products={publicProducts} />
+        <MyCarousel products={publicProducts} infoImg={isInitialLoading} />
+        <Marketing products={publicProducts} infoImg={isInitialLoading}/>
 
       </section>
       <hr className='featurette-divider'></hr>

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useReduxFetch } from '../../../hooks/useReduxFetch'
 import { getPublicItem, clearSelectedItem } from './productSlice'
 import Loader2 from '../../../components/Loader2'
+import LoadingImage from '../../../components/LoadingImages/LoadingImage'
 
 const ItemView = () => {
   const { id } = useParams()
@@ -32,6 +33,7 @@ const ItemView = () => {
         <div className="modal-dialog modal-dialog-centered modal-xl ">
           <div className="modal-content">
             <div className="modal-body p-5 text-center list-group-item">
+              {!publicLoading?
               <img
                 className="d-block mx-auto mb-4 img-fluid"
                 src={item?.picture || ''}
@@ -41,6 +43,12 @@ const ItemView = () => {
                   onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
                   onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
               />
+              :
+              <LoadingImage
+              className="d-block mx-auto mb-4 img-fluid"
+               style={{ width: "100%", objectFit: 'cover', objectPosition: 'center'}}
+              />
+              }
               <p className="text-muted">{item?.text}</p>
               <Link
                 className="btn btn-sm btn-outline-secondary mt-3 mx-auto w-20"

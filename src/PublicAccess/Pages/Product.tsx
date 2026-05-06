@@ -22,7 +22,7 @@ const Product: React.FC = () => {
    let publicProduct =  publicLoading? mockProductWithItem : selectedPublicProduct
    // let publicProduct =  mockProductWithItem 
 
-  //if (publicLoading) return <Loader2 />
+ // if (!publicLoading){ setInfoImg(true)}
 
   
 
@@ -33,6 +33,7 @@ const Product: React.FC = () => {
       <ProductView
         info={publicProduct!}
         items={publicProduct?.Items || []}
+        infoImg={publicLoading}
       />
       <Footer/>
     </div>

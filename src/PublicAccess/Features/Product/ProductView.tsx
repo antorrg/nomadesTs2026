@@ -1,13 +1,15 @@
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import type { IItem, IProduct } from "../../../types/product"
+import LoadingImage from "../../../components/LoadingImages/LoadingImage"
 
 type ProductProps ={
     info: IProduct
     items: IItem[]
+    infoImg:boolean
 }
 
-const ProductView = ({ info, items }:ProductProps) => {
+const ProductView = ({ info, items, infoImg }:ProductProps) => {
     const navigate = useNavigate()
     const [zoomedImg, setZoomedImg] = useState<string | null>(null);
 
@@ -28,6 +30,7 @@ const ProductView = ({ info, items }:ProductProps) => {
         <div className="row py-lg-5">
           <div className="col-lg-6 col-md-8 mx-auto">
             <h1 className="fw-light">{info?.title}</h1>
+            {!infoImg?
             <img
                   className={`bd-placeholder-img-fluid mx-auto d-block ${info && !info.enabled? 'deactivate' : ''}`}
                   src={info?.picture!}
@@ -37,6 +40,12 @@ const ProductView = ({ info, items }:ProductProps) => {
                   onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
                   onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 />
+                :
+                <LoadingImage 
+                  className={`bd-placeholder-img-fluid mx-auto d-block ${info && !info.enabled? 'deactivate' : ''}`}
+                  style={{ width: "100%", maxWidth: "22rem", objectFit: 'cover', objectPosition: 'center' }} 
+                />
+            }
             <p className="lead text-muted mt-3">{info?.info_body}</p>
           </div>
         </div>
@@ -48,13 +57,20 @@ const ProductView = ({ info, items }:ProductProps) => {
             {items?.map((item) => (
                  <div key={item.id} className="col">
                  <div className="card shadow-sm h-100">
+                   {!infoImg?
                    <img 
                       className={`card-img-top ${item && !item.enabled? 'deactivate' : ''}`} 
                       src={item.picture!} 
                       alt="Card image" 
-                      style={{aspectRatio:'4/3', objectFit: 'contain', cursor: 'zoom-in', backgroundColor: '#f8f9fa'}}
+                      style={{aspectRatio:'4/3', objectFit: 'contain', cursor: 'zoom-in', }}
                       onClick={() => item?.picture && setZoomedImg(item.picture)}
                     />
+                    :
+                    <LoadingImage
+                    className={`card-img-top ${item && !item.enabled? 'deactivate' : ''}`} 
+                    style={{aspectRatio:'4/3', objectFit: 'contain', cursor: 'zoom-in', }}
+                    />
+                   }
                    <div className="card-body d-flex flex-column">
                      <p className="card-text flex-grow-1">{item.text}</p>
                      <div className="d-flex justify-content-between align-items-center mt-3">
