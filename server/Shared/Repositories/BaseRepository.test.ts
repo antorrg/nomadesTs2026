@@ -17,7 +17,7 @@ describe('BaseRepository unit test', () => {
     describe('Create method', () => {
         it('should create a element', async() => {
             const response = await test.create(help.dataCreate)
-            expect(response.message).toBe('User user@email.com created successfully')
+            expect(response.message).toBe('User user@email.com creado correctamente')
             expect(response.results).toEqual({
                 id: expect.any(String),
                 email: 'user@email.com',
@@ -35,19 +35,19 @@ describe('BaseRepository unit test', () => {
         it('should retrieve an array of elements', async() => {
             await help.createSeedRandomElements(User,help.usersSeed)
             const response = await test.getAll()
-            expect(response.message).toBe('User records retrieved successfully')
+            expect(response.message).toBe('User registros obtenidos correctamente')
             expect(response.results.length).toBe(16)
         })
         it('Should retrieve an array of elements filtered by query', async() => {
              const response = await test.getAll('false', 'enabled')
-            expect(response.message).toBe('User records retrieved successfully')
+            expect(response.message).toBe('User registros obtenidos correctamente')
             expect(response.results.length).toBe(3)
         })
         })
         describe('"getById" method', () => { 
             it('Should retrieve an element by Id', async() => {
              const response = await test.getById(store.getStringId())
-            expect(response.message).toBe('User record retrieved successfully')
+            expect(response.message).toBe('User registro obtenido correctamente')
             expect(response.results).toEqual({
                 id: expect.any(String),
                 email: 'user@email.com',
@@ -62,7 +62,7 @@ describe('BaseRepository unit test', () => {
         describe('"getByField" method', () => { 
             it('Should retrieve an element by field', async() => {
              const response = await test.getByField("user15@email.com", 'email')
-            expect(response.message).toBe('User record retrieved successfully')
+            expect(response.message).toBe('User registro obtenido correctamente')
             expect(response.results).toEqual({
                 id: expect.any(String),
                 email: "user15@email.com",
@@ -79,7 +79,7 @@ describe('BaseRepository unit test', () => {
          it('Should retrieve an array of paginated elements', async() => {
             const queryObject = {page:1, limit:10,}
              const response = await test.getWithPages(queryObject)
-            expect(response.message).toBe('Total records: 16. Users retrieved successfully')
+            expect(response.message).toBe('Total registros: 16. Users obtenidos correctamente')
             expect(response.info).toEqual({ total: 16, page: 1, limit: 10, totalPages: 2 })
             expect(response.data.length).toBe(10)
              expect(response.data.map(a => a.name)).toEqual(["user", "One","Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"])// Order
@@ -87,7 +87,7 @@ describe('BaseRepository unit test', () => {
          it('Should retrieve filtered and sorted elements', async() => {
             const queryObject = {page:1, limit:10,query:{enabled: false}, order: { name : 'ASC'}} as const
              const response = await test.getWithPages(queryObject)
-            expect(response.message).toBe('Total records: 3. Users retrieved successfully')
+            expect(response.message).toBe('Total registros: 3. Users obtenidos correctamente')
             expect(response.info).toEqual({ total: 3, page: 1, limit: 10, totalPages: 1 })
             expect(response.data.length).toBe(3)
             expect(response.data.map(a => a.name)).toEqual(["Fifteen", "Seven", "Six"])// Order
@@ -108,7 +108,7 @@ describe('BaseRepository unit test', () => {
     describe('Delete method', () => {
         it('should deleted an element', async() => { 
             const response = await test.delete(store.getStringId())
-            expect(response.message).toBe('user@email.com deleted successfully')
+            expect(response.message).toBe('user@email.com eliminado correctamente')
         })
     })
 })

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
 import { useReduxFetch } from '../../../../hooks/useReduxFetch'
 import { getProductById, clearError } from "../productAdminSlice";
 import { booleanState } from '../../../AdminUtils/helpers'
@@ -8,8 +9,10 @@ import ProductButtons from '../components/ProductButtons';
 import { productsApi } from '../../../AdminApi/productsApi'
 
 
+
 const Product = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const { id } = useParams();
   
   const {selectedProduct, adminLoading } = useReduxFetch({
@@ -21,11 +24,16 @@ const Product = () => {
     cleanupAction: clearError
   })
   const [load, setLoad] = useState<boolean>(adminLoading ?? true);
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   const onClose = () => {
     setLoad(false);
     navigate("/admin?tab=producto");
   };
+  const finishDeleteItem = () =>{
+    setDeletingId(null)
+    dispatch(getProductById(Number(id)) as any)
+  }
 
   const toEdition = () => {
     navigate(`/admin/producto/edicion/${selectedProduct!.id}`);
@@ -50,8 +58,20 @@ const Product = () => {
   }
   };
   const delItem = async (id:number ) => {
-      setLoad(true);
-    await productsApi.deleteItem(Number(id),{ success: onClose, reject: () => setLoad(false)})
+     const itemId = Number(id)
+    const confirmed = await productsApi.confirmAction({
+      title: "¿Quiere eliminar esta item?"
+    })
+    if(confirmed){
+      setDeletingId(String(id))
+    await productsApi.deleteItem(itemId,
+    { success: finishDeleteItem, 
+      reject: () => {setDeletingId(null)}
+    })
+
+  }else{
+    setDeletingId(null)
+  }
   };
   
 
@@ -105,6 +125,12 @@ const Product = () => {
                 {selectedProduct?.Items?.map((item) => (
                   <div className="col" key={item.id}>
                     <div className="card shadow-sm">
+                    {deletingId === String(item.id) ? (
+                        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '260px' }}>
+                          <Loader2 fullScreen={false} scale={0.4} text={'Borrando...'} />
+                        </div>
+                      ) : (
+                      <>
                       <img
                         className={`card-img-top ${
                           !item.enabled ? "deactivate" : ""
@@ -138,6 +164,8 @@ const Product = () => {
                           </div>
                         </div>
                       </div>
+                      </>
+                      )}
                     </div>
                   </div>
                 ))}

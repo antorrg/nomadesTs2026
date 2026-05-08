@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Modal, Button } from 'react-bootstrap'
-import { booleanState } from '../../../Media/helperVideo'
+import { booleanState, roleTranslate} from '../../../../AdminUtils/helpers'
 import type { IUser } from '../../../../../types/user'
 import EditPassword from '../EditPasswordForm'
 
@@ -40,7 +40,7 @@ const [showPasswordModal, setShowPasswordModal] = useState(false)
             <dd className="col-sm-9">{user?.nickname}</dd>
             
             <dt className="col-sm-3">Rol:</dt>
-            <dd className="col-sm-9">{user?.role}</dd>
+            <dd className="col-sm-9">{roleTranslate(user?.role)}</dd>
             
             <dt className="col-sm-3">Nombre:</dt>
             <dd className="col-sm-9">{user?.name}</dd>

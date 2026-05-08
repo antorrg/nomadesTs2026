@@ -7,10 +7,12 @@ import { SessionData } from 'express-session'
 
 export class UserMidd {
   static createUser = async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password } = req.body
+    const { email } = req.body
+    const passwordGenerated = req.body.password || UserMidd.generatePassword(12)
     req.body = {
       email,
-      password: await Hasher.hashPassword(password),
+      password: await Hasher.hashPassword(passwordGenerated),
+      plainPassword: passwordGenerated,
       nickname: email.split('@')[0],
       picture: envConfig.UserImg,
       enabled: true

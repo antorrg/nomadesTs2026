@@ -64,11 +64,5 @@ export const create: Schema = {
     sanitize: {
       trim: true
     }
-  },
-  password: {
-    type: 'string',
-    sanitize: {
-      trim: true
-    }
   }
 }

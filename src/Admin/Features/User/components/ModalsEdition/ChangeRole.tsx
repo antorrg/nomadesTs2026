@@ -3,7 +3,19 @@ import { useForm } from "react-hook-form";
 import { type IUser, type UserRole } from '../../../../../types/user';
 import { userApi } from '../../../../AdminApi/userApi';
 
-const roles: UserRole[] = ['ADMIN', 'MODERATOR', 'USER', 'EMPLOYEE'];
+const roles:string[] = ['ADMIN', 'EMPLEADO', 'USUARIO'];
+const roleParser =(role: string)=>{
+    switch(role){
+        case 'ADMIN': 
+            return 'ADMIN'
+        case 'EMPLEADO':
+            return 'EMPLOYEE'
+        case 'USUARIO':
+            return 'USER'
+        default:
+            return 'USER'
+    }
+}
 
 type ChangeRoleProps = {
     show: boolean;
@@ -32,7 +44,7 @@ const ChangeRole = ({ show, handleClose, user, onSuccess }: ChangeRoleProps) => 
         try {
             await userApi.upgradeRole(user.id, {
                 enabled: user.enabled,
-                role: data.role
+                role: roleParser(data.role)
             });
             onSuccess();
         } catch (error) {

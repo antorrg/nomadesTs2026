@@ -10,7 +10,7 @@ export class BaseRepository<
     private readonly parserFn: (model: Model) => TDTO,
     private readonly modelName: string,
     private readonly whereField: keyof TDTO & string,
-    protected readonly emptyObject: TDTO
+    protected readonly emptyObject?: TDTO |null
   ) {
     this.Model = Model
     this.parserFn = parserFn
@@ -25,7 +25,7 @@ export class BaseRepository<
       if (models.length === 0) {
         return {
           message: `${this.Model.name} no contiene datos`,
-          results: this.emptyObject as TDTO[]
+          results: this.emptyObject as TDTO[] ?? []
         }
       }
       return {
@@ -63,9 +63,9 @@ export class BaseRepository<
         // order: options?.order ? [[options.order?.field as string, options.order?.direction]] as Order : undefined
       })
 
-      const data = count === 0 ? this.emptyObject as TDTO[] : rows.map(this.parserFn)
+      const data = count === 0 ? this.emptyObject as TDTO[] ??[] : rows.map(this.parserFn)
       return {
-        message: `Total registros: ${count}. ${this.Model.name}s obtenidos correctamente `,
+        message: `Total registros: ${count}. ${this.Model.name}s obtenidos correctamente`,
         info: {
           total: count,
           page,
@@ -168,7 +168,7 @@ export class BaseRepository<
       if (models.length === 0) {
         return {
           message: `${this.Model.name} no contiene datos`,
-          results: this.emptyObject as TDTO[]
+          results: this.emptyObject as TDTO[] ?? []
         }
       }
       return {

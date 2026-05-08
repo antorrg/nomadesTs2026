@@ -1,4 +1,7 @@
 export type UserRole = 'ADMIN' | 'MODERATOR' | 'USER' | 'EMPLOYEE';
+//------------
+// se traduce a: 'ADMIN' | 'MODERADOR' | 'USUARIO' | 'EMPLEADO';
+//------------
 
 export interface IUser {
     id: string;
@@ -14,9 +17,9 @@ export type AuthUser = Pick<IUser, 'id' | 'email' | 'role' | 'enabled'>;
 
 export interface CreateUserInput {
     email: string;
-    password?: string;
+    password?: string | null;
     nickname?: string | null;
-    name: string;
+    name?: string | null;
     picture?: string | null;
     enabled: boolean;
 }

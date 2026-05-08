@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-
 import { userApi } from '../../../AdminApi/userApi'
 import Loader2 from '../../../../components/Loader2'
 import DoubleButton from '../../Product/components/DoubleButton/DoubleButton'
@@ -22,8 +21,7 @@ const AdminUserCreate = () => {
   } = useForm<UserCreateFormValues>({
     resolver: zodResolver(userCreateSchema),
     defaultValues: {
-      email: '',
-      password: ''
+      email: ''
     }
   })
 
@@ -37,8 +35,6 @@ const AdminUserCreate = () => {
     try {
       await userApi.create({
         email: data.email,
-        password: data.password,
-        name: '', // Required by CreateUserInput, send empty string or handle logic in backend
         enabled: true
       });
       dispatch(getAllUsers());
@@ -81,20 +77,6 @@ const AdminUserCreate = () => {
                     />
                     {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
                   </div>
-                  
-                  <div className="mb-3">
-                    <label htmlFor="password" className="form-label">
-                      Contraseña:
-                    </label>
-                    <input
-                      className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                      type="text"
-                      id="password"
-                      {...register("password")}
-                    />
-                    {errors.password && <div className="invalid-feedback">{errors.password.message}</div>}
-                  </div>
-
                   <div className="d-flex flex-row me-3">
                     <DoubleButton
                       className1="btn btn-sm btn-primary mb-3 me-2"

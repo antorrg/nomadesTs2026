@@ -160,9 +160,6 @@ export const productsApi = {
         }
     ): Promise<void> => {
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de eliminar este item?',
-            },
             request: {
                 method: 'delete',
                 endpoint: `product/item/${id}`

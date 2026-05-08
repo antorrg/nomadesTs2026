@@ -49,7 +49,7 @@ describe('MockImgsService', () => {
     // Eliminar con la función mock
     const result = await MockImgsService.mockFunctionDelete(imageUrl)
 
-    expect(result).toBe("Image serverAssets/uploads/test-image.png deleted successfully")
+    expect(result).toBe(`Image ${envConfig.TestImagesUploadDir}/${fakeFile.originalname} deleted successfully`)
 
     // Verificar que ya no existe
     const filePath = path.join(uploadDir, fakeFile.originalname)

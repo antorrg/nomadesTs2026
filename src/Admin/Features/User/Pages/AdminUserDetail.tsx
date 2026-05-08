@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
-import { booleanState } from '../../../AdminUtils/helpers'
+import { booleanState, roleTranslate } from '../../../AdminUtils/helpers'
 import { useReduxFetch } from '../../../../hooks/useReduxFetch'
 import { useAppDispatch } from '../../../../store/hooks'
 import { getUserById } from '../userAdminSlice'
@@ -67,7 +67,7 @@ const showBtn = showButton(userAuth?.role)
             <dd className="col-sm-9">{user?.nickname}</dd>
             
             <dt className="col-sm-3">Rol:</dt>
-            <dd className="col-sm-9"><span>{user?.role}</span>
+            <dd className="col-sm-9"><span>{roleTranslate(user?.role!)}</span>
                 {showBtn?
                   <button 
                     className="btn btn-sm btn-outline-primary ms-3"

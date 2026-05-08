@@ -26,7 +26,7 @@ export class ProductService extends BaseServiceWithImages<IProduct, CreateProduc
         if (data.items && data.items.length > 0) {
             for (const item of data.items) {
                 if (item.useImg && item.picture) {
-                    await this.handleImages(item.picture, false);
+                    await this.releaseImage(item.picture);
                 }
             }
         }
@@ -64,7 +64,7 @@ export class ProductService extends BaseServiceWithImages<IProduct, CreateProduc
 
         // Manejar lógica useImg para el ítem
         if (data.useImg && data.picture) {
-            await this.handleImages(data.picture, false);
+            await this.releaseImage(data.picture);
         }
 
         return response;
@@ -80,7 +80,7 @@ export class ProductService extends BaseServiceWithImages<IProduct, CreateProduc
 
         // 2. Manejar imagen nueva (galería)
         if (data.useImg && newImageUrl) {
-            await this.handleImages(newImageUrl, false);
+            await this.releaseImage(newImageUrl);
         }
 
         // 3. Manejar imagen vieja si cambió o se eliminó

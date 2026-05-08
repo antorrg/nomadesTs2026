@@ -19,7 +19,7 @@ export class ImageRepository<Images, CreateImages> implements ImagesRepository<I
         try {
             const { imageUrl } = data as any
             const image = await this.model.findOne({ where: { imageUrl } })
-            if (image) throwError('Esta imagen ya fue guardada', 400)
+            if (image) return this.parserFn(image)  // Idempotente: si ya existe, la devuelve
 
             const docRef = await this.model.create({
                 imageUrl
@@ -48,12 +48,12 @@ export class ImageRepository<Images, CreateImages> implements ImagesRepository<I
     
         async deleteImageFromDbById(id: string | number): Promise<string> {
         try {
-            let imgResult: string
             const image = await this.model.findByPk(ImageRepository.#dataParsed(id))
-                imgResult = image!.get().imageUrl
-                await image!.destroy()
-                logger.info('imagen borrada')
-                return imgResult 
+            if (!image) { throwError('Imagen no hallada', 404) }
+            const imgResult = image.get().imageUrl as string
+            await image.destroy()
+            logger.info('imagen borrada')
+            return imgResult 
         } catch (error) {
             logger.error(`Error elminando imagen`);
             throw error

@@ -24,6 +24,13 @@ export const landingTests = () => {
             for (const file of files) {
                 await fs.writeFile(path.join(uploadDir, file), 'fake image content')
             }
+            // Registrar en DB las imágenes que se usarán con useImg:true
+            for (const file of ['landing_main.png', 'landing_updated.png']) {
+                await agent
+                    .post('/api/v1/images/save')
+                    .set('x-xsrf-token', getCsrfToken())
+                    .send({ imageUrl: file })
+            }
         })
 
         it('POST / - should create a landing entry and consume image', async () => {
@@ -41,7 +48,8 @@ export const landingTests = () => {
 
             expect(response.status).toBe(201)
             landingId = response.body.results.id
-            expect(await fileExists('landing_main.png')).toBe(false)
+            // useImg:true consume la referencia en DB, no borra el archivo físico
+            expect(await fileExists('landing_main.png')).toBe(true)
         }, 10000)
 
         it('GET / - should retrieve all landing entries', async () => {
@@ -63,7 +71,8 @@ export const landingTests = () => {
                 .send(data)
 
             expect(response.status).toBe(200)
-            expect(await fileExists('landing_updated.png')).toBe(false)
+            // useImg:true consume la referencia en DB, no borra el archivo físico
+            expect(await fileExists('landing_updated.png')).toBe(true)
         }, 10000)
 
         it('DELETE /:id - should delete landing entry and its image', async () => {

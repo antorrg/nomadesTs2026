@@ -49,7 +49,7 @@ describe('AdminApi.execute', () => {
 
     const notify = createNotify();
 
-    const api = new AdminApi(http, confirmTrue, notify);
+    const api = new AdminApi({ http, confirm: confirmTrue, notify });
 
     const result = await api.execute({
       request: { endpoint: '/test', method: 'GET' },
@@ -69,7 +69,7 @@ describe('AdminApi.execute', () => {
     });
 
     const notify = createNotify();
-    const api = new AdminApi(http, confirmTrue, notify);
+    const api = new AdminApi({ http, confirm: confirmTrue, notify });
 
     await api.execute({
       request: { endpoint: '/custom', method: 'POST' },
@@ -86,7 +86,7 @@ describe('AdminApi.execute', () => {
     } as unknown as HttpClient;
 
     const notify = createNotify();
-    const api = new AdminApi(http, confirmFalse, notify);
+    const api = new AdminApi({ http, confirm: confirmFalse, notify });
 
     const result = await api.execute({
       request: { endpoint: '/delete', method: 'DELETE' },
@@ -108,7 +108,7 @@ describe('AdminApi.execute', () => {
     const notify = createNotify();
     const onSuccess = vi.fn();
 
-    const api = new AdminApi(http, confirmTrue, notify);
+    const api = new AdminApi({ http, confirm: confirmTrue, notify });
 
     const result = await api.execute({
       request: { endpoint: '/callback', method: 'GET' },
@@ -127,7 +127,7 @@ describe('AdminApi.execute', () => {
     const notify = createNotify();
     const onReject = vi.fn();
 
-    const api = new AdminApi(http, confirmTrue, notify);
+    const api = new AdminApi({ http, confirm: confirmTrue, notify });
 
     await api.execute({
       request: { endpoint: '/fail', method: 'GET' },
@@ -157,7 +157,7 @@ describe('AdminApi.execute', () => {
     const notify = createNotify();
     const onReject = vi.fn();
 
-    const api = new AdminApi(http, confirmTrue, notify);
+    const api = new AdminApi({ http, confirm: confirmTrue, notify });
 
     await api.execute({
       request: { endpoint: '/fail-backend', method: 'GET' },

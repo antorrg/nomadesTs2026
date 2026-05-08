@@ -43,12 +43,26 @@ const defaultNotify: NotifyFn = {
 };
 
 
+export interface AdminApiOptions {
+  http: HttpClient;
+  notify?: NotifyFn;
+  confirm?: ConfirmFn;
+}
+
 export class AdminApi {
-  constructor(
-    private http: HttpClient,
-    private notify: NotifyFn = defaultNotify,
-    private confirm: ConfirmFn = defaultConfirm,
-  ) { }
+  private http: HttpClient;
+  private notify: NotifyFn;
+  private confirm: ConfirmFn;
+
+  constructor({
+    http,
+    notify = defaultNotify,
+    confirm = defaultConfirm,
+  }: AdminApiOptions) {
+    this.http = http;
+    this.notify = notify;
+    this.confirm = confirm;
+  }
 
   async execute<T>({
     request,

@@ -30,3 +30,17 @@ export const showButton = (v: string|undefined):boolean => {
     return true
   }return false
 }
+export const roleTranslate = (role: string): string =>{
+  switch(role){
+    case 'ADMIN':
+      return 'ADMIN'
+    case 'MODERATOR':
+      return 'EMPLEADO'
+    case 'EMPLOYEE':
+      return 'EMPLEADO'
+    case 'USER':
+      return 'USUARIO'
+    default: 
+      return 'USUARIO'
+  }
+}

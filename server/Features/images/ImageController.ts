@@ -47,10 +47,9 @@ export class ImageController<Images, CreateImages> {
   deleteImages = async (req: Request, res: Response) => {
     const { id } = req.params
     try {
-      const identityUrl = await this.service.deleteImageFromDbById(id as any)
-      if(!identityUrl) return
-      await ImgsService.handleImages(identityUrl, false)
-      return ImageController.responder(res, 200, true, 'Imagen borrada ', '')
+      const imageUrl =await this.service.deleteImageFromDbById(Number(id))
+      await ImgsService.handleImages(imageUrl, false)
+      return ImageController.responder(res, 200, true, 'Imagen eliminada exitosamente', '')
     } catch (error) {
       processError(error, 'Error en ImageController.deleteImages')
     }

@@ -8,6 +8,6 @@ const publicHttp = new HttpClient(baseURL, {withCredentials: false, requireAuth:
 
 const adminHttp = new HttpClient(baseURL, {withCredentials: true, requireAuth: false})
 
-export const publicApi = new AdminApi(publicHttp)
+export const publicApi = new AdminApi({ http: publicHttp })
 
-export const adminApi = new AdminApi(adminHttp)
+export const adminApi = new AdminApi({ http: adminHttp })

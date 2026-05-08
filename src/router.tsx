@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
             const { default: Admin } = await import('./Admin/Pages/Admin');
             return {
                 Component: () => (
-                    <ProtectedRoute allowedRoles={['USER', 'ADMIN', 'MODERATOR']}>
+                    <ProtectedRoute allowedRoles={['USER', 'ADMIN', 'EMPLOYEE']}>
                         <Admin />
                     </ProtectedRoute>
                 ),

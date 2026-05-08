@@ -11,7 +11,7 @@ export type UserUpdateFormValues = z.infer<typeof userUpdateSchema>;
 
 export const userCreateSchema = z.object({
   email: z.string().email("Correo electrónico inválido"),
-  password: z.string().regex(/^(?=.*[A-Z]).{8,}$/, "La contraseña debe tener al menos 8 caracteres y una mayúscula")
+  //password: z.string().regex(/^(?=.*[A-Z]).{8,}$/, "La contraseña debe tener al menos 8 caracteres y una mayúscula")
 });
 
 export type UserCreateFormValues = z.infer<typeof userCreateSchema>;

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useReduxFetch } from "../../../hooks/useReduxFetch";
 import { getAllUsers } from "./userAdminSlice";
-import { booleanState } from "../../AdminUtils/helpers";
+import { booleanState, roleTranslate } from "../../AdminUtils/helpers";
 import { userApi } from "../../AdminApi/userApi";
 import { useAuth } from "../../../context/AuthContext";
 import Loader2 from '../../../components/Loader2';
@@ -80,7 +80,7 @@ const { users } = useReduxFetch({
                   <p>
                     {" "}
                     <strong>Rol: </strong>
-                    {info?.role}
+                    {roleTranslate(info?.role)}
                   </p>
                   <p>
                     <strong>Estado: </strong>

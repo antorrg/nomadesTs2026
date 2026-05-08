@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "react-bootstrap";
 import { frontPageUpdateSchema, type FrontPageUpdateFormData } from "../validations/frontPageSchema";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
 import SelectImages from "../../Images/SelectImages/SelectImages";
@@ -73,24 +72,6 @@ export function FrontPageUpdateForm({ defaultValues, onSubmit, onCancel }: Front
                         rows={3}
                     />
                     {errors.description && <div className="invalid-feedback">{errors.description.message}</div>}
-                </div>
-
-                <div className="row">
-                    <div className="mb-3 form-check form-switch col-md-5">
-                        <Controller
-                            control={control}
-                            name="enabled"
-                            render={({ field }) => (
-                                <Form.Check
-                                    type="switch"
-                                    id="enabled-switch"
-                                    label="Mostrar item"
-                                    checked={field.value}
-                                    onChange={(e) => field.onChange(e.target.checked)}
-                                />
-                            )}
-                        />
-                    </div>
                 </div>
 
                 <div className="d-flex flex-row mt-4 mb-5">

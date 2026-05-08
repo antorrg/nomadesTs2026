@@ -9,12 +9,12 @@ import { UserRepository } from './UserRepository.js'
 import { Validator } from 'req-valid-express'
 import { create, update, upgrade, banner, changePassword as changePasswordSchema } from './schemas.js'
 import { UserMidd } from './UserMidd.js'
-import { MailController } from '../../ExternalServices/nodeMailer/MailController.js'
+import { emailService } from '../../ExternalServices/EmailService/EmailService.js'
 import { authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
 import { allowedQueryValues } from '../../Shared/Utils/allowedQueryValues.js'
 
 export const userRepository = new UserRepository(User, userParser, 'User', 'email', mockData as any)
-export const userService = new UserService(userRepository, ImgsService as any, false, 'picture', MailController.resetPasswordEmail)
+export const userService = new UserService(userRepository, ImgsService as any, false, 'picture', emailService)
 const user = new UserController(userService as any)
 
 const password: RegExp = /^(?=.*[A-Z]).{8,}$/
@@ -44,11 +44,6 @@ userRouter.post(
     email,
     'email',
     'Enter a valid email'
-  ),
-  Validator.validateRegex(
-    password,
-    'password',
-    'Enter a valid password'
   ),
   UserMidd.createUser,
   user.create

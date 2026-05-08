@@ -62,7 +62,7 @@ describe('ProductService Integration Tests', () => {
             })
 
             expect(response.results.picture).toBe(imagesCopied[3])
-            expect(response.message).toContain(`Imagen antigua: Image ${envConfig.TestImagesUploadDir}/${oldPic} deleted successfully`)
+            expect(response.message).toContain(`Imagen antigua: Image ${oldPic} deleted successfully`)
         })
 
         it('should keep old image when saver is true', async () => {
@@ -99,7 +99,7 @@ describe('ProductService Integration Tests', () => {
 
             const response = await service.delete(id)
 
-            expect(response.message).toContain(`deleted successfully and Image ${envConfig.TestImagesUploadDir}/${imagesCopied[5]} deleted successfully`)
+            expect(response.message).toContain(`deleted successfully and Image ${imagesCopied[5]} deleted successfully`)
         })
     })
 

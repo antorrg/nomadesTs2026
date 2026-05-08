@@ -64,39 +64,38 @@ export const imageTests = () => {
         })
 
         describe('DELETE /:id', () => {
+            let savedImageId: number
+
             beforeAll(async () => {
-                // Guardar en DB para que el borrado tenga éxito en el repositorio
-                await agent
+                // Guardar en DB y capturar el ID numérico devuelto
+                const saveRes = await agent
                     .post('/api/v1/images/save')
                     .set('x-xsrf-token', getCsrfToken())
                     .send({ imageUrl: uploadedUrl })
+                savedImageId = saveRes.body.results.id
             })
 
-            it('should delete an image by its URL (encoded)', async () => {
-                const id = encodeURIComponent(uploadedUrl)
-
+            it('should delete an image by its numeric ID', async () => {
                 const response = await agent
-                    .delete(`/api/v1/images/${id}`)
+                    .delete(`/api/v1/images/${savedImageId}`)
                     .set('x-xsrf-token', getCsrfToken())
 
                 expect(response.status).toBe(200)
                 expect(response.body.success).toBe(true)
                 expect(response.body.message).toBe('Imagen eliminada exitosamente')
 
-                // Verificar que el archivo ya no existe
+                // Verificar que el archivo ya no existe en disco
                 const diskFilename = path.basename(uploadedUrl)
                 expect(await fileExists(diskFilename)).toBe(false)
             }, 10000)
 
-            it('should handle partial errors (e.g. file missing on disk but present in DB or viceversa)', async () => {
+            it('should return 404 when image ID does not exist in DB', async () => {
                 const response = await agent
-                    .delete('/api/v1/images/non_existent.png')
+                    .delete('/api/v1/images/99999')
                     .set('x-xsrf-token', getCsrfToken())
 
-                // Repo fallará con 404, MockImgsService devolverá éxito (idempotencia)
-                // Pero como solo hay 1 tarea (ImgsService.deleteImage) y falla en repo,
-                // total tareas = 1, errores = 1 -> Error total (500)
-                expect(response.status).toBe(500)
+                // deleteImageFromDbById busca por PK, si no existe lanza error
+                expect(response.status).toBe(404)
             })
 
         })
