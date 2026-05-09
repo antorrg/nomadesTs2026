@@ -4,7 +4,7 @@ import path from 'path'
 import envConfig from '../../Configs/envConfig.js'
 
 const TEMPLATE_DIR = path.join(process.cwd(), 'server/ExternalServices/EmailService/emails')
-console.log('sot dir',TEMPLATE_DIR)
+//console.log('sot dir',TEMPLATE_DIR)
 // Tipo para valores de variables en templates
 export type TemplateVariables = Record<string, string | number | boolean | Date>
 

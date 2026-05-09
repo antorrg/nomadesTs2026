@@ -7,7 +7,7 @@ type Email = EmailInput
 
 export const emailPublicApi = {
     sendEmails: async (data:Email, onSuccess:()=>void,onReject:()=>void  ): Promise<void> => {
-        const response = await publicApi.execute({
+        await publicApi.execute({
 
             request: {
                 method: 'post',

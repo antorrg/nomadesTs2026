@@ -50,8 +50,8 @@ export class ImageRepository<Images, CreateImages> implements ImagesRepository<I
         try {
             const image = await this.model.findByPk(ImageRepository.#dataParsed(id))
             if (!image) { throwError('Imagen no hallada', 404) }
-            const imgResult = image.get().imageUrl as string
-            await image.destroy()
+            const imgResult = image!.get().imageUrl as string
+            await image!.destroy()
             logger.info('imagen borrada')
             return imgResult 
         } catch (error) {

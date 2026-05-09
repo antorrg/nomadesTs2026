@@ -4,6 +4,7 @@ import { ValidContact } from "./validContact";
 import type { EmailInput, EmailErrors } from "./validContact";
 import { showConfirmationDialog } from "../../../utils/sweetalert";
 import { emailPublicApi } from "../../publicApi/emailApi";
+import Loader2 from "../../../components/Loader2";
 
 // depende de: './styles/contact.css'
 interface EmailFormProp {
@@ -54,7 +55,7 @@ const EmailForm = ({ setIsReject }: EmailFormProp) => {
         "¿Está seguro de enviar el email?"
       );
       if (confirmed) {
-        // Aquí iría la lógica para crear el producto
+        
         setLoad(true);
         await emailPublicApi.sendEmails(input,onClose, onReject)
         //console.log("Formulario enviado", input);
@@ -78,6 +79,7 @@ const EmailForm = ({ setIsReject }: EmailFormProp) => {
       return true;
     }
   };
+  
   return (
     <div className="container-md modal-content colorBack contactContainer rounded-4 shadow">
       <div className="container mt-5">
@@ -85,6 +87,13 @@ const EmailForm = ({ setIsReject }: EmailFormProp) => {
         <section className="needs-validation" id="sendEmail">
           <div className="row">
             <div className="col-md-12 mb-3">
+              {load?
+              <Loader2
+              fullScreen={false}
+              scale={0.7}
+              />
+              :
+              <>
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">
                   Su email:
@@ -128,6 +137,8 @@ const EmailForm = ({ setIsReject }: EmailFormProp) => {
                 />
                 {error.message && <p className="errorMsg">{error.message}</p>}
               </div>
+              </>
+              }
             </div>
             {load ? (
               <div className="d-flex flex-row me-3">
