@@ -28,18 +28,19 @@ export interface EmailSendOptions {
 export class NodemailerTransport implements IEmailTransport {
   #transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    requireTLS: true,
-    service: 'gmail',
+    port: 465,
+    secure: true,
     auth: {
       user: envConfig.GmailUser,
       pass: envConfig.GmailPass
     },
     tls: {
       rejectUnauthorized: false
-    }
-  })
+    },
+    // Forzar el uso de IPv4 (familia 4)
+    // Esto resuelve el error "ENETUNREACH 2607..." cuando el servidor no tiene IPv6 bien configurado
+    family: 4
+  } as any)
 
   async send(options: EmailSendOptions): Promise<void> {
     await this.#transporter.sendMail({
