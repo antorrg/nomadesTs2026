@@ -28,8 +28,10 @@ export interface EmailSendOptions {
 export class NodemailerTransport implements IEmailTransport {
   #transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false,
+    requireTLS: true,
+    service: 'gmail',
     auth: {
       user: envConfig.GmailUser,
       pass: envConfig.GmailPass
