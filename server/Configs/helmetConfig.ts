@@ -38,8 +38,10 @@ const commonCspDirectives = {
     'https://*.cdninstagram.com',
 
     // Solo desarrollo/local
-    'https://projectproduct-production.up.railway.app',
-    'http://localhost:4000'
+    'https://nomadests2026-production.up.railway.app',
+    'http://localhost:4000',
+    // Solo pruebas
+    'https://c0.klipartz.com/pngpicture/813/118/gratis-png-icono-de-silueta-plantilla-de-persona-en-blanco.png',
   ],
 
   fontSrc: [

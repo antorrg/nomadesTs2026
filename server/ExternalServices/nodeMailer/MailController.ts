@@ -26,7 +26,7 @@ export class MailController {
                 text,
                 replyTo
             });
-            console.log('Estoy en el controller de emailService',{email, issue, message })
+            logger.info('Email enviado exitosamente:'+email)
             res.status(200).json({ message: "Mensaje de contacto enviado exitosamente" });
         } catch (error) {
             logger.error(error);
