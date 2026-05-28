@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect,  type ReactNode } from 'react';
+import React, { createContext, use, useState, useEffect,  type ReactNode } from 'react';
 import { authApi } from '../api/authApi';
 import type { AuthState } from '../types/auth';
 import interceptor from '../api/network/interceptor';
@@ -95,7 +95,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 
 export const useAuth = () => {
-    const context = useContext(AuthContext);
+    const context = use(AuthContext);
     if (context === undefined) {
         throw new Error('useAuth must be used within an AuthProvider');
     }

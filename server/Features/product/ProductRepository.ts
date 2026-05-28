@@ -18,7 +18,7 @@ import { type IRepositoryResponse } from "../../Shared/Interfaces/base.interface
 export class ProductRepository extends BaseRepository<IProduct, CreateProduct, UpdateProduct> implements IProductRepository {
     constructor(emptyObject: IProduct) {
         // Por defecto usamos el parser de lista para los métodos de base (p.ej. getAll / getWithPages)
-        super(Product as any, ProductParser.toListDTO as any, 'Product', 'title', emptyObject)
+        super(Product as any, ProductParser.toListDTO as any, ProductParser.toListQuery, 'Product', 'title', emptyObject)
     }
 
     // --- Implementación de IProductRepository ---

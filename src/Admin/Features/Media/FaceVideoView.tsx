@@ -76,25 +76,24 @@ const FaceVideoView = ({ media }:VideoProps) => {
             <strong>Estado: </strong> {booleanState(mainVideo.enabled)}
           </p>
         </Col>
-        <Col xs={12} md={7}>
-          <Ratio aspectRatio="16x9">
+        <Col xs={12} md={7} className="d-flex justify-content-center align-items-start">
             {mainVideo.url ? (
               <iframe
-                src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(
+                src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(
                   mainVideo.url
-                )}&show_text=true&width=500&height=300&appId`}
-                style={{ border: "none", overflow: "hidden" }}
+                )}&show_text=false`}
+                style={{ border: "none", overflow: "hidden", minHeight: "500px" }}
+                className="rounded border shadow-sm w-100"
                 scrolling="no"
                 frameBorder="0"
                 allowFullScreen={true}
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
               />
             ) : (
-              <div className="d-flex align-items-center justify-content-center border rounded bg-body-tertiary">
+              <div className="d-flex align-items-center justify-content-center border rounded bg-body-tertiary w-100" style={{ minHeight: "500px" }}>
                 No hay video disponible
               </div>
             )}
-          </Ratio>
         </Col>
       </Row>
 
@@ -114,8 +113,9 @@ const FaceVideoView = ({ media }:VideoProps) => {
                 onClick={() => handleVideoSelect(video)}
               >
                 <Ratio aspectRatio="16x9">
-                  <div className="d-flex align-items-center justify-content-center bg-body-tertiary">
-                    Video Facebook
+                  <div className="d-flex flex-column align-items-center justify-content-center bg-body-tertiary text-muted">
+                    <i className="bi bi-facebook fs-1 mb-2" style={{ color: '#1877F2' }}></i>
+                    <span className="small text-center px-2 fw-semibold">{video.title}</span>
                   </div>
                 </Ratio>
               </div>

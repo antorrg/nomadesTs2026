@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark' | 'auto';
 
+const THEME_KEY = 'theme';
+
 export const useTheme = () => {
   // Inicializar estado leyendo localStorage o por defecto 'auto'
   const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
+    const savedTheme = localStorage.getItem(THEME_KEY) as Theme | null;
     return savedTheme && ['light', 'dark', 'auto'].includes(savedTheme) ? savedTheme : 'auto';
   });
 
@@ -57,7 +59,7 @@ export const useTheme = () => {
     };
 
     applyTheme(theme);
-    localStorage.setItem('theme', theme);
+    localStorage.setItem(THEME_KEY, theme);
 
     // Si es auto, escuchar cambios del sistema
     if (theme === 'auto') {
@@ -71,7 +73,7 @@ export const useTheme = () => {
   // 3. SINCRONIZADOR DE ESTADO: Escuchar cambios de localStorage (otras pestañas) o eventos locales
   useEffect(() => {
     const handleStorageChange = () => {
-      const savedTheme = localStorage.getItem('theme') as Theme | null;
+      const savedTheme = localStorage.getItem(THEME_KEY) as Theme | null;
       if (savedTheme && ['light', 'dark', 'auto'].includes(savedTheme)) {
         setTheme(savedTheme);
       }
@@ -93,7 +95,7 @@ export const useTheme = () => {
       else if (prev === 'light') newTheme = 'dark';
       else newTheme = 'auto'; // Default fallback
 
-      localStorage.setItem('theme', newTheme);
+      localStorage.setItem(THEME_KEY, newTheme);
       window.dispatchEvent(new Event('local-theme-change'));
       return newTheme;
     });

@@ -1,8 +1,8 @@
 import React, {
   useState,
   useEffect,
-  useCallback,
-  forwardRef
+  useEffect,
+  useCallback
 } from "react";
 import style from "./Edition.module.css";
 import { useAuth } from "../../context/AuthContext";
@@ -15,20 +15,19 @@ export interface EditionProps
   isDualCondition?: boolean;
 }
 
-const Edition = forwardRef<HTMLButtonElement, EditionProps>(
-  (
-    {
-      allowedRoles,
-      userEditId,
-      text,
-      className,
-      disabled,
-      title,
-      isDualCondition = false,
-      ...props
-    },
-    ref
-  ) => {
+const Edition = (
+  {
+    allowedRoles,
+    userEditId,
+    text,
+    className,
+    disabled,
+    title,
+    isDualCondition = false,
+    ref,
+    ...props
+  }: EditionProps & { ref?: React.Ref<HTMLButtonElement> }
+) => {
     const customClass = className || style.button;
     const { user } = useAuth();
     const [isAllowed, setIsAllowed] = useState(false);
@@ -72,7 +71,7 @@ const Edition = forwardRef<HTMLButtonElement, EditionProps>(
       </button>
     );
   }
-);
+;
 
 Edition.displayName = "Edition";
 

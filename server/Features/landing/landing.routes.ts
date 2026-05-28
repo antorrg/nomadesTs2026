@@ -4,11 +4,11 @@ import {BaseRepository } from '../../Shared/Repositories/BaseRepository.js'
 import { BaseServiceWithImages } from '../../Shared/Services/BaseServiceWithImages.js'
 import { BaseController } from '../../Shared/Controllers/BaseController.js'
 import { ImgsService } from '../../Shared/Services/ImgsService.js'
-import { type ILanding, type CreateLanding, type UpdateLanding, parser, mockLanding } from './landingMappers.js'
+import { type ILanding, type CreateLanding, type UpdateLanding, parser, parserQuery, mockLanding } from './landingMappers.js'
 import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
 
 
-const landRepository = new BaseRepository<ILanding, CreateLanding, UpdateLanding>(Landing, parser as any, 'Landing', 'title', mockLanding as any)
+const landRepository = new BaseRepository<ILanding, CreateLanding, UpdateLanding>(Landing, parser as any, parserQuery, 'Landing', 'title', mockLanding as any)
 
 const landService = new BaseServiceWithImages<ILanding, CreateLanding, UpdateLanding>(
     landRepository as any,

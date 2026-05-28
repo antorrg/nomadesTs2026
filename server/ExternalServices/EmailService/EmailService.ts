@@ -107,11 +107,10 @@ export class EmailService {
   
     let html = await fs.readFile(filePath, 'utf-8')
   
-    // Reemplazo simple de {{variable}} por su valor
-    for (const [key, value] of Object.entries(variables)) {
-      const regex = new RegExp(`{{\\s*${key}\\s*}}`, 'g') // soporta {{ variable }}
-      html = html.replace(regex, String(value))
-    }
+    // Reemplazo usando una única expresión regular global
+    html = html.replace(/{{\s*([\w]+)\s*}}/g, (match, key) => {
+      return variables[key] !== undefined ? String(variables[key]) : match
+    })
   
     return html
   }

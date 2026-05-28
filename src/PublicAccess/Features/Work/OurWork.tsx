@@ -15,7 +15,7 @@ const OurWork = ({featurettes, isLoading}:WorkProps) => {
      <div className="aboutContainer colorBack rounded-4 shadow">
       <div className="modal-content p-2">
         {featurettes?.map((item, index) => (
-          <div key={index}>
+          <div key={item.id ?? index}>
             <div className="row featurette">
               {/* Alterna el orden usando order-md-2 solo en imágenes impares */}
               <div className={`col-md-7 ${index % 2 !== 0 ? 'order-md-2' : ''}`}>

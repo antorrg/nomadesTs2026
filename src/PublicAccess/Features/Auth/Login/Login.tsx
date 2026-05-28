@@ -36,16 +36,16 @@ const Login: React.FC<Props> = ({ loginFn, setLoad }) => {
     password: "",
   });
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
-    setInput({
-      ...input,
+    setInput(prev => ({
+      ...prev,
       [name]: value,
-    });
-    setError({
-      ...error,
+    }));
+    setError(prev => ({
+      ...prev,
       [name]: ValidLogin({ ...input, [name]: value })[name],
-    });
+    }));
   }
 
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
@@ -99,7 +99,7 @@ const Login: React.FC<Props> = ({ loginFn, setLoad }) => {
           value={input.email}
           name="email"
           placeholder="name@example.com"
-          onChange={handleChange}
+          onChange={handleInputChange}
         />
         <label htmlFor="floatingInput">Email address</label>
       </div>
@@ -111,7 +111,7 @@ const Login: React.FC<Props> = ({ loginFn, setLoad }) => {
           value={input.password}
           name="password"
           placeholder="Password"
-          onChange={handleChange}
+          onChange={handleInputChange}
         />
         <label htmlFor="floatingPassword">Password</label>
         <button

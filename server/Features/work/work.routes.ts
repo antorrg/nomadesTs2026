@@ -1,14 +1,14 @@
 import express from 'express'
 import { Work } from '../../Configs/database.js'
 import { BaseRepository } from '../../Shared/Repositories/BaseRepository.js'
-import { parser, mockData } from './workMappers.js'
+import { parser, parserQuery, mockData } from './workMappers.js'
 import {BaseServiceWithImages} from '../../Shared/Services/BaseServiceWithImages.js'
 import {ImgsService} from '../../Shared/Services/ImgsService.js'
 import {BaseController} from '../../Shared/Controllers/BaseController.js'
 import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
 import  {measure} from '../../Shared/Middlewares/measure.js'
 
-const workRepository = new BaseRepository(Work, parser as any, 'Work', 'title', mockData)
+const workRepository = new BaseRepository(Work, parser as any, parserQuery, 'Work', 'title', mockData)
 const workService = new BaseServiceWithImages(workRepository, ImgsService as any, true, 'picture')
 const workController = new BaseController(workService)
 

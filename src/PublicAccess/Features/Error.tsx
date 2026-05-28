@@ -7,10 +7,11 @@ const Error:React.FC = () => {
     const navigate = useNavigate()
 
     useEffect(()=>{
-      setTimeout(()=>{
+      const timer = setTimeout(()=>{
         navigate('/')
       },5000)
-    },[])
+      return () => clearTimeout(timer)
+    },[navigate])
     
     const error = location.state || { status: 'Desconocido', message: 'Ha ocurrido un error inesperado' };
   return (

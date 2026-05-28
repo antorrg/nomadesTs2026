@@ -27,6 +27,18 @@ export const parser = (
     enabled: raw.enabled
   }
 }
+export const parserQuery = (
+  raw:any
+): ILanding => {
+  return {
+    id: raw.id,
+    picture: raw.picture,
+    title: raw.title,
+    info_header: raw.info_header,
+    description: raw.description,
+    enabled: raw.enabled
+  }
+}
 
 export const mockLanding: ILanding[] = [{
   id: 0,

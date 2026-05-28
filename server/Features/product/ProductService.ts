@@ -24,11 +24,11 @@ export class ProductService extends BaseServiceWithImages<IProduct, CreateProduc
 
         // 2. Manejar imágenes de los Ítems creados mediante useImg
         if (data.items && data.items.length > 0) {
-            for (const item of data.items) {
-                if (item.useImg && item.picture) {
-                    await this.releaseImage(item.picture);
-                }
-            }
+            await Promise.all(
+                data.items
+                    .filter(item => item.useImg && item.picture)
+                    .map(item => this.releaseImage(item.picture!))
+            );
         }
 
         return response;
@@ -44,11 +44,11 @@ export class ProductService extends BaseServiceWithImages<IProduct, CreateProduc
 
         // 3. Borrar imágenes de todos los ítems asociados que se borraron en cascada
         if (productRes.results.Items && productRes.results.Items.length > 0) {
-            for (const item of productRes.results.Items) {
-                if (item.picture) {
-                    await this.handleImages(item.picture, false);
-                }
-            }
+            await Promise.all(
+                productRes.results.Items
+                    .filter(item => item.picture)
+                    .map(item => this.handleImages(item.picture!, false))
+            );
         }
 
         return response;

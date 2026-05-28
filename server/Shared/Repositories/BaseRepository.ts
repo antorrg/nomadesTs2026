@@ -1,4 +1,6 @@
-import type { Model, ModelStatic } from 'sequelize'
+import { type Model, type ModelStatic } from 'sequelize'
+import {sequelize } from '../../Configs/database.js'
+import {QueryTypes} from 'sequelize'
 import type { IBaseRepository, IRepositoryResponse, IPaginatedOptions, IPaginatedResults, Direction } from '../Interfaces/base.interface.js'
 import { throwError, processError } from '../../Configs/errorHandlers.js'
 
@@ -8,12 +10,14 @@ export class BaseRepository<
   constructor(
     protected readonly Model: ModelStatic<Model>,
     private readonly parserFn: (model: Model) => TDTO,
+    private readonly parserQuery: (model:any) => TDTO,
     private readonly modelName: string,
     private readonly whereField: keyof TDTO & string,
     protected readonly emptyObject?: TDTO |null
   ) {
     this.Model = Model
     this.parserFn = parserFn
+    this.parserQuery = parserQuery
     this.whereField = whereField
     this.emptyObject = emptyObject
   }
@@ -22,6 +26,7 @@ export class BaseRepository<
     try {
       const whereClause = (field && whereField) ? { [whereField]: field } : {}
       const models = await this.Model.findAll({ where: whereClause })
+
       if (models.length === 0) {
         return {
           message: `${this.Model.name} no contiene datos`,
@@ -162,9 +167,15 @@ export class BaseRepository<
     }
   }
 
-  async getAllScoped(scope: string): Promise<IRepositoryResponse<TDTO[]>> {
+  async getAllScoped(): Promise<IRepositoryResponse<TDTO[]>> {
     try {
-      const models = await this.Model.scope(scope).findAll()
+      const tableName = this.Model.getTableName()
+        const models = await sequelize.query(
+        `SELECT * FROM ${tableName}
+        WHERE enabled = true;
+        `,
+        {type: QueryTypes.SELECT}
+      )
       if (models.length === 0) {
         return {
           message: `${this.Model.name} no contiene datos`,
@@ -172,21 +183,32 @@ export class BaseRepository<
         }
       }
       return {
-        message: `${this.modelName} registros obtenidos correctamente con scope ${scope}`,
-        results: models.map(this.parserFn)
+        message: `${this.modelName} registros obtenidos correctamente`,
+        results: models.map(this.parserQuery)
       }
     } catch (error) {
       return processError(error, `GetAllScoped ${this.Model.name} repository error`)
     }
   }
 
-  async getByIdScoped(id: string | number, scope: string): Promise<IRepositoryResponse<TDTO>> {
+    async getByIdScoped(id: string | number): Promise<IRepositoryResponse<TDTO>> {
     try {
-      const model = await this.Model.scope(scope).findByPk(id)
-      if (!model) throwError(`${this.modelName} no encontrado o no disponible con scope ${scope}`, 404)
+        const tableName = this.Model.getTableName()
+      const model = await sequelize.query(
+        `SELECT * FROM ${tableName}
+         WHERE enabled= true,
+         id= :id
+
+        `,
+        {
+          replacements: {id},
+          type: QueryTypes.DELETE
+        }
+      )
+      if (model===null) throwError(`${this.modelName} no encontrado o no disponible`, 404)
       return {
-        message: `${this.modelName} registro obtenido correctamente con scope ${scope}`,
-        results: this.parserFn(model!)
+        message: `${this.modelName} registro obtenido correctamente`,
+        results: this.parserQuery(model!)
       }
     } catch (error) {
       return processError(error, `GetByIdScoped ${this.Model.name} repository error`)

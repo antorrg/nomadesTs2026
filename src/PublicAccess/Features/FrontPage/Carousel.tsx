@@ -14,7 +14,7 @@ const MyCarousel = ({ products, infoImg }:ProducTypes) => {
   return (
     <Carousel>
       {info?.map((item, index) => (
-        <Carousel.Item key={index}>
+        <Carousel.Item key={item.id ?? index}>
           {!infoImg?
           <img
             className="d-block w-100"

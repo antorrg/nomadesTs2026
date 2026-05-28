@@ -3,10 +3,10 @@ import { Media } from '../../Configs/database.js'
 import {BaseRepository } from '../../Shared/Repositories/BaseRepository.js'
 import { BaseService } from '../../Shared/Services/BaseService.js'
 import { BaseController } from '../../Shared/Controllers/BaseController.js'
-import {type IMedia, type CreateMedia, type UpdateMedia, parser, mockMedia } from './mediaMappers.js'
+import {type IMedia, type CreateMedia, type UpdateMedia, parser, parserQuery,mockMedia } from './mediaMappers.js'
 import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
 
-const mediaRepository = new BaseRepository<IMedia, CreateMedia, UpdateMedia>(Media, parser as any, 'Media', 'title', mockMedia as any)
+const mediaRepository = new BaseRepository<IMedia, CreateMedia, UpdateMedia>(Media, parser as any, parserQuery, 'Media', 'title', mockMedia as any)
 
 const mediaService = new BaseService<IMedia, CreateMedia, UpdateMedia>(
     mediaRepository as any)

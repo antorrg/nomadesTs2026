@@ -71,9 +71,30 @@ export class ProductParser {
             Items: raw.Items ? raw.Items.map((item: any) => ItemParser.toDTO(item, true)) : undefined
         }
     }
+       static toDetailQuery(raw: any): IProduct {
+        return {
+            id: raw.id,
+            title: raw.title,
+            picture: raw.picture,
+            info_header: raw.info_header,
+            info_body: raw.info_body,
+            enabled: raw.enabled,
+            Items: raw.Items ? raw.Items.map((item: any) => ItemParser.toDTO(item, true)) : undefined
+        }
+    }
 
     static toListDTO(p: any): ProductsResponse {
         const raw = p.get ? p.get({ plain: true }) : p
+        return {
+            id: raw.id,
+            title: raw.title,
+            picture: raw.picture,
+            info_header: raw.info_header,
+            info_body: raw.info_body,
+            enabled: raw.enabled
+        }
+    }
+        static toListQuery(raw: any): ProductsResponse {
         return {
             id: raw.id,
             title: raw.title,

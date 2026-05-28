@@ -66,21 +66,22 @@ const InstagramVideo = ({ media }: InstagramVideoProps) => {
           </h2>
           <p className="lead">{mainVideo.text}</p>
         </Col>
-        <Col xs={12} md={7}>
-          <Ratio aspectRatio="16x9">
+        <Col xs={12} md={7} className="d-flex justify-content-center align-items-start">
             {mainVideo.url ? (
               <iframe
                 src={getEmbedUrl(mainVideo.url)}
                 title="Instagram Reel"
+                className="rounded border shadow-sm"
+                style={{ width: "100%", maxWidth: "350px", height: "600px", border: "none", overflow: "hidden" }}
+                scrolling="no"
                 frameBorder="0"
                 allowFullScreen
               />
             ) : (
-              <div className="d-flex align-items-center justify-content-center border rounded bg-body-tertiary">
+              <div className="d-flex align-items-center justify-content-center border rounded bg-body-tertiary w-100" style={{ maxWidth: "350px", height: "600px" }}>
                 No hay video disponible
               </div>
             )}
-          </Ratio>
         </Col>
       </Row>
       {/* Lista de Miniaturas */}
@@ -100,8 +101,9 @@ const InstagramVideo = ({ media }: InstagramVideoProps) => {
                   onClick={() => handleVideoSelect(video)}
                 >
                   <Ratio aspectRatio="16x9">
-                    <div className="d-flex align-items-center justify-content-center bg-body-tertiary">
-                      Video Instagram
+                    <div className="d-flex flex-column align-items-center justify-content-center bg-body-tertiary text-muted">
+                      <i className="bi bi-instagram fs-1 mb-2" style={{ color: '#E1306C' }}></i>
+                      <span className="small text-center px-2 fw-semibold">{video.title}</span>
                     </div>
                   </Ratio>
                 </div>

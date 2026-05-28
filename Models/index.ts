@@ -7,6 +7,7 @@ import Landing from './landing.model.js'
 import Media from './media.model.js'
 import Image from './images.model.js'
 import Work from './work.model.js'
+//import Client from './clients.model.js'
 
 export default {
   User,
@@ -18,4 +19,5 @@ export default {
   Media,
   Image,
   Work,
+  //Client,
 }

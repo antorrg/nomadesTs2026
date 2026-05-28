@@ -27,6 +27,18 @@ export const parser = (
     enabled: raw.enabled
   }
 }
+export const parserQuery = (
+  raw:any
+): IMedia => {
+  return {
+    id: raw.id,
+    url: raw.url,
+    type: raw.type,
+    title: raw.title,
+    text: raw.text,
+    enabled: raw.enabled
+  }
+}
 
 export const mockMedia: IMedia[] = [{
     id: 0,

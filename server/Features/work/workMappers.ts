@@ -23,7 +23,18 @@ import envConfig from '../../Configs/envConfig.js'
       enabled: raw.enabled
     }
   }
-
+  export const parserQuery = (
+   raw:any
+  ): IWork => {
+    
+    return {
+      id: raw.id,
+      title: raw.title,
+      picture: raw.picture,
+      text: raw.text,
+      enabled: raw.enabled
+    }
+  }
   
 export const mockData: IWork = {
       id: 0,
