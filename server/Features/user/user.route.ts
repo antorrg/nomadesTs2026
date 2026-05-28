@@ -13,7 +13,7 @@ import { emailService } from '../../ExternalServices/EmailService/EmailService.j
 import { authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
 import { allowedQueryValues } from '../../Shared/Utils/allowedQueryValues.js'
 
-export const userRepository = new UserRepository(User, userParser, 'User', 'email', mockData as any)
+export const userRepository = new UserRepository(User, userParser, userParser, 'User', 'email', mockData as any)
 export const userService = new UserService(userRepository, ImgsService as any, false, 'picture', emailService)
 const user = new UserController(userService as any)
 
