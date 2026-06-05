@@ -23,7 +23,9 @@ interface DeleteResponse {
   message: string
   result: Record<string, unknown>
 }
-
+function forceHttps(url: string): string {
+  return url.replace(/^http:\/\//i, 'https://')
+}
 // Funciones con tipos correctos
 async function testCloudinaryConnection(): Promise<boolean> {
   try {
@@ -58,8 +60,8 @@ async function uploadToCloudinary(file: Express.Multer.File): Promise<string> {
   }
   try {
     const result = await uploadStream(file.buffer, options)
-    console.log('result', result.url)
-    return result.url as string
+    console.log('result', result.secure_url)
+    return result.secure_url as string
   } catch (error) {
     throw error
   }
