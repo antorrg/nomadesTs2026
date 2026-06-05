@@ -82,7 +82,7 @@ const commonCspDirectives = {
   formAction: ["'self'"],
 
   requireTrustedTypesFor: ["'script'"],
-  trustedTypes: ["default"],
+  trustedTypes: ["default"]
 
 }
 
@@ -117,7 +117,6 @@ export const helmetDevConfig: HelmetOptions = {
 export const helmetProdConfig: HelmetOptions = {
   contentSecurityPolicy: {
     useDefaults: true,
-    reportOnly:true,
     directives: {
       ...commonCspDirectives
     }
