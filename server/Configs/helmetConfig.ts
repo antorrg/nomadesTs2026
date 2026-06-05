@@ -39,9 +39,8 @@ const commonCspDirectives = {
 
     // Solo desarrollo/local
     'https://nomadests2026-production.up.railway.app',
-    'http://localhost:4000',
     // Solo pruebas
-    'https://c0.klipartz.com/pngpicture/813/118/gratis-png-icono-de-silueta-plantilla-de-persona-en-blanco.png',
+    
   ],
 
   fontSrc: [
@@ -80,7 +79,11 @@ const commonCspDirectives = {
   ],
 
   // Opcional, pero útil para endurecer formularios
-  formAction: ["'self'"]
+  formAction: ["'self'"],
+
+  requireTrustedTypesFor: ["'script'"],
+  trustedTypes: ["default"],
+
 }
 
 export const helmetDevConfig: HelmetOptions = {
@@ -92,7 +95,8 @@ export const helmetDevConfig: HelmetOptions = {
       imgSrc: [
         ...commonCspDirectives.imgSrc,
         'http://localhost:5173',
-        'http://localhost:4000'
+        'http://localhost:4000',
+        'https://c0.klipartz.com/pngpicture/813/118/gratis-png-icono-de-silueta-plantilla-de-persona-en-blanco.png',
       ],
 
       connectSrc: [
@@ -113,6 +117,7 @@ export const helmetDevConfig: HelmetOptions = {
 export const helmetProdConfig: HelmetOptions = {
   contentSecurityPolicy: {
     useDefaults: true,
+    reportOnly:true,
     directives: {
       ...commonCspDirectives
     }
