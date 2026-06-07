@@ -41,7 +41,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             } else {
                 throw new Error();
             }
-        } catch (error) {
+        } catch {
             setState({
                 user: null,
                 isAuthenticated: false,

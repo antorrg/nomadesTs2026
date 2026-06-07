@@ -41,7 +41,7 @@ const SystemLogsViewer = () => {
         try {
             await systemLogsApi.update(log.id, { keep: !log.keep });
             await fetchLogs();
-        } catch (e) {
+        } catch {
             setLoading(false);
         }
     };
@@ -57,7 +57,7 @@ const SystemLogsViewer = () => {
         try {
             await systemLogsApi.delete(id);
             await fetchLogs();
-        } catch (e) {
+        } catch {
             setLoading(false);
         }
     };
@@ -75,7 +75,7 @@ const SystemLogsViewer = () => {
             await systemLogsApi.deleteAll();
             setPage(1);
             await fetchLogs();
-        } catch (e) {
+        } catch {
              setLoading(false);
         }
     };

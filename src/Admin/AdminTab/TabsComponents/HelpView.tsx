@@ -1,9 +1,7 @@
-import { useNavigate } from "react-router-dom";
 import { Accordion } from "react-bootstrap";
 import * as text from "../../../utils/infoHelpers";
 
 const HelpView = () => {
-  const navigate = useNavigate();
   return (
     <>
       <div className="container-sm">

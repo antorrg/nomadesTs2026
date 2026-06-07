@@ -1,1 +1,1 @@
-import { adminApi } from '../../api/api';
+export {};

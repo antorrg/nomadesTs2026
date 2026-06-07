@@ -6,7 +6,6 @@ import Marketing from '../Features/FrontPage/Marketing';
 import SocialNetworks from '../Features/FrontPage/SocialNetworks';
 import Footer from '../../components/Layout/Footer';
 import { useHomePageData } from '../../hooks/useHomePageData';
-import Loading from '../../components/Loading';
 
 const Home: React.FC = () => {
     const {

@@ -53,7 +53,7 @@ const Product = () => {
         reject: () => setLoad(false)
       } 
     )     
-  }catch(error){
+  }catch{
     setLoad(false)
   }
   };

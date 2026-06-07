@@ -7,7 +7,7 @@ import ThemeSwitcher from '../ThemeSwitcher'
 
 
 const Header: React.FC = () => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated } = useAuth();
   
   const navigate = useNavigate();
   return (
