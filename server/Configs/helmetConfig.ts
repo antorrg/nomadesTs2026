@@ -120,7 +120,12 @@ export const helmetProdConfig: HelmetOptions = {
     directives: {
       ...commonCspDirectives
     }
-  }
+  },
+    strictTransportSecurity: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+   // preload: true
+  },
 }
 
 
