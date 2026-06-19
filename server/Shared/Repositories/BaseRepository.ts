@@ -1,7 +1,7 @@
 import { type CreationAttributes, type Model, type ModelStatic, type WhereOptions } from 'sequelize'
 import {sequelize } from '../../Configs/database.js'
 import {QueryTypes} from 'sequelize'
-import type { IBaseRepository, IRepositoryResponse, IPaginatedOptions, IPaginatedResults, Direction } from '../Interfaces/base.interface.js'
+import type { IBaseRepository, IRepositoryResponse, IPaginatedOptions, IPaginatedResults } from '../Interfaces/base.interface.js'
 import { throwError, processError } from '../../Configs/errorHandlers.js'
 
 export class BaseRepository<

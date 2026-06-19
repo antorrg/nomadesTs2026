@@ -79,10 +79,7 @@ const commonCspDirectives = {
   ],
 
   // Opcional, pero útil para endurecer formularios
-  formAction: ["'self'"],
-
-  requireTrustedTypesFor: ["'script'"],
-  trustedTypes: ["default"]
+  formAction: ["'self'"]
 
 }
 

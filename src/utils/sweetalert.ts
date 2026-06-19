@@ -1,14 +1,16 @@
-let mySwalInstance: any = null;
+import type { SweetAlertResult } from 'sweetalert2';
+
+type ReactSwalInstance = ReturnType<typeof import('sweetalert2-react-content').default>;
+
+let mySwalInstance: ReactSwalInstance | null = null;
 
 export const getSwal = async () => {
     if (!mySwalInstance) {
         const [{ default: Swal }, { default: withReactContent }] = await Promise.all([
             import('sweetalert2'),
-            import('sweetalert2-react-content'),
-            import('sweetalert2/themes/bootstrap-5.css')
+            import('sweetalert2-react-content')
         ]);
         mySwalInstance = withReactContent(Swal);
-        mySwalInstance.DismissReason = Swal.DismissReason;
     }
     return mySwalInstance;
 };
@@ -54,7 +56,7 @@ const complexDialog = async (
         confirmButtonText: "Si",
         cancelButtonText: "No, cancelar",
         reverseButtons: true
-    }).then((result: any) => {
+    }).then((result: SweetAlertResult) => {
         if (result.isConfirmed) {
             swalWithBootstrapButtons.fire({
                 title: aTitle,
