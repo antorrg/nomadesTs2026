@@ -8,7 +8,7 @@ import { create, update} from './validationSchemas/productschemas.js'
 import { itemCreate, itemUpdate } from "./validationSchemas/itemSchemas.js";
 import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
 
-const repository = new ProductRepository(mockProduct as any)
+const repository = new ProductRepository(mockProduct)
 const service = new ProductService(repository)
 const controller = new ProductController(service)
 

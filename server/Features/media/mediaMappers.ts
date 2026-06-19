@@ -1,3 +1,4 @@
+import { type Model } from 'sequelize'
 import {Media } from '../../../Models/media.model.js'
 
 
@@ -12,12 +13,13 @@ export interface IMedia {
 export type CreateMedia = Partial<IMedia>
 export type UpdateMedia = Partial<IMedia>
 
+type MediaRaw = Omit<IMedia, never>
 
 
 export const parser = (
-  u: InstanceType<typeof Media>
+  u: InstanceType<typeof Media> | Model
 ): IMedia => {
-  const raw = u.get({ plain: true })
+  const raw = u.get({ plain: true }) as MediaRaw
   return {
     id: raw.id,
     url: raw.url,
@@ -28,8 +30,9 @@ export const parser = (
   }
 }
 export const parserQuery = (
-  raw:any
+  data: unknown
 ): IMedia => {
+  const raw = data as MediaRaw
   return {
     id: raw.id,
     url: raw.url,

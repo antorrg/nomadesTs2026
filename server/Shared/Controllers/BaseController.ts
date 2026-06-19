@@ -8,11 +8,11 @@ export class BaseController<TDTO, TCreate, TUpdate> {
     this.service = service
   }
 
-  static responder(res: Response, status: number, success: boolean, message: string, results: any) {
+  static responder(res: Response, status: number, success: boolean, message: string, results: unknown) {
     return res.status(status).json({ success, message, results })
   }
 
-  static responderWithInfo(res: Response, status: number, success: boolean, message: string, info: PaginateInfo, results: any) {
+  static responderWithInfo(res: Response, status: number, success: boolean, message: string, info: PaginateInfo, results: unknown) {
     return res.status(status).json({ success, message, info, results })
   }
 
@@ -53,7 +53,7 @@ export class BaseController<TDTO, TCreate, TUpdate> {
     BaseController.responder(res, 200, true, message, results)
   }
 
-  // Métodos para acceso público (usan el scope por defecto 'enabledOnly')
+  // Métodos para acceso público
   getAllPublic = async (_req: Request, res: Response) => {
     const { message, results } = await this.service.getAllScoped()
     BaseController.responder(res, 200, true, message, results)

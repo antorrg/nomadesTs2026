@@ -1,9 +1,10 @@
 import { uploadToCloudinary, deleteFromCloudinary } from '../../ExternalServices/cloudinary.js'
 import MockImgsService from './MockImgsService.js'
 import envConfig from '../../Configs/envConfig.js'
-import { throwError } from '../../Configs/errorHandlers.js'
 import { imageRepository } from '../dependencies.js'
 import logger from '../../Configs/logger.js'
+import { type UploadedImageFile } from '../Interfaces/base.interface.js'
+import { type CreateImages } from '../../Features/images/Images.interface.js'
 
 //Cambiar la segunda opcion por el servicio de imagenes creado
 const deleteImageByUrl = envConfig.Status !== 'production' ? MockImgsService.mockFunctionDelete : deleteFromCloudinary
@@ -18,28 +19,28 @@ export type ImageApi = {
 
 export class ImgsService {
 
-  static uploadNewImage = async (file: any) => {
+  static uploadNewImage = async (file: UploadedImageFile): Promise<string> => {
     return await selectUploaders(file)
   }
 
-  static deleteImage = async (imageUrl: string) => {
+  static deleteImage = async (imageUrl: string): Promise<string | undefined> => {
     // 1. Borrar de almacenamiento (Cloudinary o Mock)
     const storageRes = await this.handleImages(imageUrl, false)
     // 2. Borrar del repositorio (DB)
-    await imageRepository.deleteImageFromDbByUrl(imageUrl as any)
+    await imageRepository.deleteImageFromDbByUrl(imageUrl)
     return storageRes
   }
-  static releaseImageFromDb = async (imageUrl: string) => {
-    await imageRepository.deleteImageFromDbByUrl(imageUrl as any)
+  static releaseImageFromDb = async (imageUrl: string): Promise<string | undefined> => {
+    return await imageRepository.deleteImageFromDbByUrl(imageUrl)
   }
-  static handleImages = async (data: DataImage, isSaved: boolean) => {
+  static handleImages = async (data: string, isSaved: boolean): Promise<string | undefined> => {
     try {
-      let res;
-      isSaved === true ?
-        res = await imageRepository.saveImage({ imageUrl: data } as any)
-        :
-        res = await deleteImageByUrl(data as any)
-      return res
+      if (isSaved) {
+        const image = await imageRepository.saveImage({ imageUrl: data } satisfies CreateImages)
+        return image.imageUrl
+      }
+
+      return await deleteImageByUrl(data)
     } catch (error) {
       logger.error(error)
       throw error
@@ -49,4 +50,3 @@ export class ImgsService {
 }
 //*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // import { deleteFromCloudinary, uploadToCloudinary } from '../../cloudinary.js'
-

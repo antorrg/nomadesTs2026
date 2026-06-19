@@ -3,7 +3,7 @@ import type { Model, ModelStatic } from 'sequelize'
 import { throwError } from '../../Configs/errorHandlers.js'
 import logger from '../../Configs/logger.js'
 
-export class ImageRepository<Images, CreateImages> implements ImagesRepository<Images, CreateImages> {
+export class ImageRepository implements ImagesRepository<Images, CreateImages> {
     constructor(
         protected readonly model: ModelStatic<Model>,
         private readonly parserFn: (model: Model) => Images,
@@ -17,7 +17,7 @@ export class ImageRepository<Images, CreateImages> implements ImagesRepository<I
     }
     async saveImage(data: CreateImages): Promise<Images> {
         try {
-            const { imageUrl } = data as any
+            const { imageUrl } = data
             const image = await this.model.findOne({ where: { imageUrl } })
             if (image) return this.parserFn(image)  // Idempotente: si ya existe, la devuelve
 
@@ -59,7 +59,7 @@ export class ImageRepository<Images, CreateImages> implements ImagesRepository<I
             throw error
         }
     }
-        async deleteImageFromDbByUrl(dataImage: string | number, isId: boolean = false): Promise<string> {
+        async deleteImageFromDbByUrl(dataImage: string | number): Promise<string> {
         try {
             const image = await this.model.findOne({ where: { imageUrl: ImageRepository.#dataParsed(dataImage) } })
                 if (!image) { throwError('Imagen no hallada', 404) }

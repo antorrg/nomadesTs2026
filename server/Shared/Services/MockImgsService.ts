@@ -2,12 +2,13 @@ import { throwError } from '../../Configs/errorHandlers.js'
 import fs from 'fs/promises'
 import path from 'path'
 import envConfig from '../../Configs/envConfig.js'
+import { type UploadedImageFile } from '../Interfaces/base.interface.js'
 
 const LocalBaseUrl = process.env.LOCAL_BASE_URL || `http://localhost:${envConfig.Port}`
 
 export default class MockImgsService {
   static #uploadDirectory = `./${envConfig.TestImagesUploadDir}`
-  static mockUploadNewImage = async (file: any) => {
+  static mockUploadNewImage = async (file: UploadedImageFile): Promise<string> => {
     const uploadDir = MockImgsService.#uploadDirectory
     try {
       // Asegurarse que exista la carpeta
@@ -31,8 +32,8 @@ export default class MockImgsService {
       await fs.unlink(filePath)
      // console.log(`Image ${filePath} deleted successfully`)
       return `Image ${filePath} deleted successfully`
-    } catch (err: any) {
-      if (err.code === 'ENOENT') {
+    } catch (err: unknown) {
+      if (isNodeError(err) && err.code === 'ENOENT') {
         return `Image ${filePath} already deleted or not found`
       }
       //console.error(`Error al borrar imagen local: ${filename}`, err)
@@ -40,3 +41,5 @@ export default class MockImgsService {
     }
   }
 }
+
+const isNodeError = (err: unknown): err is NodeJS.ErrnoException => err instanceof Error

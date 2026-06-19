@@ -24,6 +24,7 @@ export interface IPaginatedResults<TDTO> {
 
 }
 export type TUpdate<T> = Partial<Omit<T, 'id'>>
+export type UploadedImageFile = Express.Multer.File
 export interface IBaseRepository<TDTO, TCreate, TUpdate> {
   getAll: (field?: unknown, whereField?: keyof TDTO | string) => Promise<IRepositoryResponse<TDTO[]>>
   getById: (id: string | number) => Promise<IRepositoryResponse<TDTO>>
@@ -32,16 +33,16 @@ export interface IBaseRepository<TDTO, TCreate, TUpdate> {
   create: (data: TCreate) => Promise<IRepositoryResponse<TDTO>>
   update: (id: string | number, data: TUpdate) => Promise<IRepositoryResponse<TDTO>>
   delete: (id: string | number) => Promise<IRepositoryResponse<string>>
-  getAllScoped: (scope: string) => Promise<IRepositoryResponse<TDTO[]>>
-  getByIdScoped: (id: string | number, scope: string) => Promise<IRepositoryResponse<TDTO>>
+  getAllScoped: () => Promise<IRepositoryResponse<TDTO[]>>
+  getByIdScoped: (id: string | number) => Promise<IRepositoryResponse<TDTO>>
 }
 export interface IExternalImageDeleteService<T> {
   deleteImage: (imageInfo: T) => Promise<string | undefined>
   releaseImageFromDb: (imageInfo: T) => Promise<string | undefined>
   handleImages: (imageInfo: T, isSaved: boolean) => Promise<string | undefined>
 }
-export const mockImageDeleteService: IExternalImageDeleteService<any> = {
-  deleteImage: async (_imageInfo: any) => await Promise.resolve('true'),
-  releaseImageFromDb: async (_imageInfo: any) => await Promise.resolve('true'),
-  handleImages: async (_imageInfo: any, isSaved: boolean) => await Promise.resolve('true')
+export const mockImageDeleteService: IExternalImageDeleteService<unknown> = {
+  deleteImage: async (_imageInfo: unknown) => await Promise.resolve('true'),
+  releaseImageFromDb: async (_imageInfo: unknown) => await Promise.resolve('true'),
+  handleImages: async (_imageInfo: unknown, _isSaved: boolean) => await Promise.resolve('true')
 }

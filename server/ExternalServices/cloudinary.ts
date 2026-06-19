@@ -3,6 +3,7 @@ import envConfig from '../Configs/envConfig.js'
 import path from 'path'
 import {throwError} from '../Configs/errorHandlers.js'
 import logger from '../Configs/logger.js'
+import { type UploadedImageFile } from '../Shared/Interfaces/base.interface.js'
 
 // Tipos
 interface CloudinaryUploadOptions {
@@ -52,7 +53,7 @@ const uploadStream = (buffer: Buffer, options: CloudinaryUploadOptions): Promise
   })
 }
 
-async function uploadToCloudinary(file: Express.Multer.File): Promise<string> {
+async function uploadToCloudinary(file: UploadedImageFile): Promise<string> {
   const options: CloudinaryUploadOptions = {
     resource_type: 'auto',
     public_id: path.parse(file.originalname).name,
@@ -85,7 +86,7 @@ function extractPublicIdFromUrl(url: string): string {
   }
 }
 
-async function deleteFromCloudinary(imageUrl: string): Promise<DeleteResponse> {
+async function deleteFromCloudinary(imageUrl: string): Promise<string> {
   try {
     const publicId = decodeURIComponent(extractPublicIdFromUrl(imageUrl))
 //    console.log('publicId:', publicId)
@@ -94,11 +95,12 @@ async function deleteFromCloudinary(imageUrl: string): Promise<DeleteResponse> {
     //console.log(result)
     
     if (result.result === 'ok') {
-      return {
+      const response: DeleteResponse = {
         success: true,
         message: 'Imagen eliminada correctamente',
         result
       }
+      return response.message
     } else {
      return throwError('Error al eliminar imagen', 500)
     }

@@ -1,3 +1,4 @@
+import { type Model } from "sequelize"
 import { type IRepositoryResponse } from "../../Shared/Interfaces/base.interface.js"
 
 export interface IItem {
@@ -32,6 +33,9 @@ export type UpdateProduct = Partial<Omit<IProduct, 'id' | 'Items'>> & {
     saver?: boolean
 }
 export type ProductsResponse = Omit<IProduct, 'Items'>
+type ItemRaw = IItem
+type ProductRaw = IProduct
+type Parseable<T> = T | Model
 
 export interface IProductRepository {
     getProducts: () => Promise<IRepositoryResponse<ProductsResponse[]>>
@@ -40,13 +44,13 @@ export interface IProductRepository {
     createItem: (data: CreateItem) => Promise<IRepositoryResponse<IItem>>
     updateItem: (id: number, data: UpdateItem) => Promise<IRepositoryResponse<IItem>>
     deleteItem: (id: number) => Promise<IRepositoryResponse<string>>
-    getByIdScoped: (id: number, scope: string) => Promise<IRepositoryResponse<IProduct>>
-    getItemScoped: (id: number, scope?: string) => Promise<IRepositoryResponse<IItem>>
+    getByIdScoped: (id: number) => Promise<IRepositoryResponse<IProduct>>
+    getItemScoped: (id: number) => Promise<IRepositoryResponse<IItem>>
 }
 
 export class ItemParser {
-    static toDTO(i: any, short: boolean= false): IItem {
-        const raw = i.get ? i.get({ plain: true }) : i
+    static toDTO(i: Parseable<ItemRaw>, short: boolean= false): IItem {
+        const raw = toRaw<ItemRaw>(i)
         
         return {
             id: raw.id,
@@ -59,8 +63,8 @@ export class ItemParser {
 }
 
 export class ProductParser {
-    static toDetailDTO(p: any): IProduct {
-        const raw = p.get ? p.get({ plain: true }) : p
+    static toDetailDTO(p: Parseable<ProductRaw>): IProduct {
+        const raw = toRaw<ProductRaw>(p)
         return {
             id: raw.id,
             title: raw.title,
@@ -68,10 +72,11 @@ export class ProductParser {
             info_header: raw.info_header,
             info_body: raw.info_body,
             enabled: raw.enabled,
-            Items: raw.Items ? raw.Items.map((item: any) => ItemParser.toDTO(item, true)) : undefined
+            Items: raw.Items ? raw.Items.map((item) => ItemParser.toDTO(item, true)) : undefined
         }
     }
-       static toDetailQuery(raw: any): IProduct {
+       static toDetailQuery(data: unknown): IProduct {
+        const raw = data as ProductRaw
         return {
             id: raw.id,
             title: raw.title,
@@ -79,12 +84,12 @@ export class ProductParser {
             info_header: raw.info_header,
             info_body: raw.info_body,
             enabled: raw.enabled,
-            Items: raw.Items ? raw.Items.map((item: any) => ItemParser.toDTO(item, true)) : undefined
+            Items: raw.Items ? raw.Items.map((item) => ItemParser.toDTO(item, true)) : undefined
         }
     }
 
-    static toListDTO(p: any): ProductsResponse {
-        const raw = p.get ? p.get({ plain: true }) : p
+    static toListDTO(p: Parseable<ProductRaw>): ProductsResponse {
+        const raw = toRaw<ProductRaw>(p)
         return {
             id: raw.id,
             title: raw.title,
@@ -94,7 +99,8 @@ export class ProductParser {
             enabled: raw.enabled
         }
     }
-        static toListQuery(raw: any): ProductsResponse {
+        static toListQuery(data: unknown): ProductsResponse {
+        const raw = data as ProductRaw
         return {
             id: raw.id,
             title: raw.title,
@@ -115,7 +121,8 @@ export const mockProduct: ProductsResponse[] = [{
     enabled: true
 }]
 
-const truncateText = (text:string , wordLimit = 10): string => {
+const truncateText = (text: string | null, wordLimit = 10): string | null => {
+  if (!text) return text
   const words = text.split(' ') // Ejemplo de uso
   if (words.length <= wordLimit) { //   const text = "Texto de ejemplo";
     return text
@@ -123,3 +130,17 @@ const truncateText = (text:string , wordLimit = 10): string => {
   const truncatedWords = words.slice(0, wordLimit)
   return truncatedWords.join(' ') + '...'
 }
+
+const toRaw = <T>(value: Parseable<T>): T => {
+    if (isSequelizeModel(value)) {
+        return value.get({ plain: true }) as T
+    }
+    return value
+}
+
+const isSequelizeModel = (value: unknown): value is Model => (
+    typeof value === 'object' &&
+    value !== null &&
+    'get' in value &&
+    typeof (value as { get: unknown }).get === 'function'
+)

@@ -16,16 +16,16 @@ import {
 import { type IRepositoryResponse } from "../../Shared/Interfaces/base.interface.js";
 
 export class ProductRepository extends BaseRepository<IProduct, CreateProduct, UpdateProduct> implements IProductRepository {
-    constructor(emptyObject: IProduct) {
+    constructor(emptyObject: IProduct | IProduct[]) {
         // Por defecto usamos el parser de lista para los métodos de base (p.ej. getAll / getWithPages)
-        super(Product as any, ProductParser.toListDTO as any, ProductParser.toListQuery, 'Product', 'title', emptyObject)
+        super(Product, ProductParser.toListDTO, ProductParser.toListQuery, 'Product', 'title', emptyObject)
     }
 
     // --- Implementación de IProductRepository ---
 
     async getProducts(): Promise<IRepositoryResponse<ProductsResponse[]>> {
         // getAll ya usa ProductParser.toListDTO configurado en el constructor
-        return await this.getAll() as any
+        return await this.getAll()
     }
 
     async getProductById(id: number): Promise<IRepositoryResponse<IProduct>> {
@@ -37,7 +37,7 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
 
             return {
                 message: 'Product retrieved successfully',
-                results: ProductParser.toDetailDTO(model)
+                results: ProductParser.toDetailDTO(model!)
             }
         } catch (error) {
             return processError(error, 'GetProductById repository error')
@@ -50,7 +50,7 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
             if (!model) throwError('Item not found', 404)
             return {
                 message: 'Item retrieved successfully',
-                results: ItemParser.toDTO(model)
+                results: ItemParser.toDTO(model!)
             }
         } catch (error) {
             return processError(error, 'GetItem repository error')
@@ -60,21 +60,22 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
     async createProduct(data: CreateProduct): Promise<IRepositoryResponse<IProduct>> {
         const t = await sequelize.transaction()
         try {
-            const { items, ...productData } = data
+            const { items, useImg, ...productData } = data
 
-            const product = await Product.create(productData as any, { transaction: t })
+            const product = await Product.create(productData, { transaction: t })
+            const productId = Number(product.get('id'))
 
             if (items && items.length > 0) {
-                const itemsToCreate = items.map(item => ({
+                const itemsToCreate = items.map(({ useImg, ...item }) => ({
                     ...item,
-                    ProductId: (product as any).id
+                    ProductId: productId
                 }))
-                await Item.bulkCreate(itemsToCreate as any, { transaction: t })
+                await Item.bulkCreate(itemsToCreate, { transaction: t })
             }
 
             await t.commit()
 
-            return await this.getProductById((product as any).id)
+            return await this.getProductById(productId)
         } catch (error) {
             await t.rollback()
             return processError(error, 'CreateProduct repository error')
@@ -93,7 +94,8 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
 
     async createItem(data: CreateItem): Promise<IRepositoryResponse<IItem>> {
         try {
-            const model = await Item.create(data as any)
+            const { useImg, ...itemData } = data
+            const model = await Item.create(itemData)
             return {
                 message: 'Item created successfully',
                 results: ItemParser.toDTO(model)
@@ -107,7 +109,8 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
         try {
             const model = await Item.findByPk(id)
             if (!model) throwError('Item not found', 404)
-            const updated = await model!.update(data as any)
+            const { useImg, saver, ...itemData } = data
+            const updated = await model!.update(itemData)
             return {
                 message: 'Item updated successfully',
                 results: ItemParser.toDTO(updated)
@@ -131,29 +134,30 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
             return processError(error, 'DeleteItem repository error')
         }
     }
-    override async getByIdScoped(id: string | number, scope: string = 'enabledOnly'): Promise<IRepositoryResponse<IProduct>> {
+    override async getByIdScoped(id: string | number): Promise<IRepositoryResponse<IProduct>> {
         try {
-            const model = await this.Model.scope(scope).findByPk(id, {
+            const model = await this.Model.findOne({
+                where: { id, enabled: true },
                 include: [{ model: Item, as: 'Items', where: { enabled: true } }]
             })
             if (!model) throwError('Product not found', 404)
 
             return {
                 message: 'Product retrieved successfully',
-                results: ProductParser.toDetailDTO(model)
+                results: ProductParser.toDetailDTO(model!)
             }
         } catch (error) {
             return processError(error, 'GetProductById repository error')
         }
     }
 
-    async getItemScoped(id: number, scope: string = 'enabledOnly'): Promise<IRepositoryResponse<IItem>> {
+    async getItemScoped(id: number): Promise<IRepositoryResponse<IItem>> {
         try {
-            const model = await Item.scope(scope).findByPk(id)
+            const model = await Item.findOne({ where: { id, enabled: true } })
             if (!model) throwError(`Item not found or not available`, 404)
             return {
                 message: `Item retrieved successfully`,
-                results: ItemParser.toDTO(model)
+                results: ItemParser.toDTO(model!)
             }
         } catch (error) {
             return processError(error, 'GetItemScoped repository error')

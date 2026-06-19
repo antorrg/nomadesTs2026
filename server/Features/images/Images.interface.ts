@@ -1,4 +1,4 @@
-import {type Image } from '../../../Models/images.model.js'
+import { type Model } from 'sequelize'
 
 export interface Images{
     id: number | string
@@ -6,15 +6,15 @@ export interface Images{
 }
 export type CreateImages = Omit<Images, 'id'>
 
-export interface ImagesRepository<Images, CreateImages> {
-    saveImage: (url: CreateImages) => Promise<Images>
-    getImages: () => Promise<Images[]>
+export interface ImagesRepository<TImage, TCreateImage> {
+    saveImage: (url: TCreateImage) => Promise<TImage>
+    getImages: () => Promise<TImage[]>
     deleteImageFromDbById: (id: string | number)=>Promise<string>
     deleteImageFromDbByUrl: (dataImage: string | number)=>Promise<string>
 }
 
-export const parser =(u:  InstanceType<typeof Image>):Images => {
-  const raw = u.get()
+export const parser = (u: Model): Images => {
+  const raw = u.get() as Images
  return {
   id: raw.id,
   imageUrl: raw.imageUrl

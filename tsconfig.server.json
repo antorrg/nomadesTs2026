@@ -6,7 +6,9 @@
     "removeComments": true,
     "moduleResolution": "NodeNext",
     "types": [
-      "node"
+      "node",
+      "express",
+      "multer"
     ],
     "resolveJsonModule": true,
     "noEmit": false,

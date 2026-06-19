@@ -1,7 +1,6 @@
 import { type Request, type Response } from 'express'
 import multer from 'multer'
 import { throwError, processError } from '../../Configs/errorHandlers.js'
-import logger from '../../Configs/logger.js'
 import { ImageRepository } from './ImageRepository.js'
 import { ImgsService } from '../../Shared/Services/ImgsService.js'
 // Configuración de Multer
@@ -9,22 +8,22 @@ const storage = multer.memoryStorage()
 export const upload = multer({ storage })
 
 
-export class ImageController<Images, CreateImages> {
-  protected service: ImageRepository<Images, CreateImages>
+export class ImageController {
+  protected service: ImageRepository
   constructor(
-    service: ImageRepository<Images, CreateImages>
+    service: ImageRepository
   ) {
     this.service = service
   }
-  static responder(res: Response, status: number, success: boolean, message: string, results: any) {
+  static responder(res: Response, status: number, success: boolean, message: string, results: unknown) {
     return res.status(status).json({ success, message, results })
   }
   uploader = async (req: Request, res: Response) => {
-    if (!req.file) {
-      throwError('No se subió ningún archivo', 500)
-    }
+    const file = req.file
+    if (!file) return throwError('No se subió ningún archivo', 500)
+
     try {
-      const result = await ImgsService.uploadNewImage(req.file)
+      const result = await ImgsService.uploadNewImage(file)
       res.status(200).json({
         message: 'Imagen guardada',
         results: {

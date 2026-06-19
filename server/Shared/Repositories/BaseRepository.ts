@@ -1,4 +1,4 @@
-import { type Model, type ModelStatic } from 'sequelize'
+import { type CreationAttributes, type Model, type ModelStatic, type WhereOptions } from 'sequelize'
 import {sequelize } from '../../Configs/database.js'
 import {QueryTypes} from 'sequelize'
 import type { IBaseRepository, IRepositoryResponse, IPaginatedOptions, IPaginatedResults, Direction } from '../Interfaces/base.interface.js'
@@ -7,19 +7,35 @@ import { throwError, processError } from '../../Configs/errorHandlers.js'
 export class BaseRepository<
   TDTO, TCreate, TUpdate = Partial<TCreate>,
 > implements IBaseRepository<TDTO, TCreate, TUpdate> {
+  protected readonly Model: ModelStatic<Model>
+  private readonly parserFn: (model: Model) => TDTO
+  private readonly parserQuery: (model: unknown) => TDTO
+  private readonly modelName: string
+  private readonly whereField: keyof TDTO & string
+  protected readonly emptyObject?: TDTO | TDTO[] | null
+
   constructor(
-    protected readonly Model: ModelStatic<Model>,
-    private readonly parserFn: (model: Model) => TDTO,
-    private readonly parserQuery: (model:any) => TDTO,
-    private readonly modelName: string,
-    private readonly whereField: keyof TDTO & string,
-    protected readonly emptyObject?: TDTO |null
+    Model: ModelStatic<Model>,
+    parserFn: (model: Model) => TDTO,
+    parserQueryOrModelName: ((model: unknown) => TDTO) | string,
+    modelNameOrWhereField: string,
+    whereFieldOrEmptyObject?: (keyof TDTO & string) | TDTO | TDTO[] | null,
+    emptyObject?: TDTO | TDTO[] | null
   ) {
     this.Model = Model
     this.parserFn = parserFn
-    this.parserQuery = parserQuery
-    this.whereField = whereField
-    this.emptyObject = emptyObject
+
+    if (typeof parserQueryOrModelName === 'function') {
+      this.parserQuery = parserQueryOrModelName
+      this.modelName = modelNameOrWhereField
+      this.whereField = whereFieldOrEmptyObject as keyof TDTO & string
+      this.emptyObject = emptyObject
+    } else {
+      this.parserQuery = (model: unknown) => this.parserFn(model as Model)
+      this.modelName = parserQueryOrModelName
+      this.whereField = modelNameOrWhereField as keyof TDTO & string
+      this.emptyObject = whereFieldOrEmptyObject as TDTO | TDTO[] | null | undefined
+    }
   }
 
   async getAll(field?: unknown, whereField?: keyof TDTO | string): Promise<IRepositoryResponse<TDTO[]>> {
@@ -30,7 +46,7 @@ export class BaseRepository<
       if (models.length === 0) {
         return {
           message: `${this.Model.name} no contiene datos`,
-          results: this.emptyObject as TDTO[] ?? []
+          results: this.emptyResults()
         }
       }
       return {
@@ -68,7 +84,7 @@ export class BaseRepository<
         // order: options?.order ? [[options.order?.field as string, options.order?.direction]] as Order : undefined
       })
 
-      const data = count === 0 ? this.emptyObject as TDTO[] ??[] : rows.map(this.parserFn)
+      const data = count === 0 ? this.emptyResults() : rows.map(this.parserFn)
       return {
         message: `Total registros: ${count}. ${this.Model.name}s obtenidos correctamente`,
         info: {
@@ -105,7 +121,7 @@ export class BaseRepository<
     try {
       if (field == null) throwError(`No hay valor proporcionado para ${whereField.toString()}`, 400)
       const model = await this.Model.findOne({
-        where: { [whereField]: field } as any
+        where: { [whereField]: field } as WhereOptions
       })
       if (!model) throwError(`El ${whereField.toString()} "${field}" no se encontro`, 404)
       return {
@@ -119,18 +135,19 @@ export class BaseRepository<
 
   async create(data: TCreate): Promise<IRepositoryResponse<TDTO>> {
     try {
+      const uniqueValue = this.getCreateValue(data)
       const exists = await this.Model.findOne({
-        where: { [this.whereField]: (data as any)[this.whereField] } as any
+        where: { [this.whereField]: uniqueValue } as WhereOptions
       })
       if (exists) {
         throwError(
-          `${this.Model.name} with ${this.whereField} ${(data as any)[this.whereField]} already exists`,
+          `${this.Model.name} with ${this.whereField} ${uniqueValue} already exists`,
           400
         )
       }
-      const model = await this.Model.create(data as any)
+      const model = await this.Model.create(data as CreationAttributes<Model>)
       return {
-        message: `${this.Model.name} ${(data as any)[this.whereField]} creado correctamente`,
+        message: `${this.Model.name} ${uniqueValue} creado correctamente`,
         results: this.parserFn(model)
       }
     } catch (error) {
@@ -156,7 +173,7 @@ export class BaseRepository<
     try {
       const model = await this.Model.findByPk(id)
       if (!model) throwError(`${this.Model.name} no encontrado`, 404)
-      const value = (model as any)[this.whereField]
+      const value = model!.get(this.whereField)
       await model!.destroy()
       return {
         message: `${value} eliminado correctamente`,
@@ -170,16 +187,16 @@ export class BaseRepository<
   async getAllScoped(): Promise<IRepositoryResponse<TDTO[]>> {
     try {
       const tableName = this.Model.getTableName()
-        const models = await sequelize.query(
+      const models = await sequelize.query(
         `SELECT * FROM ${tableName}
         WHERE enabled = true;
         `,
-        {type: QueryTypes.SELECT}
+        { type: QueryTypes.SELECT }
       )
       if (models.length === 0) {
         return {
           message: `${this.Model.name} no contiene datos`,
-          results: this.emptyObject as TDTO[] ?? []
+          results: this.emptyResults()
         }
       }
       return {
@@ -191,27 +208,35 @@ export class BaseRepository<
     }
   }
 
-    async getByIdScoped(id: string | number): Promise<IRepositoryResponse<TDTO>> {
+  async getByIdScoped(id: string | number): Promise<IRepositoryResponse<TDTO>> {
     try {
-        const tableName = this.Model.getTableName()
-      const model = await sequelize.query(
+      const tableName = this.Model.getTableName()
+      const [model] = await sequelize.query(
         `SELECT * FROM ${tableName}
-         WHERE enabled= true,
-         id= :id
-
+         WHERE enabled = true
+         AND id = :id
         `,
         {
-          replacements: {id},
-          type: QueryTypes.DELETE
+          replacements: { id },
+          type: QueryTypes.SELECT
         }
       )
-      if (model===null) throwError(`${this.modelName} no encontrado o no disponible`, 404)
+      if (!model) throwError(`${this.modelName} no encontrado o no disponible`, 404)
       return {
         message: `${this.modelName} registro obtenido correctamente`,
-        results: this.parserQuery(model!)
+        results: this.parserQuery(model)
       }
     } catch (error) {
       return processError(error, `GetByIdScoped ${this.Model.name} repository error`)
     }
+  }
+
+  private getCreateValue(data: TCreate): unknown {
+    return (data as Record<string, unknown>)[this.whereField]
+  }
+
+  private emptyResults(): TDTO[] {
+    if (!this.emptyObject) return []
+    return Array.isArray(this.emptyObject) ? this.emptyObject : [this.emptyObject]
   }
 }

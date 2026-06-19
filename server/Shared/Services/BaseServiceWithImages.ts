@@ -12,14 +12,14 @@ interface ImageControl {
 
 export class BaseServiceWithImages<TDTO, TCreate, TUpdate> extends BaseService<TDTO, TCreate, TUpdate>{
   protected repository: IBaseRepository<TDTO, TCreate, TUpdate>
-  protected imageHandlerService: IExternalImageDeleteService<any>
+  protected imageHandlerService: IExternalImageDeleteService<string>
 
   protected useImage: boolean
   protected nameImage: keyof TDTO
 
   constructor(
     repository: IBaseRepository<TDTO, TCreate, TUpdate>,
-    imageHandlerService: IExternalImageDeleteService<any>,
+    imageHandlerService: IExternalImageDeleteService<string>,
     useImage: boolean = false,
     nameImage: keyof TDTO
   ) {
@@ -143,11 +143,11 @@ export class BaseServiceWithImages<TDTO, TCreate, TUpdate> extends BaseService<T
     }
   }
 
-  async getAllScoped(scope: string = 'enabledOnly'): Promise<IRepositoryResponse<TDTO[]>> {
-    return await this.repository.getAllScoped(scope)
+  async getAllScoped(): Promise<IRepositoryResponse<TDTO[]>> {
+    return await this.repository.getAllScoped()
   }
 
-  async getByIdScoped(id: string | number, scope: string = 'enabledOnly'): Promise<IRepositoryResponse<TDTO>> {
-    return await this.repository.getByIdScoped(id, scope)
+  async getByIdScoped(id: string | number): Promise<IRepositoryResponse<TDTO>> {
+    return await this.repository.getByIdScoped(id)
   }
 }

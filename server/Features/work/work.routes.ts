@@ -8,14 +8,14 @@ import {BaseController} from '../../Shared/Controllers/BaseController.js'
 import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
 
 
-const workRepository = new BaseRepository(Work, parser as any, parserQuery, 'Work', 'title', mockData)
-const workService = new BaseServiceWithImages(workRepository, ImgsService as any, true, 'picture')
+const workRepository = new BaseRepository(Work, parser, parserQuery, 'Work', 'title', mockData)
+const workService = new BaseServiceWithImages(workRepository, ImgsService, true, 'picture')
 const workController = new BaseController(workService)
 
 const workRouter = express.Router()
 
 /**
- * RUTAS PÚBLICAS (Usan scope 'enabledOnly' por defecto en la base)
+ * RUTAS PÚBLICAS
  */
 workRouter.get(
     '/public',

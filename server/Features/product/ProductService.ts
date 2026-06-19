@@ -15,7 +15,7 @@ import { throwError } from "../../Configs/errorHandlers.js";
 export class ProductService extends BaseServiceWithImages<IProduct, CreateProduct, UpdateProduct> {
     constructor(protected readonly repository: ProductRepository) {
         // 'picture' es el campo de imagen común tanto en Product como en Item
-        super(repository, ImgsService as any, true, 'picture');
+        super(repository, ImgsService, true, 'picture');
     }
 
     override async create(data: CreateProduct): Promise<IRepositoryResponse<IProduct>> {
@@ -53,8 +53,8 @@ export class ProductService extends BaseServiceWithImages<IProduct, CreateProduc
 
         return response;
     }
-    async getByIdScoped(id: string | number, scope?: string): Promise<IRepositoryResponse<IProduct>> {
-        return await this.repository.getByIdScoped(id, scope)
+    async getByIdScoped(id: string | number): Promise<IRepositoryResponse<IProduct>> {
+        return await this.repository.getByIdScoped(id)
     }
 
     // --- Métodos de Service para Ítems individuales ---
@@ -113,7 +113,7 @@ export class ProductService extends BaseServiceWithImages<IProduct, CreateProduc
         return await this.repository.getItem(id);
     }
 
-    async getItemScoped(id: number, scope: string = 'enabledOnly'): Promise<IRepositoryResponse<IItem>> {
-        return await this.repository.getItemScoped(id, scope);
+    async getItemScoped(id: number): Promise<IRepositoryResponse<IItem>> {
+        return await this.repository.getItemScoped(id);
     }
 }

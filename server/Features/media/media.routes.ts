@@ -6,10 +6,10 @@ import { BaseController } from '../../Shared/Controllers/BaseController.js'
 import {type IMedia, type CreateMedia, type UpdateMedia, parser, parserQuery,mockMedia } from './mediaMappers.js'
 import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
 
-const mediaRepository = new BaseRepository<IMedia, CreateMedia, UpdateMedia>(Media, parser as any, parserQuery, 'Media', 'title', mockMedia as any)
+const mediaRepository = new BaseRepository<IMedia, CreateMedia, UpdateMedia>(Media, parser, parserQuery, 'Media', 'title', mockMedia)
 
 const mediaService = new BaseService<IMedia, CreateMedia, UpdateMedia>(
-    mediaRepository as any)
+    mediaRepository)
 
 // 3. Instanciamos el Controlador Base directamente
 const mediaController = new BaseController<IMedia, CreateMedia, UpdateMedia>(mediaService)
@@ -17,7 +17,7 @@ const mediaController = new BaseController<IMedia, CreateMedia, UpdateMedia>(med
 const mediaRouter = express.Router()
 
 /**
- * RUTAS PÚBLICAS (Usan scope 'enabledOnly' por defecto en la base)
+ * RUTAS PÚBLICAS
  */
 mediaRouter.get(
     '/public',

@@ -19,7 +19,7 @@ export class UserRepository extends BaseRepository<IUserDTO, CreateUserInput, Up
             }
             return {
                 message: 'Credenciales de usuario obtenidas correctamente',
-                results: authParser(model as any)
+                results: authParser(model!)
             }
         } catch (error) {
             return processError(error, 'GetAuthCredentials repository error')
@@ -31,7 +31,7 @@ export class UserRepository extends BaseRepository<IUserDTO, CreateUserInput, Up
             if (!model) throwError(`${this.Model.name} no encontrado`, 404)
             
             // `model` is verified non-null above.
-            const protectedUser = protectProtocol(model as any)
+            const protectedUser = protectProtocol(userParser(model!))
             if(protectedUser === true) {
                 return throwError('No se puede actualizar al Admin principal', 403)
             }
@@ -51,12 +51,13 @@ export class UserRepository extends BaseRepository<IUserDTO, CreateUserInput, Up
             if (!model) throwError(`${this.Model.name} no encontrado`, 404)
             
             // `model` is verified non-null above.
-            const protectedUser = protectProtocol(model as any)
+            const protectedUser = protectProtocol(userParser(model!))
             if(protectedUser === true) {
                 return throwError('No se puede actualizar al Admin principal', 403)
             }
             
-            const isMatch = await Hasher.comparePassword(data.password, (model as any).password)
+            const credentials = authParser(model!)
+            const isMatch = await Hasher.comparePassword(data.password, credentials.password ?? '')
             if(!isMatch){
                 return throwError('Contraseña incorrecta', 401)
             }
@@ -77,7 +78,7 @@ export class UserRepository extends BaseRepository<IUserDTO, CreateUserInput, Up
             if (!model) throwError(`${this.Model.name} no encontrado`, 404)
             
             // `model` is verified non-null above.
-            const protectedUser = protectProtocol(model as any)
+            const protectedUser = protectProtocol(userParser(model!))
             if(protectedUser === true) {
                 return throwError('No se puede eliminar al Admin principal', 403)
             }

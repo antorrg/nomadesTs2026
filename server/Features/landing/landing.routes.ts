@@ -8,11 +8,11 @@ import { type ILanding, type CreateLanding, type UpdateLanding, parser, parserQu
 import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
 
 
-const landRepository = new BaseRepository<ILanding, CreateLanding, UpdateLanding>(Landing, parser as any, parserQuery, 'Landing', 'title', mockLanding as any)
+const landRepository = new BaseRepository<ILanding, CreateLanding, UpdateLanding>(Landing, parser, parserQuery, 'Landing', 'title', mockLanding)
 
 const landService = new BaseServiceWithImages<ILanding, CreateLanding, UpdateLanding>(
-    landRepository as any,
-    ImgsService as any,
+    landRepository,
+    ImgsService,
     true,
     'picture'
 )
@@ -23,7 +23,7 @@ const landController = new BaseController<ILanding, CreateLanding, UpdateLanding
 const landRouter = express.Router()
 
 /**
- * RUTAS PÚBLICAS (Usan scope 'enabledOnly' por defecto en la base)
+ * RUTAS PÚBLICAS
  */
 landRouter.get(
     '/public',

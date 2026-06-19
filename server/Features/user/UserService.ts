@@ -1,6 +1,6 @@
 import { BaseServiceWithImages } from '../../Shared/Services/BaseServiceWithImages.js'
 import { UserRepository } from './UserRepository.js'
-import { type IExternalImageDeleteService } from '../../Shared/Interfaces/base.interface.js'
+import { type IExternalImageDeleteService, type IRepositoryResponse } from '../../Shared/Interfaces/base.interface.js'
 import { type IUserDTO, type CreateUserInput, type UpdateUserInput, type IResetPassword } from './UserMappers.js'
 import { throwError } from '../../Configs/errorHandlers.js'
 import { type EmailService } from '../../ExternalServices/EmailService/EmailService.js'
@@ -15,7 +15,7 @@ export class UserService extends BaseServiceWithImages<IUserDTO, CreateUserInput
 
   constructor(
     repository: UserRepository,
-    imageHandlerService: IExternalImageDeleteService<any>,
+    imageHandlerService: IExternalImageDeleteService<string>,
     useImage: boolean = false,
     nameImage: keyof IUserDTO,
     emailService: EmailService
@@ -25,11 +25,11 @@ export class UserService extends BaseServiceWithImages<IUserDTO, CreateUserInput
     this.emailService = emailService
   }
 
-  changePassword = async (id: string|number, data: any) => {
+  changePassword = async (id: string|number, data: { password: string, newPassword: string }) => {
     return await this.repository.changePassword(id, data)
   }
 
-  override create = async (data: CreateUserInput & { plainPassword?: string }): Promise<any> => {
+  override create = async (data: CreateUserInput & { plainPassword?: string }): Promise<IRepositoryResponse<IUserDTO>> => {
     const response = await super.create(data);
     
     if (response && response.results) {

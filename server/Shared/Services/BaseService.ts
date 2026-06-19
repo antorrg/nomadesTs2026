@@ -1,5 +1,4 @@
-import { throwError } from '../../Configs/errorHandlers.js'
-import { type IBaseRepository, type IRepositoryResponse, type IPaginatedOptions, type IPaginatedResults, type IExternalImageDeleteService } from '../Interfaces/base.interface.js'
+import { type IBaseRepository, type IRepositoryResponse, type IPaginatedOptions, type IPaginatedResults} from '../Interfaces/base.interface.js'
 
 
 export class BaseService<TDTO, TCreate, TUpdate> {
@@ -48,11 +47,11 @@ export class BaseService<TDTO, TCreate, TUpdate> {
     return await this.repository.delete(id)
   }
 
-  async getAllScoped(scope: string = 'enabledOnly'): Promise<IRepositoryResponse<TDTO[]>> {
-    return await this.repository.getAllScoped(scope)
+  async getAllScoped(): Promise<IRepositoryResponse<TDTO[]>> {
+    return await this.repository.getAllScoped()
   }
 
-  async getByIdScoped(id: string | number, scope: string = 'enabledOnly'): Promise<IRepositoryResponse<TDTO>> {
-    return await this.repository.getByIdScoped(id, scope)
+  async getByIdScoped(id: string | number): Promise<IRepositoryResponse<TDTO>> {
+    return await this.repository.getByIdScoped(id)
   }
 }

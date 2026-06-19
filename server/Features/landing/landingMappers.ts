@@ -1,3 +1,4 @@
+import { type Model } from 'sequelize'
 import {Landing } from '../../../Models/landing.model.js'
 import envConfig from '../../Configs/envConfig.js'
 
@@ -12,12 +13,13 @@ export interface ILanding {
 export type CreateLanding = Partial<ILanding>
 export type UpdateLanding = Partial<ILanding>
 
+type LandingRaw = Omit<ILanding, never>
 
 
 export const parser = (
-  u: InstanceType<typeof Landing>
+  u: InstanceType<typeof Landing> | Model
 ): ILanding => {
-  const raw = u.get({ plain: true })
+  const raw = u.get({ plain: true }) as LandingRaw
   return {
     id: raw.id,
     picture: raw.picture,
@@ -28,8 +30,9 @@ export const parser = (
   }
 }
 export const parserQuery = (
-  raw:any
+  data: unknown
 ): ILanding => {
+  const raw = data as LandingRaw
   return {
     id: raw.id,
     picture: raw.picture,
