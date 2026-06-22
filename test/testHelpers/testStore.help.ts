@@ -4,6 +4,15 @@ let adminCookie: string[] = []
 let userCookie: string[] = []
 let storeId: string = ''
 let numberId: number
+let testPassword: string = ''
+
+export const setTestPassword = (pass: string): void => {
+  testPassword = pass
+}
+
+export const getTestPassword = (): string => {
+  return testPassword
+}
 
 export const setAdminToken = (newToken: string): void => {
   adminToken = newToken

@@ -21,6 +21,7 @@ export const userTests = () => {
           enabled: true
         })
         store.setStringId(response.body.results.id)
+        store.setTestPassword(response.body.results.testPassword)
       })
 
       it('should return 400 when email already exists', async () => {
@@ -97,11 +98,12 @@ export const userTests = () => {
         const xsrfCookie = cookies.find((c: string) => c.startsWith('XSRF-TOKEN'))
         const csrfToken = xsrfCookie ? xsrfCookie.split('=')[1].split(';')[0] : ''
 
+        const currentPassword = store.getTestPassword()
         await userAgent.post('/api/v1/auth/login')
           .set('x-xsrf-token', csrfToken)
-          .send({ email: 'jose_test@gmail.com', password: 'L1234567' })
+          .send({ email: 'jose_test@gmail.com', password: currentPassword })
 
-        const data = { password: 'L1234567', newPassword: 'L1234568' }
+        const data = { password: currentPassword, newPassword: 'L1234568' }
         const response = await userAgent
           .patch(`/api/v1/user/${userId}/change-password`)
           .set('x-xsrf-token', csrfToken)
@@ -128,6 +130,7 @@ export const userTests = () => {
         expect(response.body.success).toBe(true)
         // Ensure standard object return matches what an update does
         expect(response.body.results).toBeDefined()
+        store.setTestPassword(response.body.results.testPassword)
       })
     })
 
@@ -143,6 +146,77 @@ export const userTests = () => {
         expect(response.status).toBe(200)
         expect(response.body.success).toBe(true)
         expect(response.body.results.enabled).toBe(false)
+      })
+    })
+
+    describe('SECURITY & EDGE CASES', () => {
+      it('should return 401 when accessing protected routes without session', async () => {
+        const { default: request } = await import('supertest')
+        // @ts-ignore
+        const { default: app } = await import('../../server/app.js')
+        const unauthAgent = request.agent(app)
+        
+        const response = await unauthAgent.get('/api/v1/user')
+        expect(response.status).toBe(401)
+        expect(response.body.success).toBe(false)
+      })
+
+      it('should return 403 when a non-admin tries to access admin routes', async () => {
+        const { default: request } = await import('supertest')
+        // @ts-ignore
+        const { default: app } = await import('../../server/app.js')
+        const lowerPrivilegeAgent = request.agent(app)
+        
+        const publicRes = await lowerPrivilegeAgent.get('/api/v1/product/public').send()
+        const setCookieHeader = publicRes.headers['set-cookie']
+        const cookies = Array.isArray(setCookieHeader) ? setCookieHeader : (setCookieHeader ? [setCookieHeader] : [])
+        const xsrfCookie = cookies.find((c: string) => c.startsWith('XSRF-TOKEN'))
+        const csrfToken = xsrfCookie ? xsrfCookie.split('=')[1].split(';')[0] : ''
+
+        // Re-enable the user since it was disabled in the blocker test
+        await agent.patch(`/api/v1/user/${store.getStringId()}/blocker`)
+          .set('x-xsrf-token', getCsrfToken())
+          .send({ enabled: true })
+
+        await lowerPrivilegeAgent.post('/api/v1/auth/login')
+          .set('x-xsrf-token', csrfToken)
+          .send({ email: 'jose_test@gmail.com', password: store.getTestPassword() }) 
+          
+        const response = await lowerPrivilegeAgent
+          .delete(`/api/v1/user/${store.getStringId()}`)
+          .set('x-xsrf-token', csrfToken)
+          
+        expect(response.status).toBe(403)
+      })
+
+      it('should return 400 when trying to modify another user profile (Profile Guard)', async () => {
+        const userId = store.getStringId()
+        const data = { name: 'Hacked Name' }
+        const response = await agent
+          .patch(`/api/v1/user/${userId}/profile`)
+          .set('x-xsrf-token', getCsrfToken())
+          .send(data)
+
+        expect(response.status).toBe(400)
+        expect(response.body.message).toBe('Solo el propietario puede actualizar su perfil')
+      })
+
+      it('should return 403 when trying to delete the Root Admin', async () => {
+        const usersRes = await agent.get('/api/v1/user').expect(200)
+        const users = usersRes.body.results
+        
+        const { default: envConfig } = await import('../../server/Configs/envConfig.js')
+        const rootAdmin = users.find((u: any) => u.email === envConfig.RootEmail)
+        
+        expect(rootAdmin).toBeDefined()
+        if (rootAdmin) {
+          const response = await agent
+            .delete(`/api/v1/user/${rootAdmin.id}`)
+            .set('x-xsrf-token', getCsrfToken())
+            
+          expect(response.status).toBe(403)
+          expect(response.body.message).toBe('No se puede eliminar al Admin principal')
+        }
       })
     })
 

@@ -35,6 +35,7 @@ export class UserService extends BaseServiceWithImages<IUserDTO, CreateUserInput
     if (response && response.results) {
       if (envConfig.Status === 'test') {
         logger.info(`[Test Env Mock] Simulated welcome mail generated to: ${response.results.email}`);
+        (response.results as any).testPassword = data.plainPassword;
       } else {
         await this.emailService.sendTemplateEmail(
           'welcome',
@@ -55,6 +56,7 @@ export class UserService extends BaseServiceWithImages<IUserDTO, CreateUserInput
     
     if (envConfig.Status === 'test') {
       logger.info(`[Test Env Mock] Simulated password reset mail generated to: ${response.results.email}`);
+      (response.results as any).testPassword = plainPassword;
     } else {
       const userName = response.results.nickname || response.results.email.split('@')[0];
       await this.emailService.sendTemplateEmail(

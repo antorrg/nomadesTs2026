@@ -1,5 +1,3 @@
-import { type Model } from 'sequelize'
-import { User } from '../../Configs/database.js'
 import { BaseRepository } from '../../Shared/Repositories/BaseRepository.js'
 import { authParser, userParser, type IUserDTO, type CreateUserInput, type UpdateUserInput, type IUserWithCredentials } from './UserMappers.js'
 import { IRepositoryResponse } from '../../Shared/Interfaces/base.interface.js'

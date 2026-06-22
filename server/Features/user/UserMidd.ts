@@ -9,6 +9,7 @@ export class UserMidd {
   static createUser = async (req: Request, res: Response, next: NextFunction) => {
     const { email } = req.body
     const passwordGenerated = req.body.password || UserMidd.generatePassword(12)
+
     req.body = {
       email,
       password: await Hasher.hashPassword(passwordGenerated),
@@ -22,8 +23,8 @@ export class UserMidd {
   static profileGuard(req: Request, res: Response, next: NextFunction){
     const {id} = req.params
     const session = req.session as SessionData
-    if(!session){return next(middError('No autorizado', 401))}
-    if(id !== session.user!.id){return next(middError('Solo el propietario puede actualizar su perfil', 400))}
+    if(!session || !session.user){return next(middError('No autorizado', 401))}
+    if(id !== session.user.id){return next(middError('Solo el propietario puede actualizar su perfil', 400))}
     next()
   }
     static resetPassword = async(req: Request, res: Response, next: NextFunction) => {

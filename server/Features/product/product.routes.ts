@@ -22,22 +22,58 @@ productRouter.get("/public/item/:id", Validator.paramId('id', Validator.ValidReg
 // --- Rutas de Productos ---
 productRouter.get("/", 
     isAuthenticated, 
-    controller.getAll);
+    controller.getAll
+);
 
 productRouter.get("/:id", 
     isAuthenticated, 
-    Validator.paramId('id', Validator.ValidReg.INT), controller.getById);
+    Validator.paramId('id', Validator.ValidReg.INT), 
+    controller.getById
+);
 productRouter.post("/", 
-    isAuthenticated, Validator.validateBody(create),controller.create);
+    isAuthenticated, 
+    Validator.validateBody(create),
+    controller.create
+);
 productRouter.put("/:id", 
-    isAuthenticated, Validator.paramId('id', Validator.ValidReg.INT),Validator.validateBody(update), controller.update);
+    isAuthenticated, 
+    Validator.paramId('id', Validator.ValidReg.INT),
+    Validator.validateBody(update), 
+    controller.update
+);
 productRouter.delete("/:id", 
-    isAuthenticated, authorizeMinRole(UserRole.MODERATOR),Validator.paramId('id', Validator.ValidReg.INT),controller.delete);
+    isAuthenticated, 
+    authorizeMinRole(UserRole.MODERATOR),
+    Validator.paramId('id', Validator.ValidReg.INT),
+    controller.delete
+);
 
 // --- Rutas de Ítems ---
-productRouter.get("/item/:id", isAuthenticated, Validator.paramId('id', Validator.ValidReg.INT),controller.getItem);
-productRouter.post("/item", isAuthenticated, Validator.validateBody(itemCreate),controller.createItem);
-productRouter.put("/item/:id", isAuthenticated, Validator.paramId('id', Validator.ValidReg.INT), Validator.validateBody(itemUpdate),controller.updateItem);
-productRouter.delete("/item/:id", isAuthenticated, authorizeMinRole(UserRole.MODERATOR),Validator.paramId('id', Validator.ValidReg.INT),controller.deleteItem);
+productRouter.get(
+    "/item/:id", 
+    isAuthenticated, 
+    Validator.paramId('id', Validator.ValidReg.INT),
+    controller.getItem
+);
+productRouter.post(
+    "/item", 
+    isAuthenticated, 
+    Validator.validateBody(itemCreate),
+    controller.createItem
+);
+productRouter.put(
+    "/item/:id", 
+    isAuthenticated, 
+    Validator.paramId('id', Validator.ValidReg.INT), 
+    Validator.validateBody(itemUpdate),
+    controller.updateItem
+);
+productRouter.delete(
+    "/item/:id", 
+    isAuthenticated, 
+    authorizeMinRole(UserRole.MODERATOR),
+    Validator.paramId('id', Validator.ValidReg.INT),
+    controller.deleteItem
+);
 
 export default productRouter;

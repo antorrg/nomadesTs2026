@@ -1,20 +1,12 @@
 import { Router } from 'express'
-import { User } from '../../Configs/database.js'
-import { UserService } from './UserService.js'
-import { ImgsService } from '../../Shared/Services/ImgsService.js'
-import { BaseController } from '../../Shared/Controllers/BaseController.js'
 import { UserController } from './UserController.js'
-import { userParser, mockData, type IUserDTO } from './UserMappers.js'
-import { UserRepository } from './UserRepository.js'
 import { Validator } from 'req-valid-express'
 import { create, update, upgrade, banner, changePassword as changePasswordSchema } from './schemas.js'
 import { UserMidd } from './UserMidd.js'
-import { emailService } from '../../ExternalServices/EmailService/EmailService.js'
 import { authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
 import { allowedQueryValues } from '../../Shared/Utils/allowedQueryValues.js'
+import { userService } from '../../Shared/dependencies.js'
 
-export const userRepository = new UserRepository(User, userParser, userParser, 'User', 'email', mockData)
-export const userService = new UserService(userRepository, ImgsService, false, 'picture', emailService)
 const user = new UserController(userService)
 
 const password: RegExp = /^(?=.*[A-Z]).{8,}$/
@@ -24,14 +16,17 @@ const userRouter = Router()
 
 userRouter.get(
   '/',
+  authorizeMinRole(UserRole.ADMIN),
   user.getAll
 )
 userRouter.get(
   '/pages',
+  authorizeMinRole(UserRole.ADMIN),
   user.getWithPages
 )
 userRouter.get(
   '/:id',
+  authorizeMinRole(UserRole.ADMIN),
   Validator.paramId('id', Validator.ValidReg.UUIDv4),
   user.getById
 )
@@ -51,6 +46,7 @@ userRouter.post(
 
 userRouter.patch(
   '/:id/profile',
+  authorizeMinRole(UserRole.USER),
   UserMidd.profileGuard,
   Validator.paramId('id', Validator.ValidReg.UUIDv4),
   Validator.validateBody(update),
@@ -58,6 +54,7 @@ userRouter.patch(
 )
 userRouter.patch(
   '/:id/change-password',
+  authorizeMinRole(UserRole.USER),
   UserMidd.profileGuard,
   Validator.paramId('id', Validator.ValidReg.UUIDv4),
   Validator.validateBody(changePasswordSchema),
@@ -95,6 +92,7 @@ userRouter.patch(
 
 userRouter.delete(
   '/:id',
+  authorizeMinRole(UserRole.ADMIN),
   Validator.paramId('id', Validator.ValidReg.UUIDv4),
   user.delete
 )
