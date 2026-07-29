@@ -28,9 +28,7 @@ const TabsPage = () => {
   const [activeTab, setActiveTab] = useState<string>(initialTab);
 
   const handleTabChange = (activeTab: string) => {
-    activeTab === "videos"
-      ? navigate(`/admin?tab=videos&subtab=facebook`)
-      : navigate(`/admin?tab=${activeTab}`);
+    activeTab === "videos"? navigate(`/admin?tab=videos&subtab=facebook`) : navigate(`/admin?tab=${activeTab}`);//eslint-disable-line 
     setActiveTab(activeTab);
   };
 
