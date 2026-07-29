@@ -3,10 +3,12 @@ import { Link, useParams } from 'react-router-dom'
 import { useReduxFetch } from '../../../hooks/useReduxFetch'
 import { getPublicItem, clearSelectedItem } from './productSlice'
 import LoadingImage from '../../../components/LoadingImages/LoadingImage'
+import { mockItem } from './mockItem'
 
 const ItemView = () => {
   const { id } = useParams()
    const [zoomedImg, setZoomedImg] = useState<string | null>(null);
+  
 
   // Using selectedPublicItem aliased as item for compatibility with existing code
   const { selectedPublicItem: item, publicLoading } = useReduxFetch({
@@ -17,8 +19,8 @@ const ItemView = () => {
     cleanupAction: clearSelectedItem
   });
 // if (publicLoading) return <Loader2 />
+ const itemInfo = item? item : mockItem
 
-  if (!item) return null // Or return standard 404/Empty component
 
   return (
     <>
@@ -34,10 +36,10 @@ const ItemView = () => {
               {!publicLoading?
               <img
                 className="d-block mx-auto mb-4 img-fluid"
-                src={item?.picture || ''}
+                src={itemInfo?.picture || ''}
                 alt="image not found"
                   style={{ width: "100%", objectFit: 'cover', objectPosition: 'center', cursor: 'zoom-in', transition: 'transform 0.2s ease-in-out' }}
-                  onClick={() => item?.picture && setZoomedImg(item?.picture)}
+                  onClick={() => itemInfo?.picture && setZoomedImg(itemInfo?.picture)}
                   onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
                   onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
               />
@@ -47,10 +49,10 @@ const ItemView = () => {
                style={{ width: "100%", objectFit: 'cover', objectPosition: 'center'}}
               />
               }
-              <p className="text-muted">{item?.text}</p>
+              <p className="text-muted">{itemInfo?.text}</p>
               <Link
                 className="btn btn-sm btn-outline-secondary mt-3 mx-auto w-20"
-                to={`/detalle/${item?.ProductId}`}
+                to={`/detalle/${itemInfo?.ProductId}`}
               >
                 Volver
               </Link>

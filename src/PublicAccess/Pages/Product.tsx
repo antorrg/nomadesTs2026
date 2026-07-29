@@ -19,7 +19,7 @@ const Product: React.FC = () => {
   })
 
   // Optional: Handle metadata here using selectedPublicProduct?.info_header
-   let publicProduct =  publicLoading? mockProductWithItem : selectedPublicProduct
+   const publicProduct =  publicLoading? mockProductWithItem : selectedPublicProduct
    // let publicProduct =  mockProductWithItem 
 
  // if (!publicLoading){ setInfoImg(true)}
