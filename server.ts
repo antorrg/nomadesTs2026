@@ -16,6 +16,7 @@ import { initialUser } from './server/Features/user/seed.js'
 import  logger  from './server/Configs/logger.js'
 import { configureCloudinary } from './server/ExternalServices/cloudinary.js'
 
+//eslint-disable-next-line
 const initialMessage = `Server is listening on port ${envConfig.Port}\nServer in ${envConfig.Status}\n 🚀​ Everything is allright!!`
 
 async function serverBootstrap () {

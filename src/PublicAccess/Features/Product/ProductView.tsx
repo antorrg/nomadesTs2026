@@ -33,7 +33,7 @@ const ProductView = ({ info, items, infoImg }:ProductProps) => {
             {!infoImg?
             <img
                   className={`bd-placeholder-img-fluid mx-auto d-block ${info && !info.enabled? 'deactivate' : ''}`}
-                  src={info?.picture!}
+                  src={info?.picture!} //eslint-disable-line
                   alt="Imagen"
                   style={{ width: "100%", maxWidth: "22rem", objectFit: 'cover', objectPosition: 'center', cursor: 'zoom-in', transition: 'transform 0.2s ease-in-out' }}
                   onClick={() => info?.picture && setZoomedImg(info?.picture)}

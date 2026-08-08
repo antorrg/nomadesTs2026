@@ -1,14 +1,15 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import { type Action } from '@reduxjs/toolkit';
 import { mediaPublicApi } from '../../publicApi/mediaApi';
 import type { IMedia } from '../../../types/media';
+import { type MediaTabVisibilityConfig, DEFAULT_TAB_CONFIG } from '../../../types/mediaConfig';
 
 // Estado del slice
 interface MediaState {
     publicMedia: IMedia[];
     selectedPublicMedia: IMedia | null;
     publicLoading: boolean;
-
+    tabConfig: MediaTabVisibilityConfig;
     error: string | null;
 }
 
@@ -17,7 +18,7 @@ const initialState: MediaState = {
     publicMedia: [],
     selectedPublicMedia: null,
     publicLoading: false,
-
+    tabConfig: DEFAULT_TAB_CONFIG,
     error: null
 };
 
@@ -44,8 +45,6 @@ export const getPublicMediaById = createAsyncThunk(
     }
 );
 
-
-
 const mediaSlice = createSlice({
     name: 'media',
     initialState,
@@ -58,21 +57,31 @@ const mediaSlice = createSlice({
         },
         clearSelectedMedia: (state) => {
             state.selectedPublicMedia = null;
+        },
+        updateTabConfig: (state, action: PayloadAction<MediaTabVisibilityConfig>) => {
+            state.tabConfig = action.payload;
         }
     },
     extraReducers: (builder) => {
-        // Specific fulfilled cases (Data Updates)
         builder
-            // Public Media
             .addCase(getPublicMedia.fulfilled, (state, action) => {
-                state.publicMedia = action.payload;
+                if (Array.isArray(action.payload)) {
+                    state.publicMedia = action.payload.filter((item: any) => item.type !== 'config');
+                    const configItem = action.payload.find((item: any) => item.type === 'config');
+                    if (configItem) {
+                        state.tabConfig = {
+                            showFacebook: configItem.showFacebook ?? true,
+                            showInstagram: configItem.showInstagram ?? true,
+                            showYouTube: configItem.showYouTube ?? true
+                        };
+                    }
+                } else {
+                    state.publicMedia = action.payload;
+                }
             })
             .addCase(getPublicMediaById.fulfilled, (state, action) => {
                 state.selectedPublicMedia = action.payload;
             })
-            // Admin Media
-
-            // Matchers
             .addMatcher(
                 (action) => action.type.startsWith('media/') && action.type.endsWith('/pending'),
                 (state, action) => {
@@ -104,5 +113,5 @@ const mediaSlice = createSlice({
     }
 });
 
-export const { clearError, selectMedia, clearSelectedMedia } = mediaSlice.actions;
+export const { clearError, selectMedia, clearSelectedMedia, updateTabConfig } = mediaSlice.actions;
 export default mediaSlice.reducer;

@@ -5,6 +5,7 @@ import Product from './product.model.js'
 import Item from './item.model.js'
 import Landing from './landing.model.js'
 import Media from './media.model.js'
+import MediaConfig from './mediaConfig.model.js'
 import Image from './images.model.js'
 import Work from './work.model.js'
 //import Client from './clients.model.js'
@@ -17,7 +18,9 @@ export default {
   Item,
   Landing,
   Media,
+  MediaConfig,
   Image,
   Work,
   //Client,
 }
+

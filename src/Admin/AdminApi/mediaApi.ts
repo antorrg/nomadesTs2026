@@ -1,5 +1,7 @@
 import { adminApi } from '../../api/api';
 import type { IMedia, CreateMedia, UpdateMedia } from '../../types/media';
+import type { MediaTabVisibilityConfig } from '../../types/mediaConfig';
+
 
 
 // Authenticated API - Requires authentication
@@ -59,7 +61,20 @@ export const mediaApi = {
         });
         return response as void;
     },
-     confirmAction: async (options: Record<any, any>):Promise<boolean> =>{
-   return await adminApi.confirmAction(options)
- }
+    confirmAction: async (options: Record<any, any>):Promise<boolean> =>{
+      return await adminApi.confirmAction(options)
+    },
+    updateConfig: async (data: Partial<MediaTabVisibilityConfig>): Promise<MediaTabVisibilityConfig> => {
+        const response = await adminApi.execute({
+            request: {
+                method: 'put',
+                endpoint: 'media/config',
+                data
+            },
+            hasMessage: true,
+            errorMessage: 'Error al actualizar configuración de pestañas'
+        });
+        return response as MediaTabVisibilityConfig;
+    }
 };
+

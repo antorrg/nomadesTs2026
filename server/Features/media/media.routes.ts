@@ -1,18 +1,40 @@
 import express from 'express'
-import { Media } from '../../Configs/database.js'
-import {BaseRepository } from '../../Shared/Repositories/BaseRepository.js'
-import { BaseService } from '../../Shared/Services/BaseService.js'
-import { BaseController } from '../../Shared/Controllers/BaseController.js'
-import {type IMedia, type CreateMedia, type UpdateMedia, parser, parserQuery,mockMedia } from './mediaMappers.js'
-import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
+import { Media, MediaConfig } from '../../Configs/database.js'
+import { BaseRepository } from '../../Shared/Repositories/BaseRepository.js'
+import { MediaService } from './MediaService.js'
+import { MediaController } from './MediaController.js'
+import { 
+  type IMedia, 
+  type CreateMedia, 
+  type UpdateMedia, 
+  type IMediaConfig, 
+  type CreateMediaConfig, 
+  type UpdateMediaConfig, 
+  parser, 
+  parserQuery, 
+  parserConfig, 
+  mockMedia 
+} from './mediaMappers.js'
+import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js"
 
-const mediaRepository = new BaseRepository<IMedia, CreateMedia, UpdateMedia>(Media, parser, parserQuery, 'Media', 'title', mockMedia)
+const mediaRepository = new BaseRepository<IMedia, CreateMedia, UpdateMedia>(
+  Media, 
+  parser, 
+  parserQuery, 
+  'Media', 
+  'title', 
+  mockMedia
+)
 
-const mediaService = new BaseService<IMedia, CreateMedia, UpdateMedia>(
-    mediaRepository)
+const mediaConfigRepository = new BaseRepository<IMediaConfig, CreateMediaConfig, UpdateMediaConfig>(
+  MediaConfig, 
+  parserConfig, 
+  'MediaConfig', 
+  'id'
+)
 
-// 3. Instanciamos el Controlador Base directamente
-const mediaController = new BaseController<IMedia, CreateMedia, UpdateMedia>(mediaService)
+const mediaService = new MediaService(mediaRepository, mediaConfigRepository)
+const mediaController = new MediaController(mediaService)
 
 const mediaRouter = express.Router()
 
@@ -30,8 +52,15 @@ mediaRouter.get(
 )
 
 /**
- * RUTAS ADMIN (CRUD Base - Sin filtros de scope)
+ * RUTAS ADMIN
  */
+mediaRouter.put(
+    '/config',
+    isAuthenticated,
+    authorizeMinRole(UserRole.MODERATOR),
+    mediaController.updateConfig
+)
+
 mediaRouter.get(
     '/',
     isAuthenticated,

@@ -4,11 +4,13 @@ import { publicRoutes } from './PublicAccess/public.routes'
 import { adminRoutes } from './Admin/Admin.routes'
 import Error from './components/Error'
 import ProtectedRoute from './Admin/ProtectedRoute'
+import RouteErrorBoundary from './ErrorBoundary/RouteErrorBoundary'
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <AppLayout/>,
-        children: publicRoutes
+        children: publicRoutes,
+        errorElement: <RouteErrorBoundary/>
     },
     {
         path: '/admin',
@@ -22,10 +24,12 @@ export const router = createBrowserRouter([
                 ),
             };
         },
-        children: adminRoutes
+        children: adminRoutes,
+         errorElement: <RouteErrorBoundary/>
     },
     {
         path: '*',
-        element: <Error  />
+        element: <Error  />,
+        errorElement: <RouteErrorBoundary/>
     }
 ])

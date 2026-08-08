@@ -136,24 +136,27 @@ export class BaseRepository<
   async create(data: TCreate): Promise<IRepositoryResponse<TDTO>> {
     try {
       const uniqueValue = this.getCreateValue(data)
-      const exists = await this.Model.findOne({
-        where: { [this.whereField]: uniqueValue } as WhereOptions
-      })
-      if (exists) {
-        throwError(
-          `${this.Model.name} with ${this.whereField} ${uniqueValue} already exists`,
-          400
-        )
+      if (uniqueValue != null) {
+        const exists = await this.Model.findOne({
+          where: { [this.whereField]: uniqueValue } as WhereOptions
+        })
+        if (exists) {
+          throwError(
+            `${this.Model.name} with ${this.whereField} ${uniqueValue} already exists`,
+            400
+          )
+        }
       }
       const model = await this.Model.create(data as CreationAttributes<Model>)
       return {
-        message: `${this.Model.name} ${uniqueValue} creado correctamente`,
+        message: `${this.Model.name} ${uniqueValue != null ? uniqueValue : ''} creado correctamente`,
         results: this.parserFn(model)
       }
     } catch (error) {
       return processError(error, `Create ${this.Model.name} repository error`)
     }
   }
+
 
   async update(id: string | number, data: TUpdate): Promise<IRepositoryResponse<TDTO>> {
     try {

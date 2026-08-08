@@ -29,7 +29,7 @@ const FaceVideoView = ({ media }:VideoProps) => {
 
   useEffect(() => {
     if (isLoading && videoList.length > 0) {
-      setMainVideo(videoList[0]);
+      setMainVideo(videoList[0]);//eslint-disable-line
       setIsLoading(false); // Marcar que ya no estamos cargando
     }
   }, [videoList, isLoading]);

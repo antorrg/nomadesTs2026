@@ -1,14 +1,15 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import type { AnyAction } from '@reduxjs/toolkit';
 import { mediaApi } from '../../AdminApi/mediaApi';
 import type { IMedia } from '../../../types/media';
+import { type MediaTabVisibilityConfig, DEFAULT_TAB_CONFIG } from '../../../types/mediaConfig';
 
 // Estado del slice
 interface MediaState {
     media: IMedia[];
     selectedMedia: IMedia | null;
     adminLoading: boolean;
-
+    tabConfig: MediaTabVisibilityConfig;
     error: string | null;
 }
 
@@ -17,10 +18,9 @@ const initialState: MediaState = {
     media: [],
     selectedMedia: null,
     adminLoading: false,
-
+    tabConfig: DEFAULT_TAB_CONFIG,
     error: null
 };
-
 
 // Thunks autenticados
 export const getAllMedia = createAsyncThunk(
@@ -45,10 +45,19 @@ export const getMediaById = createAsyncThunk(
     }
 );
 
-
+export const updateMediaConfigThunk = createAsyncThunk(
+    'media/updateConfig',
+    async (data: Partial<MediaTabVisibilityConfig>, { rejectWithValue }) => {
+        try {
+            return await mediaApi.updateConfig(data);
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || 'Error al actualizar configuración');
+        }
+    }
+);
 
 const adminMediaSlice = createSlice({
-    name: 'media',
+    name: 'adminMedia',
     initialState,
     reducers: {
         clearError: (state) => {
@@ -59,32 +68,51 @@ const adminMediaSlice = createSlice({
         },
         clearSelectedMedia: (state) => {
             state.selectedMedia = null;
+        },
+        updateAdminTabConfig: (state, action: PayloadAction<MediaTabVisibilityConfig>) => {
+            state.tabConfig = action.payload;
         }
     },
     extraReducers: (builder) => {
-        // Specific fulfilled cases (Data Updates)
         builder
-            // Admin Media
             .addCase(getAllMedia.fulfilled, (state, action) => {
-                state.media = action.payload;
+                if (Array.isArray(action.payload)) {
+                    state.media = action.payload.filter((item: any) => item.type !== 'config');
+                    const configItem = action.payload.find((item: any) => item.type === 'config');
+                    if (configItem) {
+                        state.tabConfig = {
+                            showFacebook: configItem.showFacebook ?? true,
+                            showInstagram: configItem.showInstagram ?? true,
+                            showYouTube: configItem.showYouTube ?? true
+                        };
+                    }
+                } else {
+                    state.media = action.payload;
+                }
             })
             .addCase(getMediaById.fulfilled, (state, action) => {
                 state.selectedMedia = action.payload;
             })
-
-            // Matchers
+            .addCase(updateMediaConfigThunk.fulfilled, (state, action) => {
+                if (action.payload) {
+                    state.tabConfig = {
+                        showFacebook: action.payload.showFacebook ?? state.tabConfig.showFacebook,
+                        showInstagram: action.payload.showInstagram ?? state.tabConfig.showInstagram,
+                        showYouTube: action.payload.showYouTube ?? state.tabConfig.showYouTube,
+                    };
+                }
+            })
             .addMatcher(
                 (action) => action.type.startsWith('media/') && action.type.endsWith('/pending'),
                 (state) => {
                     state.error = null;
-                        state.adminLoading = true;
-                    
+                    state.adminLoading = true;
                 }
             )
             .addMatcher(
                 (action): action is AnyAction => action.type.startsWith('media/') && action.type.endsWith('/rejected'),
                 (state, action: AnyAction) => {
-                        state.adminLoading = false;
+                    state.adminLoading = false;
                     if (action.payload) {
                         state.error = action.payload as string;
                     } else {
@@ -95,12 +123,11 @@ const adminMediaSlice = createSlice({
             .addMatcher(
                 (action): action is AnyAction => action.type.startsWith('media/') && action.type.endsWith('/fulfilled'),
                 (state) => {
-                        state.adminLoading = false;
-                    
+                    state.adminLoading = false;
                 }
             );
     }
 });
 
-export const { clearError, selectMedia, clearSelectedMedia } = adminMediaSlice.actions;
+export const { clearError, selectMedia, clearSelectedMedia, updateAdminTabConfig } = adminMediaSlice.actions;
 export default adminMediaSlice.reducer;

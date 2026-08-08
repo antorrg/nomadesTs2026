@@ -1,5 +1,6 @@
 import { type ReactNode }  from 'react'
 import { Nav, Container, Row } from 'react-bootstrap';
+import MediaTabConfigControls from './MediaTabConfigControls';
 
 interface VideoTabsLayoutProps {
   activeTab: string;
@@ -11,6 +12,9 @@ const VideoLayout = ({ activeTab, handleTabChange, children }:VideoTabsLayoutPro
   return (
     <div className='coverBack'>
      <Container className="coverAdmin pb-3">
+          {/* Componente de configuración de casillas para visibilidad en PublicAccess */}
+          <MediaTabConfigControls />
+
           <Row>
             {/* Navegación por tabs */}
             <Nav variant="tabs" className="ms-2 mb-0" id="nav-tab" role="tablist">
@@ -40,4 +44,4 @@ const VideoLayout = ({ activeTab, handleTabChange, children }:VideoTabsLayoutPro
   )
 }
 
-export default VideoLayout
+export default VideoLayout
