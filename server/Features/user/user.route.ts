@@ -7,6 +7,7 @@ import { authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js
 import { allowedQueryValues } from '../../Shared/Utils/allowedQueryValues.js'
 import { userService } from '../../Shared/dependencies.js'
 
+
 const user = new UserController(userService)
 
 const password: RegExp = /^(?=.*[A-Z]).{8,}$/

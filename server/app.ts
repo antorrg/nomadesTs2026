@@ -1,4 +1,5 @@
 import express, { type Request, type Response } from 'express'
+import {finder } from './Shared/Middlewares/finder.js'
 import morgan from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
@@ -13,7 +14,7 @@ import envConfig from './Configs/envConfig.js'
 import { corsConfig } from './Configs/corsConfig.js'
 import { helmetMainConfig } from './Configs/helmetConfig.js'
 
-
+//eslint-disable-next-line
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const app = express()
@@ -32,16 +33,16 @@ app.use(csrfProtection)
 app.use(setCsrfToken)
 
 app.use(eh.jsonFormat)
-
+app.use(finder('App'))
 app.use(mainRouter)
 
 if (envConfig.Status !== 'development' && envConfig.Status !== 'test') {
  const indexPath = path.join(path.resolve(), 'dist', 'index.html')
     app.use(express.static(path.join(path.resolve(), 'dist')));
-    app.get('/', (req, res) => {
+    app.get('/', (req: Request, res: Response) => {
         res.sendFile(indexPath);
     });
-app.get(/^(?!\/api).*/, (req, res) => {
+app.get(/^(?!\/api).*/, (req: Request, res: Response) => {
   res.sendFile(indexPath)
 })
 }
