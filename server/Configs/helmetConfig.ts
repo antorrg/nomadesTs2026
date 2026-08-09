@@ -1,4 +1,4 @@
-import helmet, { type HelmetOptions, } from 'helmet'
+import { type HelmetOptions, } from 'helmet'
 import envConfig from './envConfig.js'
 
 
@@ -7,13 +7,16 @@ const commonCspDirectives = {
 
   scriptSrc: [
     "'self'",
+    "'unsafe-inline'",
 
     // YouTube
     'https://www.youtube.com',
 
     // Meta embeds / SDKs
     'https://www.instagram.com',
+    'https://*.instagram.com',
     'https://www.facebook.com',
+    'https://*.facebook.com',
     'https://connect.facebook.net'
   ],
 
@@ -33,14 +36,15 @@ const commonCspDirectives = {
     // YouTube thumbnails
     'https://i.ytimg.com',
 
-    // Meta CDNs
+    // Meta CDNs & Facebook
     'https://*.fbcdn.net',
+    'https://*.fna.fbcdn.net',
     'https://*.cdninstagram.com',
+    'https://www.facebook.com',
+    'https://*.facebook.com',
 
-    // Solo desarrollo/local
-    'https://nomadests2026-production.up.railway.app',
-    // Solo pruebas
-    
+    // Servidor producción
+    `${envConfig.BaseUrl}`,
   ],
 
   fontSrc: [
@@ -50,11 +54,13 @@ const commonCspDirectives = {
 
   connectSrc: [
     "'self'",
-
-    // Agregalos solo si ves bloqueos reales en embeds/API
     'https://www.youtube.com',
     'https://www.instagram.com',
-    'https://www.facebook.com'
+    'https://*.instagram.com',
+    'https://www.facebook.com',
+    'https://*.facebook.com',
+    'https://connect.facebook.net',
+    'https://*.fbcdn.net'
   ],
 
   mediaSrc: [
@@ -75,12 +81,15 @@ const commonCspDirectives = {
     'https://www.youtube.com',
     'https://www.youtube-nocookie.com',
     'https://www.instagram.com',
-    'https://www.facebook.com'
+    'https://*.instagram.com',
+    'https://www.facebook.com',
+    'https://*.facebook.com',
+    'https://web.facebook.com',
+    'https://m.facebook.com',
+    'https://fb.watch'
   ],
 
-  // Opcional, pero útil para endurecer formularios
   formAction: ["'self'"]
-
 }
 
 export const helmetDevConfig: HelmetOptions = {
@@ -108,7 +117,8 @@ export const helmetDevConfig: HelmetOptions = {
   },
 
   crossOriginEmbedderPolicy: false,
-  crossOriginResourcePolicy: { policy: 'cross-origin' }
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+  crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' }
 }
 
 export const helmetProdConfig: HelmetOptions = {
@@ -118,11 +128,13 @@ export const helmetProdConfig: HelmetOptions = {
       ...commonCspDirectives
     }
   },
-    strictTransportSecurity: {
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+  crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+  strictTransportSecurity: {
     maxAge: 31536000,
-    includeSubDomains: true,
-   // preload: true
-  },
+    includeSubDomains: true
+  }
 }
 
 

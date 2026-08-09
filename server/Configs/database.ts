@@ -6,7 +6,14 @@ import logger from './logger.js'
 
 const sequelize = new Sequelize(envConfig.DatabaseUrl, {
   logging: false,
-  native: false
+  native: false,
+    dialectOptions: envConfig.optionRender
+    ? {
+        ssl: {
+          require: true
+        }
+      }
+    : {}
 })
 
 Object.values(models).forEach((modelDef) => {

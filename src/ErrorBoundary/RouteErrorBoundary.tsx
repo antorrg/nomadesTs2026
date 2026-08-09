@@ -6,22 +6,23 @@ export const RouteErrorBoundary = () => {
 
   console.error('RouteErrorBoundary captured an error:', error);
 
-  let title = 'Error';
+  const title = 'Error';
   let message = 'Se ha producido un problema al cargar esta sección. La aplicación sigue activa.';
   let statusCode: number | string | null = null;
 
-  if (isRouteErrorResponse(error)) {
+   if (isRouteErrorResponse(error)) {
     statusCode = error.status;
-    if (error.status === 404) {
-      title = 'Página no encontrada (404)';
-      message = 'La página o recurso que buscas no existe o ha sido movido.';
-    } else if (error.status === 403) {
-      title = 'Acceso Restringido (403)';
-      message = 'No tienes permisos suficientes para acceder a esta sección.';
-    } else {
-      title = `Error del servidor (${error.status})`;
       message = error.statusText || message;
-    }
+  //   if (error.status === 404) {
+  //     title = 'Página no encontrada (404)';
+  //     message = 'La página o recurso que buscas no existe o ha sido movido.';
+  //   } else if (error.status === 403) {
+  //     title = 'Acceso Restringido (403)';
+  //     message = 'No tienes permisos suficientes para acceder a esta sección.';
+  //   } else {
+  //     title = `Error del servidor (${error.status})`;
+  //     message = error.statusText || message;
+    //}
   } else if (error instanceof Error) {
     message = error.message;
   }

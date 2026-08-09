@@ -44,6 +44,7 @@ const envConfig = {
   UserImg: getStringEnv('USER_PICTURE', ''),
   BasePicture: getStringEnv('BASE_PICTURE', ''),
   DatabaseUrl: getStringEnv('DATABASE_URL', 'Undefined'),
+  optionRender: NODE_ENV==='production'? true : false,
   Secret: getStringEnv('JWT_SECRET',''),
   ExpiresIn: getStringEnv('JWT_EXPIRES_IN', '1'),
   TestImagesUploadDir: getStringEnv('IMAGES_DIR', 'noData'),
@@ -55,6 +56,9 @@ const envConfig = {
   CloudApiSecret : getStringEnv("CLOUD_API_SECRET",''),
   GmailUser: getStringEnv("GMAIL_USER",''),
   GmailPass: getStringEnv("GMAIL_APP_PASS",''),
+  MetaAppId: getStringEnv("META_APP_ID", ''),
+  MetaAppSecret: getStringEnv("META_APP_SECRET", ''),
+  BaseUrl: getStringEnv("VITE_BASE_URL")
 }
 
 export default envConfig
