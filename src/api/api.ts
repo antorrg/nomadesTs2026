@@ -1,8 +1,8 @@
 import { HttpClient } from "./base/HttpClient";
 import { AdminApi } from "./base/AdminApi";
 
-const baseURL = `${import.meta.env.VITE_BASE_URL}/api/v1`|| '/api/v1';
-
+const rawBase = import.meta.env.VITE_BASE_URL?.trim();
+const baseURL = rawBase ? `${rawBase.replace(/\/+$/, '')}/api/v1` : '/api/v1';
 
 const publicHttp = new HttpClient(baseURL, {withCredentials: false, requireAuth: false})
 

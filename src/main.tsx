@@ -7,7 +7,9 @@ import './styles/scss/main.scss'
 import App from './App.tsx'
 import axios from 'axios'
 
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
+if (import.meta.env.VITE_BASE_URL) {
+  axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
