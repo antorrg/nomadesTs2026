@@ -45,7 +45,8 @@ const commonCspDirectives = {
 
     // Servidor producción
     //`${envConfig.BaseUrl}`,
-    'https://nomadests2026-production.up.railway.app/'
+    'https://nomadests2026-production.up.railway.app/',
+    'https://nomades.onrender.com/'
   ],
 
   fontSrc: [
