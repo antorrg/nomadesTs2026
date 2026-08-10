@@ -48,22 +48,17 @@ const Login: React.FC<Props> = ({ loginFn, setLoad }) => {
     }));
   }
 
-  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setLoad(true);
     try {
       const response = await loginFn(input as any);
-      successLogin()
-      return response
+      successLogin();
+      return response;
     } catch (error) {
-      loginReject()
+      loginReject();
       console.error(error);
     }
-
-    setInput({
-      email: "",
-      password: "",
-    });
   };
   const permit =
     !input.email.trim() ||
@@ -92,52 +87,54 @@ const Login: React.FC<Props> = ({ loginFn, setLoad }) => {
         ></button>
       </div>
       <h1 className="h3 mb-3 fw-normal">Inicie sesion</h1>
-      <div className="form-floating">
-        <input
-          type="email"
-          className="form-control"
-          value={input.email}
-          name="email"
-          placeholder="name@example.com"
-          onChange={handleInputChange}
-        />
-        <label htmlFor="floatingInput">Email address</label>
-      </div>
-      {error.email && <p className="errorMsg">{error.email}</p>}
-      <div className="form-floating d-flex justify-content-between align-items-center">
-        <input
-          type={showPassword ? "text" : "password"}
-          className="form-control"
-          value={input.password}
-          name="password"
-          placeholder="Password"
-          onChange={handleInputChange}
-        />
-        <label htmlFor="floatingPassword">Password</label>
+      <form onSubmit={handleSubmit}>
+        <div className="form-floating">
+          <input
+            type="email"
+            className="form-control"
+            value={input.email}
+            name="email"
+            placeholder="name@example.com"
+            onChange={handleInputChange}
+          />
+          <label htmlFor="floatingInput">Email address</label>
+        </div>
+        {error.email && <p className="errorMsg">{error.email}</p>}
+        <div className="form-floating d-flex justify-content-between align-items-center">
+          <input
+            type={showPassword ? "text" : "password"}
+            className="form-control"
+            value={input.password}
+            name="password"
+            placeholder="Password"
+            onChange={handleInputChange}
+          />
+          <label htmlFor="floatingPassword">Password</label>
+          <button
+            type="button"
+            onClick={() => {
+              setShowPassword(!showPassword);
+            }}
+            className="buttonEye"
+          >
+            <i
+              className={
+                showPassword ? "bi bi-eye-slash" : "bi bi-eye"
+              }
+            ></i>
+          </button>
+        </div>
+        {error.password && (
+          <p className="errorMsg">{error.password}</p>
+        )}
         <button
-          type="button"
-          onClick={() => {
-            setShowPassword(!showPassword);
-          }}
-          className="buttonEye"
+          type="submit"
+          className="btn btn-sm btn-primary w-100 py-2 mt-3"
+          disabled={permit}
         >
-          <i
-            className={
-              showPassword ? "bi bi-eye-slash" : "bi bi-eye"
-            }
-          ></i>
+          Iniciar
         </button>
-      </div>
-      {error.password && (
-        <p className="errorMsg">{error.password}</p>
-      )}
-      <button
-        className="btn btn-sm btn-primary w-100 py-2"
-        onClick={handleSubmit}
-        disabled={permit}
-      >
-        Iniciar
-      </button>
+      </form>
     </section>
   );
 };

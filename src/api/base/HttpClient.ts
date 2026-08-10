@@ -29,6 +29,10 @@ export class HttpClient {
   async request<T = unknown>(config: RequestConfig): Promise<T> {
     const headers: Record<string, string> = {};
 
+    if (config.data && !(config.data instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+
     if (this.requireAuth) {
       const token = this.getToken?.();
       if (!token) throw new Error('Token no encontrado');
