@@ -16,11 +16,6 @@ const Home: React.FC = () => {
   } = useHomePageData()
 
 
-  // if (isInitialLoading) {
-  //   return <div className="d-flex justify-content-center align-items-center min-vh-100">
-  //    <Loading/>
-  //   </div>;
-  // }
 
   if (error) {
     return (

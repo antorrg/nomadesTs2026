@@ -1,4 +1,4 @@
-import {landingPublicApi} from '../../PublicAccess/publicApi/landingApi';
+import { emailPublicApi } from "../../PublicAccess/publicApi/emailApi";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -10,7 +10,7 @@ const Footer = () => {
 
   const urlFace = import.meta.env.VITE_URL_FACEBOOK;
   const urlInstagram = import.meta.env.VITE_URL_INSTAGRAM;
-  const handleWhatsApp = landingPublicApi.handleWhatsApp
+  const handleWhatsApp =  ()=> emailPublicApi.handleWhatsApp()
 
   return (
     <div className='text-muted py-5 bg-body'>
@@ -27,7 +27,7 @@ const Footer = () => {
                   <i className="bi bi-instagram text-danger me-2" style={{ fontSize: "1.5rem" }}></i>
                   Instagram
                 </a>
-                <a href='#' onClick={() => handleWhatsApp()} className="d-flex align-items-center text-decoration-none">
+                <a href='#' onClick={()=> handleWhatsApp()} className="d-flex align-items-center text-decoration-none">
                   <i className="bi bi-whatsapp text-primary me-2" style={{ fontSize: "1.5rem" }}></i>
                   WhatsApp
                 </a>

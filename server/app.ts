@@ -1,5 +1,4 @@
 import express, { type Request, type Response } from 'express'
-import {finder } from './Shared/Middlewares/finder.js'
 import morgan from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
@@ -33,7 +32,6 @@ app.use(csrfProtection)
 app.use(setCsrfToken)
 
 app.use(eh.jsonFormat)
-app.use(finder('App'))
 app.use(mainRouter)
 
 if (envConfig.Status !== 'development' && envConfig.Status !== 'test') {

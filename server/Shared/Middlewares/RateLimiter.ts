@@ -36,4 +36,16 @@ static loginRateLimiter = rateLimit({
   },
   skipSuccessfulRequests: true, // No cuenta los logins exitosos
 });
+static emailRateLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000,
+  limit: 2,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  message: {
+    ok: false,
+    message: 'Demasiados envios. No envie emails si no es personalemnte',
+    data: null,
+  },
+  skipSuccessfulRequests: true, // No cuenta los logins exitosos
+});
 }

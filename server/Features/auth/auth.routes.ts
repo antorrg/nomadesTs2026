@@ -3,7 +3,7 @@ import { AuthService } from './AuthService.js'
 import { AuthController } from './AuthController.js'
 import { RateLimiter } from '../../Shared/Middlewares/RateLimiter.js'
 import { userRepository } from '../../Shared/dependencies.js'
-import {finder } from '../../Shared/Middlewares/finder.js'
+
 
 const authService = new AuthService(userRepository)
 const authController = new AuthController(authService)
@@ -12,7 +12,6 @@ const authRouter = express.Router()
 
 authRouter.post(
     '/login', 
-    finder('Login'),
     RateLimiter.loginRateLimiter, 
     authController.login
 )
