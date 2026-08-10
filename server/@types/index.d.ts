@@ -6,5 +6,14 @@ declare module "express-session" {
   }
 }
 
+declare global {
+  namespace Express {
+    interface Request {
+      csrfToken?: () => string
+    }
+  }
+}
+
 export { }
+
 

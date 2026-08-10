@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import { workPublicApi } from '../../publicApi/workApi';
 import type { IWork } from '../../../types/work';
 
@@ -25,8 +25,9 @@ export const getPublicWorks = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
              return await workPublicApi.getAllPublic();
-        } catch (error: any) {
-            return rejectWithValue(error.response?.data?.message || 'Error al cargar trabajos');
+        } catch (error: unknown) {
+            const err = error as { response?: { data?: { message?: string } } };
+            return rejectWithValue(err.response?.data?.message || 'Error al cargar trabajos');
         }
     }
 );
@@ -36,8 +37,9 @@ export const getPublicWorkById = createAsyncThunk(
     async (id:number, { rejectWithValue }) => {
         try {
              return await workPublicApi.getPublicById(id);
-        } catch (error: any) {
-            return rejectWithValue(error.response?.data?.message || 'Error al cargar trabajo');
+        } catch (error: unknown) {
+            const err = error as { response?: { data?: { message?: string } } };
+            return rejectWithValue(err.response?.data?.message || 'Error al cargar trabajo');
         }
     }
 );
@@ -48,7 +50,7 @@ const workSlice = createSlice({
     initialState,
     reducers: {
   
-        selectWork: (state, action) => {
+        selectWork: (state, action: PayloadAction<IWork | null>) => {
             state.selectedPublicWork = action.payload;
         },
         clearSelectedWork: (state) => {

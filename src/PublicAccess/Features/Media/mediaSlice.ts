@@ -28,8 +28,9 @@ export const getPublicMedia = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             return await mediaPublicApi.getAllPublic();
-        } catch (error: any) {
-            return rejectWithValue(error.response?.data?.message || 'Error al cargar videos');
+        } catch (error: unknown) {
+            const err = error as { response?: { data?: { message?: string } } };
+            return rejectWithValue(err.response?.data?.message || 'Error al cargar videos');
         }
     }
 );
@@ -39,8 +40,9 @@ export const getPublicMediaById = createAsyncThunk(
     async (id: number, { rejectWithValue }) => {
         try {
             return await mediaPublicApi.getPublicById(id);
-        } catch (error: any) {
-            return rejectWithValue(error.response?.data?.message || 'Error al cargar videos');
+        } catch (error: unknown) {
+            const err = error as { response?: { data?: { message?: string } } };
+            return rejectWithValue(err.response?.data?.message || 'Error al cargar videos');
         }
     }
 );
@@ -52,7 +54,7 @@ const mediaSlice = createSlice({
         clearError: (state) => {
             state.error = null;
         },
-        selectMedia: (state, action) => {
+        selectMedia: (state, action: PayloadAction<IMedia | null>) => {
             state.selectedPublicMedia = action.payload;
         },
         clearSelectedMedia: (state) => {
@@ -66,8 +68,8 @@ const mediaSlice = createSlice({
         builder
             .addCase(getPublicMedia.fulfilled, (state, action) => {
                 if (Array.isArray(action.payload)) {
-                    state.publicMedia = action.payload.filter((item: any) => item.type !== 'config');
-                    const configItem = action.payload.find((item: any) => item.type === 'config');
+                    state.publicMedia = action.payload.filter((item: IMedia) => item.type !== 'config');
+                    const configItem = action.payload.find((item: IMedia) => item.type === 'config');
                     if (configItem) {
                         state.tabConfig = {
                             showFacebook: configItem.showFacebook ?? true,

@@ -17,6 +17,7 @@ describe('CreateUser middleware', () => {
      expect(test.body.data).toEqual({
         email: 'emailexample@fake.com',
         password: expect.any(String),
+        plainPassword: 'D4458ggdr',
         nickname:'emailexample',
         picture: expect.any(String),
         enabled: true

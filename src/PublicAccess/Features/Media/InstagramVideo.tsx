@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Container, Row, Col, Ratio, Button, Badge } from "react-bootstrap";
 import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -17,28 +17,21 @@ const InstagramVideo = ({ media }: InstagramVideoProps) => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  const videoList = media?.filter((video) => video.type === "instagram");
-  const videos = videoList[0] ?? {
+  const videoList = media?.filter((video) => video.type === "instagram") ?? [];
+  const [selectedVideo, setSelectedVideo] = useState<IMedia | null>(null);
+
+  const mainVideo = selectedVideo ?? videoList[0] ?? {
     id: "02",
     type: "instagram",
     title: "Instagram",
     text: "Aguarde un momento...",
     url: "",
   };
-  const [isLoading, setIsLoading] = useState(true);
-  const [mainVideo, setMainVideo] = useState(videos);
-
-  useEffect(() => {
-    if (isLoading && videoList.length > 0) {
-      setMainVideo(videoList[0]);
-      setIsLoading(false); // Marcar que ya no estamos cargando
-    }
-  }, [videoList, isLoading]);
 
   const showCarousel = videoList.length > 1;
 
   const handleVideoSelect = (video: IMedia) => {
-    setMainVideo(video);
+    setSelectedVideo(video);
   };
 
   const mainEmbedUrl = getInstagramEmbedUrl(mainVideo.url);

@@ -88,10 +88,11 @@ export class AdminApi {
       success?.(response.results);
       return response.results;
 
-    } catch (error: any) {
-      const backendMessage = error.response?.data?.message;
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } } };
+      const backendMessage = err.response?.data?.message;
       this.notify.error(backendMessage ?? errorMessage ?? 'Error desconocido');
-      console.error(error)
+      console.error(error);
       reject?.(error);
     }
   }

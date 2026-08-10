@@ -34,7 +34,7 @@ const MyCarousel = ({ products, infoImg }:ProducTypes) => {
             <h2 className='h3'>{item.title}</h2>
             <p>{item.info_header}</p>
             <p>
-              <a className="btn btn-lg btn-ligth fw-bold border-white bg-white" href={`/detalle/${item.id}`} rel="noreferrer">
+              <a className="btn btn-lg fw-bold ourWorkBtn" href={`/detalle/${item.id}`} rel="noreferrer">
                 Vea mas...
               </a>
             </p>

@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
 import type { AnyAction } from '@reduxjs/toolkit';
 import { productsPublicApi } from '../../publicApi/productsApi';
 import type { IProduct, ProductsResponse, IItem } from '../../../types/product';
@@ -33,8 +33,9 @@ export const getPublicProducts = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             return await productsPublicApi.getAllPublic();
-        } catch (error: any) {
-            return rejectWithValue(error.response?.data?.message || 'Error al cargar productos');
+        } catch (error: unknown) {
+            const err = error as { response?: { data?: { message?: string } } };
+            return rejectWithValue(err.response?.data?.message || 'Error al cargar productos');
         }
     }
 );
@@ -44,8 +45,9 @@ export const getPublicProductById = createAsyncThunk(
     async (id: number, { rejectWithValue }) => {
         try {
             return await productsPublicApi.getPublicById(id);
-        } catch (error: any) {
-            return rejectWithValue(error.response?.data?.message || 'Error al cargar producto');
+        } catch (error: unknown) {
+            const err = error as { response?: { data?: { message?: string } } };
+            return rejectWithValue(err.response?.data?.message || 'Error al cargar producto');
         }
     }
 );
@@ -55,8 +57,9 @@ export const getPublicItem = createAsyncThunk(
     async (id: number, { rejectWithValue }) => {
         try {
             return await productsPublicApi.getPublicItem(id);
-        } catch (error: any) {
-            return rejectWithValue(error.response?.data?.message || 'Error al cargar producto');
+        } catch (error: unknown) {
+            const err = error as { response?: { data?: { message?: string } } };
+            return rejectWithValue(err.response?.data?.message || 'Error al cargar producto');
         }
     }
 );
@@ -69,19 +72,19 @@ const productSlice = createSlice({
         clearError: (state) => {
             state.error = null;
         },
-        selectProduct: (state, action) => {
+        selectProduct: (state, action: PayloadAction<IProduct | null>) => {
             state.selectedPublicProduct = action.payload;
         },
         clearSelectedProduct: (state) => {
             state.selectedPublicProduct = null;
         },
-        selectItem: (state, action) => {
+        selectItem: (state, action: PayloadAction<IItem | null>) => {
             state.selectedPublicItem = action.payload;
         },
         clearSelectedItem: (state) => {
             state.selectedPublicItem = null;
         },
-        syncPublicProductsList: (state, action) => {
+        syncPublicProductsList: (state, action: PayloadAction<ProductsResponse>) => {
             const updatedProduct = action.payload;
             const index = state.publicProducts.findIndex(p => p.id === updatedProduct.id);
             if (index !== -1) {

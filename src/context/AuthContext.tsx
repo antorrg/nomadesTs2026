@@ -4,7 +4,7 @@ import type { AuthState } from '../types/auth';
 import interceptor from '../api/network/interceptor';
 
 interface AuthContextType extends AuthState {
-    login: (credentials: any) => Promise<void>;
+    login: (credentials: Record<string, unknown>) => Promise<void>;
     logout: () => Promise<void>;
     checkAuth: () => Promise<void>;
 }
@@ -12,24 +12,16 @@ interface AuthContextType extends AuthState {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [state, setState] = useState<AuthState>({
-        user: null,
-        isAuthenticated: false,
-        loading: true,
+    const [state, setState] = useState<AuthState>(() => {
+        const hasCookie = typeof document !== 'undefined' && document.cookie.includes('logged_in=true');
+        return {
+            user: null,
+            isAuthenticated: false,
+            loading: hasCookie,
+        };
     });
 
     const checkAuth = async () => {
-        // Optimización: Si no existe la cookie 'logged_in', no hacemos la petición
-        // Esto evita 401s innecesarios en la primera carga si el usuario no está logueado
-        if (!document.cookie.includes('logged_in=true')) {
-            setState({
-                user: null,
-                isAuthenticated: false,
-                loading: false,
-            });
-            return;
-        }
-
         try {
             const data = await authApi.me();
             if (data) {
@@ -39,7 +31,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                     loading: false,
                 });
             } else {
-                throw new Error();
+                setState({
+                    user: null,
+                    isAuthenticated: false,
+                    loading: false,
+                });
             }
         } catch {
             setState({
@@ -51,10 +47,29 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
 
     useEffect(() => {
-        checkAuth();
-    }, []);
+        if (!state.loading) return;
+        let isMounted = true;
 
-    const login = async (credentials: any) => {
+        authApi.me()
+            .then((data) => {
+                if (!isMounted) return;
+                if (data) {
+                    setState({ user: data, isAuthenticated: true, loading: false });
+                } else {
+                    setState({ user: null, isAuthenticated: false, loading: false });
+                }
+            })
+            .catch(() => {
+                if (!isMounted) return;
+                setState({ user: null, isAuthenticated: false, loading: false });
+            });
+
+        return () => {
+            isMounted = false;
+        };
+    }, [state.loading]);
+
+    const login = async (credentials: Record<string, unknown>) => {
         const data = await authApi.login(credentials);
         if (data) {
             setState({
@@ -94,6 +109,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 };
 
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
     const context = use(AuthContext);
     if (context === undefined) {

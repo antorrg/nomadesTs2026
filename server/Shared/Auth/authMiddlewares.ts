@@ -1,6 +1,6 @@
 import { type Request, type Response, type NextFunction } from 'express'
 import { middError } from '../../Configs/errorHandlers.js'
-import csurf from 'csurf'
+import crypto from 'node:crypto'
 
 export enum UserRole {
   ADMIN = 'ADMIN',
@@ -20,21 +20,41 @@ export const RoleHierarchy: Record<UserRole, number> = {
   [UserRole.ADMIN]: 4
 }
 
-// CSRF Protection via cookies
-export const csrfProtection = csurf({
-  cookie: {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax'
+// CSRF Protection via double-submit cookie pattern
+export const csrfProtection = (req: Request, res: Response, next: NextFunction) => {
+  // Safe HTTP methods do not require CSRF token validation
+  if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
+    return next()
   }
-})
 
-// Add CSRF token to response for the first request
+  const cookieToken = req.cookies?.['XSRF-TOKEN']
+  const headerToken = (
+    req.headers['x-xsrf-token'] ||
+    req.headers['x-csrf-token'] ||
+    req.headers['csrf-token'] ||
+    req.body?._csrf
+  ) as string | undefined
+
+  if (!cookieToken || !headerToken || cookieToken !== headerToken) {
+    return next(middError('ebadcsaftoken - CSRF token mismatch or missing', 403))
+  }
+
+  next()
+}
+
+// Add CSRF token to response cookie and request context
 export const setCsrfToken = (req: Request, res: Response, next: NextFunction) => {
-  res.cookie('XSRF-TOKEN', req.csrfToken(), {
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax'
-  })
+  let token = req.cookies?.['XSRF-TOKEN']
+  if (!token) {
+    token = crypto.randomBytes(24).toString('hex')
+    res.cookie('XSRF-TOKEN', token, {
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/'
+    })
+  }
+
+  req.csrfToken = () => token
   next()
 }
 

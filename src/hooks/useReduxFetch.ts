@@ -8,16 +8,18 @@ import type { RootState } from '../store/store';
  */
 interface UseReduxFetchOptions<Data, ThunkArg> {
     /** La acción asíncrona (Thunk) a despachar */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     action: AsyncThunk<any, ThunkArg, any> | ActionCreator<any>;
     /** Argumento para la acción (opcional) */
     arg?: ThunkArg;
     /** Selector para obtener los datos del estado */
     selector: (state: RootState) => Data;
     /** Dependencias para el useEffect (por defecto []) */
-    deps?: any[];
+    deps?: unknown[];
     /** condicional para disparar accion */
     condition?: boolean;
     /** Acción de limpieza al desmontar (opcional) */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     cleanupAction?: ActionCreator<any>;
 }
 
@@ -41,7 +43,8 @@ export const useReduxFetch = <Data, ThunkArg = void>({
     useEffect(() => {
         // Despachar la acción con el argumento (si existe)
         if (condition) {
-        dispatch((action as any)(arg));
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            dispatch((action as any)(arg));
         }
         // Limpieza al desmontar
         return () => {

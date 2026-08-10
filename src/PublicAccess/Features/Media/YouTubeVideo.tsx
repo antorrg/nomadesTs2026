@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Container, Row, Col, Ratio, Button, Image } from "react-bootstrap";
 import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -16,26 +16,20 @@ const YouTubeVideo = ({ media }: YouTubeVideoProps) => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  const videoList = media?.filter((video) => video.type === "youtube");
-  const videos = videoList[0] ?? {
+  const videoList = media?.filter((video) => video.type === "youtube") ?? [];
+  const [selectedVideo, setSelectedVideo] = useState<IMedia | null>(null);
+
+  const mainVideo = selectedVideo ?? videoList[0] ?? {
     id: "0",
-    title: "Videos de you tube",
+    title: "Videos de youtube",
     text: "Aguarde un momento...",
     url: "",
   };
-  const [isLoading, setIsLoading] = useState(true);
-  const [mainVideo, setMainVideo] = useState(videos);
 
-  useEffect(() => {
-    if (isLoading && videoList.length > 0) {
-      setMainVideo(videoList[0]);
-      setIsLoading(false); // Marcar que ya no estamos cargando
-    }
-  }, [videoList, isLoading]);
-  const showCarousel = videoList.length > 1 ? true : false;
+  const showCarousel = videoList.length > 1;
 
   const handleVideoSelect = (video: IMedia) => {
-    setMainVideo(video);
+    setSelectedVideo(video);
   };
 
   const videoId = (url: string) => {

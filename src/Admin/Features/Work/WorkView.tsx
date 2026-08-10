@@ -23,7 +23,7 @@ const WorkView = () => {
   };
 
 
-  let info = Array.isArray(works)? works : mockWork
+  const info = Array.isArray(works)? works : mockWork
 
   return (
     <>
