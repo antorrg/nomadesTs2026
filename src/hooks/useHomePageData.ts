@@ -11,16 +11,12 @@ export const useHomePageData = () => {
   const product = useSelector((state: RootState) => state.product)
 
   useEffect(() => {
-    if (publicLanding.length ===0 && !publicLoading) {
-      dispatch(getPublicLanding())
-    }
-  }, [dispatch, publicLanding, publicLoading])
+    dispatch(getPublicLanding())
+  }, [dispatch])
 
   useEffect(() => {
-    if ((!product.publicProducts || product.publicProducts.length === 0) && !product.publicLoading) {
-      dispatch(getPublicProducts())
-    }
-  }, [dispatch, product.publicProducts, product.publicLoading])
+    dispatch(getPublicProducts())
+  }, [dispatch])
 
   useEffect(() => {
     return () => {
@@ -31,11 +27,12 @@ export const useHomePageData = () => {
   }, [dispatch, error])
 
   const isInitialLoading =
-    (!publicLanding && publicLoading) ||
+    ((!publicLanding || publicLanding.length === 0) && publicLoading) ||
     ((!product.publicProducts || product.publicProducts.length === 0) && product.publicLoading)
 
   const isReady =
     !!publicLanding &&
+    publicLanding.length > 0 &&
     !!product.publicProducts &&
     product.publicProducts.length > 0
 

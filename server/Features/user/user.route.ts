@@ -17,17 +17,17 @@ const userRouter = Router()
 
 userRouter.get(
   '/',
-  authorizeMinRole(UserRole.ADMIN),
+  authorizeMinRole(UserRole.USER),
   user.getAll
 )
 userRouter.get(
   '/pages',
-  authorizeMinRole(UserRole.ADMIN),
+  authorizeMinRole(UserRole.USER),
   user.getWithPages
 )
 userRouter.get(
   '/:id',
-  authorizeMinRole(UserRole.ADMIN),
+  authorizeMinRole(UserRole.USER),
   Validator.paramId('id', Validator.ValidReg.UUIDv4),
   user.getById
 )
