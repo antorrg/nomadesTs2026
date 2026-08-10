@@ -6,6 +6,7 @@ import { getUserById, clearError } from './Features/User/userAdminSlice'
 import { useAuth } from '../context/AuthContext'
 import { type IUser } from '../types/user'
 import UserProfile from './Features/User/components/ModalProfile/UserProfile';
+import { roleTranslate } from './AdminUtils/helpers';
 
 
 const AdminNav: React.FC = () => {
@@ -65,7 +66,7 @@ const AdminNav: React.FC = () => {
             <Dropdown.Menu className="dropdown-menu text-small shadow">
               <Dropdown.Item>
                 <p>Email: {userProfile?.email}</p>
-                <p>Rol: {userProfile.role}</p>
+                <p>Rol: {roleTranslate(userProfile?.role)}</p>
                 <p>Nombre:  {userProfile.name ? userProfile.name : userProfile.nickname}</p>
               </Dropdown.Item>
               <Dropdown.Item onClick={()=> setProfile(true)}>Perfil</Dropdown.Item>
