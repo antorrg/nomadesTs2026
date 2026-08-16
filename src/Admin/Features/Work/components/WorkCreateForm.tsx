@@ -45,7 +45,7 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
             fullScreen={false}
             scale={0.7}
             />
-            :
+            :null}
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
             <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
@@ -91,7 +91,7 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
                     </button>
                 </div>
             </form>
-            }
+            
         </div>
     );
 }

@@ -2,6 +2,7 @@ import { BaseService } from '../../Shared/Services/BaseService.js'
 import { BaseRepository } from '../../Shared/Repositories/BaseRepository.js'
 import type { IRepositoryResponse } from '../../Shared/Interfaces/base.interface.js'
 import type { IMedia, CreateMedia, UpdateMedia, IMediaConfig, CreateMediaConfig, UpdateMediaConfig } from './mediaMappers.js'
+import { resolveFacebookRedirect } from './facebookHelper.js'
 
 export class MediaService extends BaseService<IMedia, CreateMedia, UpdateMedia> {
   protected configRepository: BaseRepository<IMediaConfig, CreateMediaConfig, UpdateMediaConfig>
@@ -73,4 +74,18 @@ export class MediaService extends BaseService<IMedia, CreateMedia, UpdateMedia> 
     const config = await this.getConfig()
     return await this.configRepository.update(config.id, data)
   }
+  //adaptadores de claude para facebook
+  override async create(data: CreateMedia): Promise<IRepositoryResponse<IMedia>> {
+  const resolvedData = data.url
+    ? { ...data, url: await resolveFacebookRedirect(data.url) }
+    : data
+  return await super.create(resolvedData)
+}
+
+override async update(id: string | number, data: UpdateMedia): Promise<IRepositoryResponse<IMedia>> {
+  const resolvedData = data.url
+    ? { ...data, url: await resolveFacebookRedirect(data.url) }
+    : data
+  return await super.update(id, resolvedData)
+}
 }

@@ -29,7 +29,7 @@ export const getAllWorks = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             return await workApi.getAll();
-        } catch (error: any) {
+        } catch (error: any) {//eslint-disable-line
             return rejectWithValue(error.response?.data?.message || 'Error al cargar trabajos');
         }
     }
@@ -40,8 +40,20 @@ export const getWorkById = createAsyncThunk(
     async (id: number, { rejectWithValue }) => {
         try {
             return await workApi.getById(id);
-        } catch (error: any) {
+        } catch (error: any) {//eslint-disable-line
             return rejectWithValue(error.response?.data?.message || 'Error al cargar trabajo');
+        }
+    }
+);
+
+export const deleteWork = createAsyncThunk(
+    'work/deleteWork',
+    async (id: number, { rejectWithValue }) => {
+        try {
+            await workApi.delete(id);
+            return id;
+        } catch (error: any) {//eslint-disable-line
+            return rejectWithValue(error.response?.data?.message || 'Error al eliminar trabajo');
         }
     }
 );
@@ -87,6 +99,19 @@ const adminWorkSlice = createSlice({
                 state.selectedWork = action.payload;
             })
             .addCase(getWorkById.rejected, (state, action) => {
+                state.adminLoading = false;
+                state.error = action.payload as string;
+            })
+            // Delete work
+            .addCase(deleteWork.pending, (state) => {
+                state.adminLoading = true;
+                state.error = null;
+            })
+            .addCase(deleteWork.fulfilled, (state, action) => {
+                state.adminLoading = false;
+                state.works = state.works.filter((work) => work.id !== action.payload);
+            })
+            .addCase(deleteWork.rejected, (state, action) => {
                 state.adminLoading = false;
                 state.error = action.payload as string;
             });

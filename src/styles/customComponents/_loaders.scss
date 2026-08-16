@@ -55,7 +55,9 @@
   mask-composite: subtract;
   animation: l3 1.5s infinite linear;
 }
-
+.loader2Working {
+  background: transparent;
+}
 @keyframes l3 {
   to {
     transform: rotate(1turn)
