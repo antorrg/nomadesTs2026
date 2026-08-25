@@ -6,7 +6,7 @@ Plataforma integral Full-Stack construida para **Nomades-Cabañas de Pastores**.
 
 Sitio web completo para **Nomades, Cabañas de Pastores**, desarrollado como proyecto freelance. Incluye un frontend público para visitantes y un panel de administración completo para gestión de contenido.
 
-> 🚀 **Demo en vivo:** [URL del deploy](https://nomadests2026-production.up.railway.app/) 
+> 🚀 **Demo en vivo:** [URL del deploy](https://nomades.onrender.com/) 
 
 > 📦 **Stack:** Express 5 · TypeScript · PostgreSQL · Sequelize · React 19 · Redux Toolkit · Vite
 
@@ -14,8 +14,6 @@ Sitio web completo para **Nomades, Cabañas de Pastores**, desarrollado como pro
 
 ## Capturas
 
-<!-- Reemplazá estas líneas con tus imágenes reales -->
-<!-- Ejemplo: ![Vista principal](./docs/screenshots/home.png) -->
 
 ![Vista principal](./docs/imgs/vistaPublica.png)
 - Vista principal

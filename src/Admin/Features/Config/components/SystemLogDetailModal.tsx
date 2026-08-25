@@ -1,5 +1,5 @@
 import { Modal, Button } from 'react-bootstrap';
-import type { ILogger } from '../../../types/systemLogs';
+import type { ILogger } from '../../../../types/systemLogs';
 
 interface SystemLogDetailModalProps {
   show: boolean;
@@ -35,7 +35,7 @@ const SystemLogDetailModal = ({ show, onHide, log }: SystemLogDetailModalProps) 
 
         <div className="mb-3">
           <strong>Mensaje Principal:</strong>
-          <div className="p-2 bg-light border rounded mt-1">
+          <div className="p-2 border rounded mt-1">
             {log.message}
           </div>
         </div>
@@ -52,7 +52,7 @@ const SystemLogDetailModal = ({ show, onHide, log }: SystemLogDetailModalProps) 
         {log.contexts && log.contexts.length > 0 && (
           <div className="mb-3">
             <strong>Contextos adicionales:</strong>
-            <pre className="p-2 bg-light border rounded mt-1 overflow-auto">
+            <pre className="p-2 border rounded mt-1 overflow-auto">
               {JSON.stringify(log.contexts, null, 2)}
             </pre>
           </div>

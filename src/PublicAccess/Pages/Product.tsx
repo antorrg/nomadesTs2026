@@ -4,7 +4,6 @@ import { useReduxFetch } from '../../hooks/useReduxFetch'
 import { getPublicProductById, clearSelectedProduct } from '../Features/Product/productSlice'
 import ProductView from '../Features/Product/ProductView' // Renamed to avoid conflict
 import Footer from '../../components/Layout/Footer'
-//import Loader2 from '../../components/Loader2'
 import { mockProductWithItem} from '../../PublicAccess/Features/Product/mockProduct'
 
 const Product: React.FC = () => {
@@ -18,13 +17,8 @@ const Product: React.FC = () => {
     cleanupAction: clearSelectedProduct
   })
 
-  // Optional: Handle metadata here using selectedPublicProduct?.info_header
-   const publicProduct =  publicLoading? mockProductWithItem : selectedPublicProduct
-   // let publicProduct =  mockProductWithItem 
 
- // if (!publicLoading){ setInfoImg(true)}
-
-  
+   const publicProduct = (publicLoading || !selectedPublicProduct) ? mockProductWithItem : selectedPublicProduct
 
   return (
     <div className='coverBackPublic'>
@@ -33,7 +27,7 @@ const Product: React.FC = () => {
       <ProductView
         info={publicProduct!}
         items={publicProduct?.Items || []}
-        infoImg={publicLoading}
+        infoImg={publicLoading|| !selectedPublicProduct}
       />
       <Footer/>
     </div>
