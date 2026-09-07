@@ -46,7 +46,12 @@ const CreateMediaPage = () => {
     return (
         <div className="imageBack">
             {load ? (
-                <Loader2 />
+                <Loader2
+                    scale = {1}
+                    fullScreen = {false}
+                    text = "Aguarde un momento..."
+                    className="loader-caption"
+                     />
             ) : (
                 <div className="coverBack">
                     <div className="container-md modal-content colorBack formProductContainer rounded-4 shadow p-4">

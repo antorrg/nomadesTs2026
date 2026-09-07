@@ -12,17 +12,22 @@ import mainRouter from './routes.js'
 import envConfig from './Configs/envConfig.js'
 import { corsConfig } from './Configs/corsConfig.js'
 import { helmetMainConfig } from './Configs/helmetConfig.js'
+//import { domainRedirect } from './Shared/Utils/domainRedirect.js'
 
 //eslint-disable-next-line
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const app = express()
+app.set('trust proxy', 1)
+// app.use(domainRedirect(
+//   envConfig.CanonicalUrl,
+//   envConfig.AlternateUrl
+// ))
 if (envConfig.Status === 'development') {
   app.use(morgan('dev'))
 }
 app.use(cors(corsConfig))
 app.use(helmet(helmetMainConfig))
-app.set('trust proxy', 1)
 app.use(cookieParser())
 app.use(sessionMiddleware)
 app.use(express.json()) // json parser might be needed for csrf if token in body (though here cookie)

@@ -33,32 +33,33 @@ const getNumberEnv = (key: string, defaultValue: number): number => {
   return isNaN(parsed) ? defaultValue : parsed
 }
 
-const getStringEnv = (key: string, defaultValue = ''): string => {
-  return source[key] ?? defaultValue
+const getStringEnv = (key: string, defaultValue:string =''): string => {
+  const value = source[key]
+  return value ?? defaultValue
 }
 
 
 const envConfig = {
   Port: getNumberEnv('PORT', 3000),
   Status: NODE_ENV,
-  UserImg: getStringEnv('USER_PICTURE', ''),
-  BasePicture: getStringEnv('BASE_PICTURE', ''),
-  DatabaseUrl: getStringEnv('DATABASE_URL', 'Undefined'),
+  UserImg: getStringEnv('USER_PICTURE'),
+  BasePicture: getStringEnv('BASE_PICTURE'),
+  DatabaseUrl: getStringEnv('DATABASE_URL'),
   optionRender: NODE_ENV==='production'? true : false,
-  Secret: getStringEnv('JWT_SECRET',''),
-  ExpiresIn: getStringEnv('JWT_EXPIRES_IN', '1'),
-  TestImagesUploadDir: getStringEnv('IMAGES_DIR', 'noData'),
-  SessionSecret: getStringEnv('SESSION_SECRET', 'test-secret'),
-  RootEmail:getStringEnv('ROOT_EMAIL', ''),
-  RootPass : getStringEnv('ROOT_PASS',''),
-  CloudName: getStringEnv("CLOUD_NAME", ''),
-  CloudApiKey : getStringEnv("CLOUD_API_KEY", ''),
-  CloudApiSecret : getStringEnv("CLOUD_API_SECRET",''),
-  GmailUser: getStringEnv("GMAIL_USER",''),
-  GmailPass: getStringEnv("GMAIL_APP_PASS",''),
-  MetaAppId: getStringEnv("META_APP_ID", ''),
-  MetaAppSecret: getStringEnv("META_APP_SECRET", ''),
-  BaseUrl: getStringEnv("VITE_BASE_URL")
+  SessionSecret: getStringEnv('SESSION_SECRET'),
+  RootEmail:getStringEnv('ROOT_EMAIL'),
+  RootPass : getStringEnv('ROOT_PASS'),
+  CloudName: getStringEnv("CLOUD_NAME"),
+  CloudApiKey : getStringEnv("CLOUD_API_KEY"),
+  CloudApiSecret : getStringEnv("CLOUD_API_SECRET"),
+  GmailUser: getStringEnv("GMAIL_USER"),
+  GmailPass: getStringEnv("GMAIL_APP_PASS"),
+  MetaAppId: getStringEnv("META_APP_ID"),
+  MetaAppSecret: getStringEnv("META_APP_SECRET"),
+  BaseUrl: getStringEnv("VITE_BASE_URL"),
+  TestImagesUploadDir: getStringEnv('IMAGES_DIR'),
+  CanonicalUrl: getStringEnv('CANONICAL_URL'),
+  AlternateUrl: getStringEnv('ALTERNATE_URL'),
 }
 
 export default envConfig

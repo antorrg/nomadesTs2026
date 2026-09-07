@@ -64,7 +64,15 @@
   }
 }
 
-
+  .loader-caption {
+    z-index: 10;
+    background: var(--bg-glass-dark); /* Fondo semitransparente */
+    backdrop-filter: var(--blur-glass); /* Efecto de desenfoque */
+    -webkit-backdrop-filter: var(--blur-glass); /* Efecto de desenfoque para Safari */
+    padding: 2rem;
+    border-radius: 10px; /* Bordes redondeados */
+    color:black
+  }
 .wagon-loader {
   display: grid;
   place-items: center;

@@ -65,8 +65,14 @@ const UpdateMediaPage = () => {
     return (
         <div className="imageBack">
             {load ? (
-                <Loader2 />
+                <Loader2 
+                    scale = {1}
+                    fullScreen = {true}
+                    text = "Aguarde un momento..."
+                    className="loader-caption"
+                />
             ) : (
+        
                 <div className="coverBack">
                     <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4">
                         <h2 className="title-form m-0">Actualizar publicacion {showType}:</h2>
@@ -84,7 +90,7 @@ const UpdateMediaPage = () => {
                         )}
                     </div>
                 </div>
-            )}
+        )} 
         </div>
     );
 };
