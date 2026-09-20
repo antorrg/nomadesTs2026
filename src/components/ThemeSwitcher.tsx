@@ -1,9 +1,6 @@
 import { useTheme } from '../hooks/useTheme';
 
-/**
- * Componente para cambiar entre modo claro, oscuro y automático
- * Usa el hook useTheme para manejar el estado del tema
- */
+/** Componente para cambiar entre modo claro y oscuro. */
 const ThemeSwitcher = () => {
     const { theme, toggleTheme } = useTheme();
 
@@ -11,7 +8,6 @@ const ThemeSwitcher = () => {
         switch (theme) {
             case 'light': return '☀️'; // Sol
             case 'dark': return '🌙';  // Luna
-            case 'auto': return '⚙️'; // Auto (Engranaje)
         }
     };
 
@@ -19,7 +15,6 @@ const ThemeSwitcher = () => {
         switch (theme) {
             case 'light': return 'Modo Claro';
             case 'dark': return 'Modo Oscuro';
-            case 'auto': return 'Automático';
         }
     };
 
