@@ -34,7 +34,7 @@ const YouTubeVideo = ({ media }: YouTubeVideoProps) => {
 
   const videoId = (url: string) => {
     const match = url.match(
-      /(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/))([^?\s&]+)/
+      /(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?|shorts|live)\/|.*[?&]v=)|youtu\.be\/))([^?\s&]+)/i
     );
     return match ? match[1] : null;
   };

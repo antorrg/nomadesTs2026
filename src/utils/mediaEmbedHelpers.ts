@@ -76,8 +76,6 @@ export const getFacebookEmbedUrl = (url: string): string => {
   if (!url) return '';
   const cleanUrl = cleanFacebookUrl(url);
 
-  // Videos de Facebook Watch y /videos/ usan video.php.
-  // Publicaciones, fotos, permalinks y Reels de Facebook usan post.php.
   const isVideo = /\/(videos|watch)\//i.test(cleanUrl);
   const pluginType = isVideo ? 'video.php' : 'post.php';
 
@@ -112,12 +110,12 @@ export const getFacebookBadgeLabel = (url: string): string => {
 };
 
 /**
- * Extrae el ID de un video de YouTube.
+ * Extrae el ID de un video de YouTube (videos normales, Shorts, embeds y directos).
  */
 export const getYouTubeVideoId = (url: string): string | null => {
   if (!url) return null;
   const match = url.match(
-    /(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/))([^?\s&]+)/i
+    /(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?|shorts|live)\/|.*[?&]v=)|youtu\.be\/))([^?\s&]+)/i
   );
   return match ? match[1] : null;
 };

@@ -57,6 +57,7 @@ const CreateMediaPage = () => {
                     <div className="container-md modal-content colorBack formProductContainer rounded-4 shadow p-4">
                         <h3 className="mb-4">Guardar Video de {showType}:</h3>
                         <MediaCreateForm
+                            mediaType={showType}
                             onSubmit={handleSubmit}
                             onCancel={onClose}
                         />

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Ratio, Button, Image } from "react-bootstrap";
 import Slider from "react-slick";
@@ -27,26 +27,24 @@ const YouTubeVideoView = ({ media }: VideoProps) => {
     [media]
   );
 
-  const [mainVideo, setMainVideo] = useState<IMedia>(videoList[0] ?? FALLBACK_VIDEO);
+  const [selectedVideoId, setSelectedVideoId] = useState<number | string | null>(null);
 
-  useEffect(() => {
-    if (videoList.length > 0) {
-      setMainVideo((prev) => {
-        const stillExists = videoList.some((video) => video.id === prev.id);
-        return stillExists ? prev : videoList[0];
-      });
-    } else {
-      setMainVideo(FALLBACK_VIDEO);
+  const mainVideo = useMemo(() => {
+    if (videoList.length === 0) return FALLBACK_VIDEO;
+    if (selectedVideoId !== null) {
+      const selected = videoList.find((video) => video.id === selectedVideoId);
+      if (selected) return selected;
     }
-  }, [videoList]);
+    return videoList[0];
+  }, [videoList, selectedVideoId]);
 
   const handleVideoSelect = (video: IMedia) => {
-    setMainVideo(video);
+    setSelectedVideoId(video.id);
   };
 
   const getVideoId = (url: string): string | null => {
     const match = url.match(
-      /(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/))([^?\s&]+)/
+      /(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?|shorts|live)\/|.*[?&]v=)|youtu\.be\/))([^?\s&]+)/i
     );
     return match ? match[1] : null;
   };

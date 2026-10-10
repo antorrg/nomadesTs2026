@@ -1,21 +1,23 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { mediaCreateSchema, type MediaCreateFormData } from "../validations/mediaSchema";
+import { createMediaSchema, type MediaCreateFormData } from "../validations/mediaSchema";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
 
 type MediaCreateFormProps = {
+    mediaType?: string;
     defaultValues?: Partial<MediaCreateFormData>;
     onSubmit: (data: MediaCreateFormData) => void;
     onCancel: () => void;
 };
 
-export function MediaCreateForm({ defaultValues, onSubmit, onCancel }: MediaCreateFormProps) {
+export function MediaCreateForm({ mediaType, defaultValues, onSubmit, onCancel }: MediaCreateFormProps) {
+    const schema = createMediaSchema(mediaType);
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm<MediaCreateFormData>({
-        resolver: zodResolver(mediaCreateSchema) as any,
+        resolver: zodResolver(schema) as any,
         defaultValues: {
             title: defaultValues?.title ?? "",
             text: defaultValues?.text ?? "",

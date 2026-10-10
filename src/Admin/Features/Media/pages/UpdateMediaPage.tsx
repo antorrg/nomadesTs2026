@@ -78,6 +78,7 @@ const UpdateMediaPage = () => {
                         <h2 className="title-form m-0">Actualizar publicacion {showType}:</h2>
                         {selectedMedia && (
                             <MediaUpdateForm
+                                mediaType={selectedMedia?.type || urlType}
                                 defaultValues={{
                                     title: selectedMedia.title || "",
                                     text: selectedMedia.text || "",

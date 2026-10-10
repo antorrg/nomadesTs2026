@@ -1,23 +1,25 @@
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "react-bootstrap";
-import { mediaUpdateSchema, type MediaUpdateFormData } from "../validations/mediaSchema";
+import { createMediaSchema, type MediaUpdateFormData } from "../validations/mediaSchema";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
 
 type MediaUpdateFormProps = {
+    mediaType?: string;
     defaultValues: MediaUpdateFormData;
     onSubmit: (data: MediaUpdateFormData) => void;
     onCancel: () => void;
 };
 
-export function MediaUpdateForm({ defaultValues, onSubmit, onCancel }: MediaUpdateFormProps) {
+export function MediaUpdateForm({ mediaType, defaultValues, onSubmit, onCancel }: MediaUpdateFormProps) {
+    const schema = createMediaSchema(mediaType);
     const {
         register,
         handleSubmit,
         control,
         formState: { errors, isSubmitting },
     } = useForm<MediaUpdateFormData>({
-        resolver: zodResolver(mediaUpdateSchema) as any,
+        resolver: zodResolver(schema) as any,
         defaultValues,
     });
 
