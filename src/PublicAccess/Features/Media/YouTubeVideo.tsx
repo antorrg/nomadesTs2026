@@ -59,7 +59,7 @@ const YouTubeVideo = ({ media }: YouTubeVideoProps) => {
               Crear
             </Button>
           ) : null}
-          <h2 className="featurette-heading fw-normal lh-1">
+          <h2 className="featurette-heading fw-normal lh-1 mt-0 mb-3">
             {mainVideo.title}
           </h2>
           <p className="lead">{mainVideo.text}</p>

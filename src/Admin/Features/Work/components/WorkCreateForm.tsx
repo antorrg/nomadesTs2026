@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { useForm  } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { workCreateSchema, type WorkCreateFormData } from "../validations/workSchema";
 import SelectImages from "../../Images/SelectImages/SelectImages";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
 import Loader2 from "../../../../components/Loader2";
+import RichTextEditor from "../../../components/RichTextEditor";
 
 type WorkCreateFormProps = {
     defaultValues?: Partial<WorkCreateFormData>;
@@ -66,13 +67,18 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
                     <label htmlFor="text" className="form-label">
                         Texto:
                     </label>
-                    <textarea
-                        {...register("text")}
-                        className={`form-control ${errors.text ? "is-invalid" : ""}`}
-                        id="text"
-                        rows={3}
+                    <Controller
+                        control={control}
+                        name="text"
+                        render={({ field }) => (
+                            <RichTextEditor
+                                value={field.value}
+                                onChange={field.onChange}
+                                isInvalid={!!errors.text}
+                            />
+                        )}
                     />
-                    {errors.text && <div className="invalid-feedback">{errors.text.message}</div>}
+                    {errors.text && <div className="text-danger small mt-1">{errors.text.message}</div>}
                 </div>
 
                 <div className="d-flex flex-row mt-4 mb-5">

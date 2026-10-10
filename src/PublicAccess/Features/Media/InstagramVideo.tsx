@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Row, Col, Ratio, Button, Badge } from "react-bootstrap";
+import { Container, Row, Col, Button, Badge } from "react-bootstrap";
 import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
@@ -56,7 +56,7 @@ const InstagramVideo = ({ media }: InstagramVideoProps) => {
               {getInstagramBadgeLabel(mainVideo.url)}
             </Badge>
           </div>
-          <h2 className="featurette-heading fw-normal lh-1">
+          <h2 className="featurette-heading fw-normal lh-1 mt-0 mb-3">
             {mainVideo.title}
           </h2>
           <p className="lead">{mainVideo.text}</p>

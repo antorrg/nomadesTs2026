@@ -1,5 +1,6 @@
 import { type IAbout } from "../../../types/about"
 import LoadingImage from "../../../components/LoadingImages/LoadingImage"
+import DOMPurify from "dompurify"
 
 type AboutPicturedProps = {
   feature: IAbout
@@ -35,7 +36,10 @@ const AboutPictured = ({ feature, isLoading }: AboutPicturedProps) => {
               )}
             </div>
 
-            <p className="lead">{feature?.text}</p>
+            <div
+              className="lead rich-text-content"
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(feature?.text || '') }}
+            />
           </div>
         </div>
       </div>

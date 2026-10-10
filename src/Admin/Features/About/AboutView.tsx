@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import DOMPurify from "dompurify";
 import { useReduxFetch } from '../../../hooks/useReduxFetch';
 import { getAllAbout } from './aboutAdminSlice';
 import Loader2 from '../../../components/Loader2';
@@ -65,7 +66,10 @@ const AboutView = () => {
 
             <hr />
             <h4>Texto principal:</h4>
-            <p className="lead text-muted">{info?.text}</p>
+            <div
+              className="lead text-muted rich-text-content"
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(info?.text || '') }}
+            />
           </div>
         ) : (
           <Loader2 />

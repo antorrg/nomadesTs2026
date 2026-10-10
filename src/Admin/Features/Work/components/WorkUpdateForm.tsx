@@ -6,6 +6,7 @@ import { workUpdateSchema, type WorkUpdateFormData } from "../validations/workSc
 import SelectImages from "../../Images/SelectImages/SelectImages";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
 import Loader2 from "../../../../components/Loader2";
+import RichTextEditor from "../../../components/RichTextEditor";
 
 type WorkUpdateFormProps = {
     defaultValues: WorkUpdateFormData;
@@ -21,6 +22,7 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
         control,
         watch,
         setValue,
+        reset,
         formState: { errors, isSubmitting },
     } = useForm<WorkUpdateFormData>({
         resolver: zodResolver(workUpdateSchema) as any,
@@ -29,13 +31,9 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
 
     const useImg = watch("useImg");
 
-    // Clear picture when switching between useImg only if the component has fully mounted
     useEffect(() => {
-        // Here we might not want to automatically clear picture on mount if updating,
-        // so we observe changes carefully. We only clear it when useImg changes, 
-        // to preserve the initial value loaded from DB.
-        // Actually, to avoid clearing existing image immediately:
-    }, [useImg]);
+        reset(defaultValues);
+    }, [defaultValues, reset]);
 
     return (
         <div className="container mt-5">
@@ -84,13 +82,18 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
                     <label htmlFor="text" className="form-label">
                         Texto:
                     </label>
-                    <textarea
-                        {...register("text")}
-                        className={`form-control ${errors.text ? "is-invalid" : ""}`}
-                        id="text"
-                        rows={3}
+                    <Controller
+                        control={control}
+                        name="text"
+                        render={({ field }) => (
+                            <RichTextEditor
+                                value={field.value}
+                                onChange={field.onChange}
+                                isInvalid={!!errors.text}
+                            />
+                        )}
                     />
-                    {errors.text && <div className="invalid-feedback">{errors.text.message}</div>}
+                    {errors.text && <div className="text-danger small mt-1">{errors.text.message}</div>}
                 </div>
                                 <div className="row">
                     <div className="mb-3 form-check form-switch col-md-5">

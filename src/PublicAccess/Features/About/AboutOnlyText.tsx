@@ -1,4 +1,5 @@
 import { type IAbout } from "../../../types/about"
+import DOMPurify from "dompurify"
 
 type AboutOnlyTextProps = {
     feature: IAbout
@@ -17,7 +18,10 @@ const AboutOnlyText = ({ feature }: AboutOnlyTextProps) => {
               <div className="col-12">
                 <h3 className="display-6 fw-normal mt-0 mb-3">{feature?.title || 'Quienes somos'}</h3>
                 <hr className="feature-divider"></hr>
-                <p className="lead">{feature?.text}</p>
+                <div
+                  className="lead rich-text-content"
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(feature?.text || '') }}
+                />
               </div>
             </div>
           </div>

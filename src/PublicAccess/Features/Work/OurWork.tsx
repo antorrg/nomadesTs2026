@@ -1,5 +1,6 @@
 import { type IWork } from "../../../types/work"
 import LoadingImage from "../../../components/LoadingImages/LoadingImage"
+import DOMPurify from "dompurify"
 
 type WorkProps = {
   featurettes: IWork[]
@@ -16,31 +17,31 @@ const OurWork = ({featurettes, isLoading}:WorkProps) => {
       <div className="modal-content p-2">
         {featurettes?.map((item, index) => (
           <div key={item.id ?? index}>
-            <div className="row featurette">
-              {/* Alterna el orden usando order-md-2 solo en imágenes impares */}
-              <div className={`col-md-7 ${index % 2 !== 0 ? 'order-md-2' : ''}`}>
-                <h2 className="featurette-heading fw-normal lh-1">{item.title}</h2>
-                <p className="lead">{item.text}</p>
-              </div>
-              <div className={`col-md-5 ${index % 2 !== 0 ? 'order-md-1' : ''}`}>
-                {isLoading?
-                <LoadingImage
-                className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto mt-3"
-                />
-                :
-                <img
-                  className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto mt-3"
-                  src={item.picture}
-                  alt="Not found"
+            <div className="clearfix p-3">
+              <h2 className="featurette-heading fw-normal lh-1 mt-0 mb-3">{item.title}</h2>
+              <div className={`${index % 2 !== 0 ? 'float-md-end ms-md-4' : 'float-md-start me-md-4'} mb-3 col-md-5 text-center px-0`}>
+                {isLoading ? (
+                  <LoadingImage
+                    className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto rounded"
+                  />
+                ) : (
+                  <img
+                    className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto rounded"
+                    src={item.picture}
+                    alt={item.title || "Not found"}
                     width={600}
                     height={400}
                     loading="lazy"
                     decoding="async"
-                />
-                  }
+                  />
+                )}
               </div>
+              <div
+                className="lead rich-text-content"
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item.text || '') }}
+              />
             </div>
-            <hr className="featurette-divider" />
+            {index < featurettes.length - 1 && <hr className="featurette-divider" />}
           </div>
         ))}
       </div>

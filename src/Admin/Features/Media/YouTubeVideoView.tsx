@@ -83,7 +83,7 @@ const YouTubeVideoView = ({ media }: VideoProps) => {
             Crear
           </Button>
 
-          <h2 className="featurette-heading fw-normal lh-1 mt-3">
+          <h2 className="featurette-heading fw-normal lh-1 mt-0 mb-3">
             {mainVideo.title}
           </h2>
 

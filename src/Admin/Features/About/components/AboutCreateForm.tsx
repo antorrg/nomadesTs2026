@@ -8,6 +8,8 @@ import SelectImages from "../../Images/SelectImages/SelectImages";
 import InfoFormField from "../../../InfoFormField";
 import { aboutImgShowExplanation, aboutEnabledExplanation } from "../../../../utils/infoHelpers";
 
+import RichTextEditor from "../../../components/RichTextEditor";
+
 type AboutCreateFormProps = {
     defaultValues?: Partial<AboutCreateFormData>;
     onSubmit: (data: AboutCreateFormData) => void;
@@ -35,8 +37,6 @@ export function AboutCreateForm({ defaultValues, onSubmit, onCancel }: AboutCrea
     });
 
     const useImg = watch("useImg");
-    const imgShow = watch("imgShow");
-    const enabled = watch("enabled");
 
     useEffect(() => {
         setValue("picture", null);
@@ -64,13 +64,18 @@ export function AboutCreateForm({ defaultValues, onSubmit, onCancel }: AboutCrea
                     <label htmlFor="text" className="form-label">
                         Texto principal:
                     </label>
-                    <textarea
-                        {...register("text")}
-                        className={`form-control ${errors.text ? "is-invalid" : ""}`}
-                        id="text"
-                        rows={5}
+                    <Controller
+                        control={control}
+                        name="text"
+                        render={({ field }) => (
+                            <RichTextEditor
+                                value={field.value}
+                                onChange={field.onChange}
+                                isInvalid={!!errors.text}
+                            />
+                        )}
                     />
-                    {errors.text && <div className="invalid-feedback">{errors.text.message}</div>}
+                    {errors.text && <div className="text-danger small mt-1">{errors.text.message}</div>}
                 </div>
 
                 <div className="row my-3">
