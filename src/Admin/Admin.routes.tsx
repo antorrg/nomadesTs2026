@@ -4,6 +4,7 @@ import { userRouter } from './Features/User/user.route'
 import { workRouter } from './Features/Work/work.route'
 import { mediaRouter } from './Features/Media/media.route'
 import { frontPageRouter } from './Features/FrontPage/frontPage.route'
+import { aboutRouter } from './Features/About/about.route'
 
 export const adminRoutes: RouteObject[] = [
   {
@@ -32,5 +33,9 @@ export const adminRoutes: RouteObject[] = [
   {
     path: 'front-page',
     children: frontPageRouter
+  },
+  {
+    path: 'about',
+    children: aboutRouter
   }
 ]

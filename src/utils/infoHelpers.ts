@@ -8,13 +8,15 @@ export const aboutSeo = "Info posicionamiento es un campo muy importante ya que 
 export const aboutSaveImage ='Puede elegir guardar la imagen o desecharla, por defecto la desechará para evitar utilizar espacio innecesario en el almacenamiento.'
 export const createItemProd = "Necesita crear por lo menos 1 item para crear el nuevo producto, podrá agregar y quitar items a su gusto luego. Si desea utilizar una imagen guardada puede crearlo sin imagen y luego seleccionar una al actualizar el item."
 export const updateUserProfile = "La actualización del perfil de usuario solo puede hacerla el propietario de la cuenta, las tareas permitidas al administrador son: resetear password, cambiar un role, bloquear a un usuario o borrar una cuenta"
+export const aboutImgShowExplanation = "Permite alternar el modo de presentación en el sitio público: cuando el switch está activado se muestra la vista 'Modo: Con Imagen'; al desactivarlo se muestra en 'Modo: Sólo Texto'."
+export const aboutEnabledExplanation = "Permite alternar la visibilidad pública de la sección 'Quienes Somos' entre los estados 'Visible' u 'Oculto'."
 
 // Informacion para el componente HelpView (accordion)
 
 export const helpPortada = 'En ella vamos a encontrar la imagen principal, si no subimos nada sera una por defecto. Luego de entrar al panel de administrador y posicionarnos en la pestaña "Portada" por unica vez nos aparecera un boton que dice "crear", en adelante este se va a llamar "editar".'
 export const helpProducto = 'Aqui podemos crear un producto (en nuestro caso seria una cabaña) con un nombre, una descripcion, y la "info posicionamiento que es la parte que va a influir en el posicionamiento de la pagina (SEO). Debemos crear un item para poder darle coherencia a los datos, no importa si en el momento no tenemos una imagen para cargar, podremos luego editarlo y añadir o cambiar las imagenes y el texto no solo del item sino tambien del producto. Podemos crear, editar y eliminar los items que querramos para nuestro producto, en cualquier momento.';
 export const helpWork = '';
-export const helpAbout = '';
+export const helpAbout = 'En esta sección podemos gestionar la información de "Quienes Somos". Se crea una sola vez y luego se puede editar la información, alternar entre vista con o sin imagen y controlar su visibilidad pública.';
 export const helpUser = '';
 export const helpImages = 'En el servicio de imagenes contamos con casos: En primer lugar tenemos un almacenamiento local de imagenes, que en caso de contener imagenes (no la imagen por defecto ya que es ficticia), se pueden utilizar en la creación o edición de items. A fin de evitar conflictos accidentales o imagenes faltantes por causa de eliminar una imagen, las imagenes solo se pueden utilizar en un item o producto';
 export const helpVideos = '';

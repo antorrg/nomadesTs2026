@@ -3,17 +3,15 @@ import envConfig from '../../Configs/envConfig.js';
 
 export const create:Schema = {
   title: {
-    tipe: "string",
+    type: "string",
     sanitize: {
       trim: true,
-      escape: true,
     }
   },
   text: {
     type: "string",
     sanitize: {
       trim: true,
-      escape: true,
     }
   },
   picture: {
@@ -26,12 +24,15 @@ export const create:Schema = {
    imgShow: {
     type: "boolean",
 
+  },
+  useImg: {
+    type: "boolean",
   }
 };
 
 export const update:Schema = {
   title: {
-    title: "string",
+    type: "string",
     sanitize: {
       trim: true,
       escape: true,
@@ -46,8 +47,7 @@ export const update:Schema = {
   text: {
     type: "string",
     sanitize: {
-      trim: true,
-      escape: true,
+      trim: true
     }
   },
    imgShow: {

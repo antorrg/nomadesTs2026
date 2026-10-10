@@ -1,30 +1,19 @@
-import { Link } from "react-router-dom";
-import { aboutInfo } from "./constants";
+import React from 'react';
+import AboutOnlyText from './AboutOnlyText';
+import AboutPictured from './AboutPictured';
+import type { IAbout } from '../../../types/about';
 
+type AboutProps = {
+  feature: IAbout;
+  isLoading: boolean;
+};
 
-const About = () => {
- 
+const About: React.FC<AboutProps> = ({ feature, isLoading }) => {
+  if (feature?.imgShow) {
+    return <AboutPictured feature={feature} isLoading={isLoading} />;
+  }
 
-  return (
-    <div className="imageBack">
-      <div className="container coverAbout">
-        <div className="caption-nav">
-          <h1 className="about-h1">Quienes somos:</h1>
-        </div>
-          <div className="modal-content p-2">
-          <div className="container-lg modal-content colorBack contactContainer rounded-4 shadow" style={{maxWidth:'30vw'}}>
-            <div className="mt-5" >
-               <p className='cover-p'>
-              {aboutInfo.description}
-             </p>
-              <Link className="btn btn-sm btn-outline-secondary mb-3" to={'/'}>Volver</Link>
-            </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  );
+  return <AboutOnlyText feature={feature} />;
 };
 
 export default About;
-
