@@ -1,4 +1,5 @@
 import express from 'express'
+import { Validator } from 'req-valid-express'
 import { Media, MediaConfig } from '../../Configs/database.js'
 import { BaseRepository } from '../../Shared/Repositories/BaseRepository.js'
 import { MediaService } from './MediaService.js'
@@ -16,6 +17,7 @@ import {
   mockMedia 
 } from './mediaMappers.js'
 import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js"
+import * as sch from './schemas.js'
 
 const mediaRepository = new BaseRepository<IMedia, CreateMedia, UpdateMedia>(
   Media, 
@@ -48,6 +50,7 @@ mediaRouter.get(
 
 mediaRouter.get(
     '/public/:id',
+    Validator.paramId('id', Validator.ValidReg.INT),
     mediaController.getByIdPublic
 )
 
@@ -58,6 +61,7 @@ mediaRouter.put(
     '/config',
     isAuthenticated,
     authorizeMinRole(UserRole.MODERATOR),
+    Validator.validateBody(sch.configs),
     mediaController.updateConfig
 )
 
@@ -69,6 +73,7 @@ mediaRouter.get(
 
 mediaRouter.get(
     '/:id',
+    Validator.paramId('id', Validator.ValidReg.INT),
     isAuthenticated,
     mediaController.getById
 )
@@ -77,18 +82,22 @@ mediaRouter.post(
     '/',
     isAuthenticated,
     authorizeMinRole(UserRole.MODERATOR),
+    Validator.validateBody(sch.create),
     mediaController.create
 )
 
 mediaRouter.put(
     '/:id',
+    Validator.paramId('id', Validator.ValidReg.INT),
     isAuthenticated,
     authorizeMinRole(UserRole.MODERATOR),
+    Validator.validateBody(sch.create),
     mediaController.update
 )
 
 mediaRouter.delete(
     '/:id',
+    Validator.paramId('id', Validator.ValidReg.INT),
     isAuthenticated,
     authorizeMinRole(UserRole.MODERATOR),
     mediaController.delete

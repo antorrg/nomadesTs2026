@@ -51,3 +51,14 @@ export const update: Schema = {
     type: "boolean"
   }
 };
+export const configs:Schema = {
+        showFacebook: {
+          type: 'boolean'
+        },
+        showInstagram: {
+          type: 'boolean'
+        },
+        showYouTube: {
+          type: 'boolean'
+        }
+}

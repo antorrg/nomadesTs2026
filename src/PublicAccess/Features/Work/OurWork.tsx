@@ -38,7 +38,7 @@ const OurWork = ({featurettes, isLoading}:WorkProps) => {
               </div>
               <div
                 className="lead rich-text-content"
-                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item.text || '') }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item.text || '', { FORBID_ATTR: ['style'] }) }}
               />
             </div>
             {index < featurettes.length - 1 && <hr className="featurette-divider" />}

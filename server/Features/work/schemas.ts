@@ -5,7 +5,6 @@ export const create:Schema = {
     type: "string",
     sanitize: {
       trim: true,
-      escape: true,
     }
   },
   picture: {
@@ -18,7 +17,6 @@ export const create:Schema = {
     type: "string",
     sanitize: {
       trim: true,
-      escape: true,
     }
   },
   useImg: {
@@ -30,7 +28,6 @@ export const update:Schema = {
     type: "string",
     sanitize: {
       trim: true,
-      escape: true,
     }
   },
   picture: {
@@ -43,7 +40,6 @@ export const update:Schema = {
     type: "string",
     sanitize: {
       trim: true,
-      escape: true,
     }
   },
   useImg: {

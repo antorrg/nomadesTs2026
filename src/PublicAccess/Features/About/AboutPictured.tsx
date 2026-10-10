@@ -38,7 +38,7 @@ const AboutPictured = ({ feature, isLoading }: AboutPicturedProps) => {
 
             <div
               className="lead rich-text-content"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(feature?.text || '') }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(feature?.text || '', { FORBID_ATTR: ['style'] }) }}
             />
           </div>
         </div>

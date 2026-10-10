@@ -4,9 +4,9 @@ const SocialNetworks = () => {
   return (
     <>
     <div className="container list-group-item">
-      <div className="row featurette ms-2 px-3">
+      <div className="row featurette align-items-center ms-2 px-3">
         <div className="col-md-7 order-md-1">
-          <h2 className="featurette-heading fw-normal lh-1 mt-0 mb-3">
+          <h2 className="featurette-heading featurette-heading-centered fw-normal lh-1 mb-3">
             Siganos en las redes...
           </h2>
           <p className="lead">

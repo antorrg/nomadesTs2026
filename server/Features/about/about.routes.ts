@@ -8,6 +8,7 @@ import { type IAbout, type CreateAbout, type UpdateAbout, parser, parserQuery, m
 import { ImgsService } from '../../Shared/Services/ImgsService.js'
 import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
 import * as sch from './schemas.js'
+import { sanitizeRichText } from '../../Shared/Middlewares/sanitizeRichText.js'
 
 
 const aboutRepository = new BaseRepository<IAbout, CreateAbout,UpdateAbout>(About, parser, parserQuery, 'About', 'title', mockAbout)
@@ -49,6 +50,7 @@ aboutRouter.post(
     '/',
     isAuthenticated,
     authorizeMinRole(UserRole.MODERATOR),
+    sanitizeRichText(['text']),
     Validator.validateBody(sch.create),
     aboutController.create
 )
@@ -59,6 +61,7 @@ aboutRouter.put(
     isAuthenticated,
     authorizeMinRole(UserRole.MODERATOR),
     Validator.validateBody(sch.update),
+     sanitizeRichText(['text']),
     aboutController.update
 )
 
