@@ -62,6 +62,24 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
     }
   };
 
+  useEffect(() => {
+    try {
+      document.execCommand('defaultParagraphSeparator', false, 'p');
+    } catch {
+      // Ignorar
+    }
+  }, []);
+
+  const handleClearContent = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (editorRef.current) {
+      editorRef.current.innerHTML = '';
+      onChange('');
+      updateActiveStates();
+      editorRef.current.focus();
+    }
+  };
+
   const handleInsertParagraph = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (editorRef.current) {
@@ -115,8 +133,8 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         <button
           type="button"
           className="btn-toolbar-item text-danger border-0 ms-auto"
-          onClick={(e) => executeCommand(e, 'removeFormat')}
-          title="Limpiar Formato"
+          onClick={handleClearContent}
+          title="Borrar todo el texto"
         >
           ✕ Limpiar
         </button>

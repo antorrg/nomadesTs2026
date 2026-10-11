@@ -69,7 +69,7 @@ const UpdateAboutPage = () => {
             ) : (
                 <div className="coverBack">
                     <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4">
-                        <h2 className="title-form m-0 mb-4">Actualizar Sección Acerca de:</h2>
+                        <h2 className="title-form m-0 mb-4">Actualizar Sección:</h2>
                         {item && (
                             <AboutUpdateForm
                                 defaultValues={{
