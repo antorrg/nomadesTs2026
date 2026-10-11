@@ -12,7 +12,7 @@ const AboutOnlyText = ({ feature }: AboutOnlyTextProps) => {
         <h2 className="about-h2">Quienes somos:</h2>
       </div>
       <div className="aboutContainer colorBack rounded-4 shadow">
-        <div className="modal-content p-3">
+        <div className="p-4">
           <div>
             <div className="row featurette">
               <div className="col-12">

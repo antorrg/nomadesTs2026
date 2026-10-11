@@ -1,0 +1,101 @@
+// ============================================
+// ORGANIC WAVE IMAGE FRAME (Estilo Folleto Nómades)
+// ============================================
+
+:root {
+  --organic-accent-bg: hsl(36, 37%, 78%); // Beige cálido original del folleto
+}
+
+[data-bs-theme="dark"] {
+  --organic-accent-bg: #5a4b3c; // Tono madera cálido para modo oscuro
+}
+
+.organic-img-wrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 6px; // Espacio para mostrar el borde beige/cálido
+
+  // Fondo orgánico cálido detrás de la imagen (estilo folleto)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--organic-accent-bg);
+    z-index: 0;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  .bd-placeholder-img,
+  img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-height: 620px;
+    min-height: 480px;
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease;
+    cursor: zoom-in;
+  }
+
+  // Variante: Curva sutil recortada a la derecha (para imágenes a la izquierda en desktop)
+  @media (min-width: 769px) {
+    &.organic-wave-right {
+      &::before {
+        border-radius: 18px 20% 24% 18px / 18px 48% 48% 18px;
+      }
+
+      img,
+      .bd-placeholder-img {
+        border-radius: 10px 16% 20% 10px / 10px 48% 48% 10px;
+      }
+    }
+
+    // Variante: Curva sutil recortada a la izquierda (para imágenes a la derecha en desktop)
+    &.organic-wave-left {
+      &::before {
+        border-radius: 20% 14px 14px 24% / 48% 14px 14px 48%;
+      }
+
+      img,
+      .bd-placeholder-img {
+        border-radius: 16% 10px 10px 20% / 48% 10px 10px 48%;
+      }
+    }
+  }
+
+  // En celulares (<= 768px): Se elimina la curva y se hace rectangular
+  @media (max-width: 768px) {
+    padding: 0;
+
+    &::before {
+      display: none;
+    }
+
+    &.organic-wave-right,
+    &.organic-wave-left {
+      img,
+      .bd-placeholder-img {
+        border-radius: 10px;
+        min-height: 240px;
+        max-height: 360px;
+      }
+    }
+  }
+
+  // Animación suave al pasar el cursor
+  &:hover {
+    &::before {
+      transform: scale(1.015);
+    }
+
+    img {
+      transform: scale(1.01);
+    }
+  }
+}

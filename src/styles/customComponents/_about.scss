@@ -16,8 +16,19 @@
     width: 60%;
     display: flex;
     align-items: center;
-    
+
+    .modal-content {
+      background-color: rgba(250, 250, 250, 0.97);
+    }
   }
+
+[data-bs-theme="dark"] {
+  .aboutContainer {
+    .modal-content {
+      background-color: hsla(215, 28%, 20%, 0.85);
+    }
+  }
+}
   .about-h1 {
     font-size: 3.5em;
   }

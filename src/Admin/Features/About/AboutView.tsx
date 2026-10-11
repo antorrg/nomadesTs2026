@@ -47,7 +47,7 @@ const AboutView = () => {
               <span className={`badge ${info?.imgShow ? 'bg-primary' : 'bg-secondary'} me-2`}>
                 {info?.imgShow ? 'Modo: Con Imagen' : 'Modo: Sólo Texto'}
               </span>
-              <span className={`badge ${info?.enabled ? 'bg-success' : 'bg-warning'}`}>
+              <span className={`badge ${info?.enabled ? 'bg-primary' : 'bg-warning'}`}>
                 {info?.enabled ? 'Visible' : 'Oculto'}
               </span>
             </div>

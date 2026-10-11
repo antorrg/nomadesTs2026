@@ -3,13 +3,13 @@
 // ============================================
 
 // Colores primarios (de resetStyles.css)
-$primary: hsl(115, 32%, 30%);
+$primary: hsl(90, 25%, 29%);
 $secondary: hsl(206, 9%, 32%);
 $success: hsl(152, 71%, 24%);
 $info: #0dcaf0;
 $warning: #ffc107;
 $danger: #dc3545;
-$light: #f8f9fa;
+$light: hsl(30, 33%, 99%);
 $dark: #212529;
 $nomades: hsl(120, 15%, 24%);
 $nomadesNavbar: hsl(0, 0%, 21%);
@@ -19,7 +19,7 @@ $nomadesNavbar: hsl(0, 0%, 21%);
 // ============================================
 
 // URLs de imágenes de fondo
-$bg-arcolor-light: #f2f2f2;//hsl(0, 5%, 27%);
+$bg-arcolor-light: hsl(34, 27%, 95%);
 $bg-image-light: url("/public/cabañaBackground.webp");
 $bg-image-dark: url("/public/cabañaBackground.webp");
 $bg-gradient-dark-blue: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
