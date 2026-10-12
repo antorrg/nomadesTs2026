@@ -45,13 +45,14 @@ export class BaseRepository<
 
       if (models.length === 0) {
         return {
-          message: `${this.Model.name} no contiene datos`,
+          message: `Este registro no contiene datos`,
           results: this.emptyResults()
         }
       }
+      const data = models.map(this.parserFn)
       return {
-        message: `${this.Model.name} registros obtenidos correctamente`,
-        results: models.map(this.parserFn)
+        message: `${data.length} registros obtenidos correctamente`,
+        results: data
       }
     } catch (error) {
       return processError(error, `GetAll ${this.Model.name} repository error`)
@@ -86,7 +87,7 @@ export class BaseRepository<
 
       const data = count === 0 ? this.emptyResults() : rows.map(this.parserFn)
       return {
-        message: `Total registros: ${count}. ${this.Model.name}s obtenidos correctamente`,
+        message: `Total registros: ${count}.`,
         info: {
           total: count,
           page,
@@ -106,7 +107,7 @@ export class BaseRepository<
       const model = await this.Model.findByPk(id)
       if (!model) throwError(`${this.Model.name} no encontrado`, 404)
       return {
-        message: `${this.Model.name} registro obtenido correctamente`,
+        message: `Registro obtenido correctamente`,
         results: this.parserFn(model!)
       }
     } catch (error) {
@@ -123,9 +124,9 @@ export class BaseRepository<
       const model = await this.Model.findOne({
         where: { [whereField]: field } as WhereOptions
       })
-      if (!model) throwError(`El ${whereField.toString()} "${field}" no se encontro`, 404)
+      if (!model) throwError(`El registro "${whereField.toString()}" no se encontro`, 404)
       return {
-        message: `${this.Model.name} registro obtenido correctamente`,
+        message: `Registro obtenido correctamente`,
         results: this.parserFn(model!)
       }
     } catch (error) {
@@ -142,14 +143,14 @@ export class BaseRepository<
         })
         if (exists) {
           throwError(
-            `${this.Model.name} with ${this.whereField} ${uniqueValue} already exists`,
+            `${this.whereField} ${uniqueValue} ya existe`,
             400
           )
         }
       }
       const model = await this.Model.create(data as CreationAttributes<Model>)
       return {
-        message: `${this.Model.name} ${uniqueValue != null ? uniqueValue : ''} creado correctamente`,
+        message: `Registro ${uniqueValue != null ? uniqueValue : ''} creado correctamente`,
         results: this.parserFn(model)
       }
     } catch (error) {
@@ -164,7 +165,7 @@ export class BaseRepository<
       if (!model) throwError(`${this.Model.name} no encontrado`, 404)
       const updated = await model!.update(data as Partial<TDTO>)
       return {
-        message: `${this.Model.name} registro actualizado correctamente`,
+        message: `Registro actualizado correctamente`,
         results: this.parserFn(updated)
       }
     } catch (error) {
@@ -176,10 +177,9 @@ export class BaseRepository<
     try {
       const model = await this.Model.findByPk(id)
       if (!model) throwError(`${this.Model.name} no encontrado`, 404)
-      const value = model!.get(this.whereField)
       await model!.destroy()
       return {
-        message: `${value} eliminado correctamente`,
+        message: `Registro eliminado correctamente`,
         results: ''
       }
     } catch (error) {
@@ -202,9 +202,10 @@ export class BaseRepository<
           results: this.emptyResults()
         }
       }
+      const data = models.map(this.parserQuery)
       return {
-        message: `${this.modelName} registros obtenidos correctamente`,
-        results: models.map(this.parserQuery)
+        message: `${data.length} registros obtenidos correctamente`,
+        results: data
       }
     } catch (error) {
       return processError(error, `GetAllScoped ${this.Model.name} repository error`)
@@ -226,7 +227,7 @@ export class BaseRepository<
       )
       if (!model) throwError(`${this.modelName} no encontrado o no disponible`, 404)
       return {
-        message: `${this.modelName} registro obtenido correctamente`,
+        message: `Registro obtenido correctamente`,
         results: this.parserQuery(model)
       }
     } catch (error) {

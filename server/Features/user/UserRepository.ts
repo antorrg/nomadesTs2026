@@ -36,7 +36,7 @@ export class UserRepository extends BaseRepository<IUserDTO, CreateUserInput, Up
             
             const updated = await model!.update(data as Partial<IUserDTO>)
             return {
-                message: `${this.Model.name} registro actualizado correctamente`,
+                message: `Registro de usuario actualizado correctamente`,
                 results: userParser(updated)
             }
         } catch (error) {
@@ -46,7 +46,7 @@ export class UserRepository extends BaseRepository<IUserDTO, CreateUserInput, Up
     async changePassword(id: string | number, data: {password: string, newPassword: string}){
         try {
             const model = await this.Model.findByPk(id)
-            if (!model) throwError(`${this.Model.name} no encontrado`, 404)
+            if (!model) throwError(`Usuario no encontrado`, 404)
             
             // `model` is verified non-null above.
             const protectedUser = protectProtocol(userParser(model!))
@@ -73,7 +73,7 @@ export class UserRepository extends BaseRepository<IUserDTO, CreateUserInput, Up
     override async delete(id: string | number): Promise<IRepositoryResponse<string>> {
         try {
             const model = await this.Model.findByPk(id)
-            if (!model) throwError(`${this.Model.name} no encontrado`, 404)
+            if (!model) throwError(`Usuario no encontrado`, 404)
             
             // `model` is verified non-null above.
             const protectedUser = protectProtocol(userParser(model!))

@@ -11,9 +11,9 @@ mailRouter.post(
   '/contact',
   RateLimiter.emailRateLimiter,
   Validator.validateBody({
-    email: 'string',
-    issue: 'string',
-    message: 'string'
+    email: {type: 'string'},
+    issue: {type:'string'},
+    message: {type:'string'}
   }),
   Validator.validateRegex(emailRegex, 'email', 'Enter a valid email address'),
   MailController.sendContactEmail

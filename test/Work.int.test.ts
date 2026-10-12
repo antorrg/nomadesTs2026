@@ -37,7 +37,7 @@ export const workTests = () => {
             const data = {
                 title: 'Project Alpha',
                 picture: 'work_main.png',
-                text: 'A great project.',
+                text: '<p>A great project.</p>',
                 useImg: true
             }
             const response = await agent
@@ -60,7 +60,9 @@ export const workTests = () => {
         it('PUT /:id - should update work entry and handle old image', async () => {
             const data = {
                 title: 'Updated Project Alpha',
+                text: '<span>Updated Title Alpha</span>',
                 picture: 'work_updated.png',
+                enabled: true,
                 useImg: true,
                 saver: false
             }

@@ -10,15 +10,11 @@ export default class MockImgsService {
   static #uploadDirectory = `./${envConfig.TestImagesUploadDir}`
   static mockUploadNewImage = async (file: UploadedImageFile): Promise<string> => {
     const uploadDir = MockImgsService.#uploadDirectory
-    try {
       // Asegurarse que exista la carpeta
       await fs.mkdir(uploadDir, { recursive: true })
       const newPath = path.join(uploadDir, file.originalname)
       await fs.writeFile(newPath, file.buffer)
       return `${LocalBaseUrl}/${envConfig.TestImagesUploadDir}/${file.originalname}`
-    } catch (error) {
-      throw error
-    }
   }
 
   static mockFunctionDelete = async (imageUrl: string) => {
@@ -31,10 +27,10 @@ export default class MockImgsService {
       await new Promise(res => setTimeout(res, 1000))
       await fs.unlink(filePath)
      // console.log(`Image ${filePath} deleted successfully`)
-      return `Image ${filePath} deleted successfully`
+      return `imagen ${filePath} borrada correctamente`
     } catch (err: unknown) {
       if (isNodeError(err) && err.code === 'ENOENT') {
-        return `Image ${filePath} already deleted or not found`
+        return `imagen ${filePath} fue borrada o no existe`
       }
       //console.error(`Error al borrar imagen local: ${filename}`, err)
       throwError('Error deleting images', 500)

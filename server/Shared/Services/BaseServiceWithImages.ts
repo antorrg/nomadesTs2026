@@ -83,7 +83,7 @@ export class BaseServiceWithImages<TDTO, TCreate, TUpdate> extends BaseService<T
   ): Promise<IRepositoryResponse<TDTO>> {
     try {
       const register = await this.getById(id)
-      if (!register) throwError('Element not found', 404)
+      if (!register) throwError('Elemento no hallado', 404)
 
       const payload = data as TUpdate & ImageControl
       const oldImageUrl = register.results[this.nameImage] as unknown as string
@@ -121,7 +121,7 @@ export class BaseServiceWithImages<TDTO, TCreate, TUpdate> extends BaseService<T
   async delete(id: string | number): Promise<IRepositoryResponse<string>> {
     try {
       const register = await this.getById(id)
-      if (!register) throwError('Element not found', 404)
+      if (!register) throwError('Elemento no hallado', 404)
 
       const imageUrl = register.results[this.nameImage] as unknown as string
 
@@ -130,7 +130,7 @@ export class BaseServiceWithImages<TDTO, TCreate, TUpdate> extends BaseService<T
       let imageMessage = ''
       if (this.useImage && imageUrl) {
         const res = await this.handleImages(imageUrl, false) // Borrar al eliminar registro
-        if (res) imageMessage = ` and ${res}`
+        if (res) imageMessage = ` con ${res}`
       }
 
       return {

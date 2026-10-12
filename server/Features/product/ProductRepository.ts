@@ -33,10 +33,10 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
             const model = await this.Model.findByPk(id, {
                 include: [{ model: Item, as: 'Items' }]
             })
-            if (!model) throwError('Product not found', 404)
+            if (!model) throwError('Producto no hallado', 404)
 
             return {
-                message: 'Product retrieved successfully',
+                message: 'Producto hallado exitosamente',
                 results: ProductParser.toDetailDTO(model!)
             }
         } catch (error) {
@@ -49,7 +49,7 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
             const model = await Item.findByPk(id)
             if (!model) throwError('Item not found', 404)
             return {
-                message: 'Item retrieved successfully',
+                message: 'Item hallado exitosamente',
                 results: ItemParser.toDTO(model!)
             }
         } catch (error) {
@@ -60,13 +60,13 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
     async createProduct(data: CreateProduct): Promise<IRepositoryResponse<IProduct>> {
         const t = await sequelize.transaction()
         try {
-            const { items, useImg, ...productData } = data
+            const { items, ...productData } = data
 
             const product = await Product.create(productData, { transaction: t })
             const productId = Number(product.get('id'))
 
             if (items && items.length > 0) {
-                const itemsToCreate = items.map(({ useImg, ...item }) => ({
+                const itemsToCreate = items.map(({ ...item }) => ({
                     ...item,
                     ProductId: productId
                 }))
@@ -94,10 +94,10 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
 
     async createItem(data: CreateItem): Promise<IRepositoryResponse<IItem>> {
         try {
-            const { useImg, ...itemData } = data
+            const { ...itemData } = data
             const model = await Item.create(itemData)
             return {
-                message: 'Item created successfully',
+                message: 'Item creado exitosamente',
                 results: ItemParser.toDTO(model)
             }
         } catch (error) {
@@ -109,10 +109,10 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
         try {
             const model = await Item.findByPk(id)
             if (!model) throwError('Item not found', 404)
-            const { useImg, saver, ...itemData } = data
+            const { ...itemData } = data
             const updated = await model!.update(itemData)
             return {
-                message: 'Item updated successfully',
+                message: 'Item actualizado exitosamente',
                 results: ItemParser.toDTO(updated)
             }
         } catch (error) {
@@ -127,7 +127,7 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
             if (!model) throwError('Item not found', 404)
             await model!.destroy()
             return {
-                message: 'Item deleted successfully',
+                message: 'Item borrado correctamente',
                 results: ''
             }
         } catch (error) {
@@ -143,7 +143,7 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
             if (!model) throwError('Product not found', 404)
 
             return {
-                message: 'Product retrieved successfully',
+                message: 'Product hallado exitosamente',
                 results: ProductParser.toDetailDTO(model!)
             }
         } catch (error) {
@@ -156,7 +156,7 @@ export class ProductRepository extends BaseRepository<IProduct, CreateProduct, U
             const model = await Item.findOne({ where: { id, enabled: true } })
             if (!model) throwError(`Item not found or not available`, 404)
             return {
-                message: `Item retrieved successfully`,
+                message: `Item hallado exitosamente`,
                 results: ItemParser.toDTO(model!)
             }
         } catch (error) {

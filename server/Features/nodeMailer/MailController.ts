@@ -1,5 +1,5 @@
 import { type NextFunction, type Request, type Response } from "express";
-import { emailService } from "../EmailService/EmailService.js";
+import { emailService } from "../../ExternalServices/EmailService/EmailService.js";
 import { middError } from "../../Configs/errorHandlers.js";
 import logger from '../../Configs/logger.js';
 import envConfig from "../../Configs/envConfig.js";

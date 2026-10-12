@@ -31,6 +31,9 @@ export const mediaTests = () => {
         it('PUT /:id - should update media entry', async () => {
             const data = {
                 title: 'Updated Youtube Video',
+                type: 'video',
+                text: 'Check this out!',
+                url: 'https://youtube.com/watch?v=123',
                 enabled: false
             }
             const response = await agent

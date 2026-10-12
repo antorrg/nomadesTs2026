@@ -24,20 +24,20 @@ interface DeleteResponse {
   message: string
   result: Record<string, unknown>
 }
-function forceHttps(url: string): string {
-  return url.replace(/^http:\/\//i, 'https://')
-}
-// Funciones con tipos correctos
-async function testCloudinaryConnection(): Promise<boolean> {
-  try {
-    const result = await cloudinary.api.ping()
-    console.log('Conexión exitosa con Cloudinary:', result)
-    return true
-  } catch (error) {
-    logger.error('Error al conectar con Cloudinary')
-    return false
-  }
-}
+// function forceHttps(url: string): string {
+//   return url.replace(/^http:\/\//i, 'https://')
+// }
+// // Funciones con tipos correctos
+// async function testCloudinaryConnection(): Promise<boolean> {
+//   try {
+//     const result = await cloudinary.api.ping()
+//     console.log('Conexión exitosa con Cloudinary:', result)
+//     return true
+//   } catch (error) {
+//     logger.error(error)
+//     return false
+//   }
+// }
 
 const uploadStream = (buffer: Buffer, options: CloudinaryUploadOptions): Promise<UploadApiResponse> => {
   return new Promise((resolve, reject) => {
@@ -64,6 +64,7 @@ async function uploadToCloudinary(file: UploadedImageFile): Promise<string> {
     console.log('result', result.secure_url)
     return result.secure_url as string
   } catch (error) {
+    logger.error(error)
     throw error
   }
 }
@@ -82,7 +83,7 @@ function extractPublicIdFromUrl(url: string): string {
     //console.log(publicId)
     return publicId
   } catch (error) {
-    throw new Error('URL de Cloudinary inválida')
+    throw new Error(`"URL de Cloudinary inválida": ${error}`)
   }
 }
 
@@ -105,6 +106,7 @@ async function deleteFromCloudinary(imageUrl: string): Promise<string> {
      return throwError('Error al eliminar imagen', 500)
     }
   } catch (error) {
+    logger.error(error)
     throw error
   }
 }

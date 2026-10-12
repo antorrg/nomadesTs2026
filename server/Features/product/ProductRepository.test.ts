@@ -9,7 +9,7 @@ describe('ProductRepository Integration Tests', () => {
     beforeAll(async () => {
         // Inicializamos la base de datos de test (sync y force rewrite)
         await startUp(true, true)
-        repo = new ProductRepository(mockProduct as any)
+        repo = new ProductRepository(mockProduct as any) //eslint-disable-line
     })
 
     afterAll(async () => {
@@ -31,7 +31,7 @@ describe('ProductRepository Integration Tests', () => {
 
             const response = await repo.createProduct(data)
 
-            expect(response.message).toBe('Product retrieved successfully')
+            expect(response.message).toBe('Producto hallado exitosamente')
             expect(response.results.title).toBe('Test Product')
             expect(response.results.Items).toHaveLength(2)
             expect(response.results.Items![0].text).toBe('Item 1')
@@ -42,7 +42,7 @@ describe('ProductRepository Integration Tests', () => {
             const initialProducts = await repo.getProducts()
             const initialCount = initialProducts.results.length
 
-            const data: any = {
+            const data: any = { //eslint-disable-line
                 title: 'Faulty Product',
                 items: [
                     { text: null, picture: {} } // Esto debería fallar en la DB o validación
@@ -53,6 +53,7 @@ describe('ProductRepository Integration Tests', () => {
                 await repo.createProduct(data)
             } catch (error) {
                 // Se espera error
+                console.error(error)
             }
 
             const afterProducts = await repo.getProducts()

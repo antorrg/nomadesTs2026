@@ -7,7 +7,7 @@ import landingRouter from './Features/landing/landing.routes.js'
 import workRouter from './Features/work/work.routes.js'
 import mediaRouter from './Features/media/media.routes.js'
 import productRouter from './Features/product/product.routes.js'
-import mailRouter from './ExternalServices/nodeMailer/mail.routes.js'
+import mailRouter from './Features/nodeMailer/mail.routes.js'
 import aboutRouter from './Features/about/about.routes.js'
 import { isAuthenticated, authorizeMinRole, UserRole } from "./Shared/Auth/authMiddlewares.js";
 

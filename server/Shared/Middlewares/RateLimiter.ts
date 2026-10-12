@@ -14,7 +14,7 @@ static authRateLimiter = rateLimit({
   legacyHeaders: false,
   message: {
     ok: false,
-    message: 'Too many requests from this IP, please try again after 15 minutes',
+    message: 'Demasiados intentos para esta IP, por favor intente de nuevo en 15 minutos',
     data: null,
   },
   skipSuccessfulRequests: false,
