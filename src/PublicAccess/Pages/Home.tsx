@@ -6,6 +6,7 @@ import Marketing from '../Features/FrontPage/Marketing';
 import SocialNetworks from '../Features/FrontPage/SocialNetworks';
 import Footer from '../../components/Layout/Footer';
 import { useHomePageData } from '../../hooks/useHomePageData';
+import HighLights from '../Features/FrontPage/HighLight/HighLights';
 
 const Home: React.FC = () => {
     const {
@@ -38,8 +39,15 @@ const Home: React.FC = () => {
         <br className='feturette-divider'></br>
 
         <MyCarousel products={publicProducts} infoImg={isInitialLoading} />
+        {publicLanding[0]?.showHighLights?
+        <>
+        <HighLights/>
+        <br className='feturette-divider'></br>
+        </>
+        :null}
+        {publicLanding[0]?.showMarketing?
         <Marketing products={publicProducts} infoImg={isInitialLoading}/>
-
+         :null }
       </section>
       <hr className='featurette-divider'></hr>
       <SocialNetworks />

@@ -19,7 +19,6 @@ const initialState: HomeState = {
     landing: [],
     selectedLanding: null,
     adminLoading: false,
-
     error: null
 };
 
@@ -46,6 +45,7 @@ export const getLandingById = createAsyncThunk(
         }
     }
 );
+
 
 
 const homeAdminSlice = createSlice({

@@ -15,7 +15,9 @@ const FrontPagePublic = ({ publicLand }: FrontPagePublicProps) => {
             picture:'/public/cabañaBackground.webp',
             info_header: 'Nomades - Cabañas de pastores. Diseño, construcción y confort para tu espacio ideal.',
             description: 'Cargando...',
-            enabled: true
+            enabled: true,
+            showMarketing:true,
+            showHighLights: true
     }]
   const info = (!publicLand || publicLand.length === 0)?  mockFrontPage[0] : publicLand[0]
   //const backgroundImageRender = info?.picture ? info.picture : '/public/cabañaBackground.webp';

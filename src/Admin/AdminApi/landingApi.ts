@@ -56,7 +56,19 @@ export const landingApi = {
         })
         return response as ILanding
     },
-     confirmAction: async (options: Record<any, any>):Promise<boolean> =>{
+        switchViews : async (id: number, data: UpdateLanding): Promise<ILanding> => {
+            const response = await adminApi.execute({
+                request: {
+                    method: 'patch',
+                    endpoint: `landing/${id}`, // kept as landing per backend implementation
+                    data
+                },
+                hasMessage: true,
+                errorMessage: 'Algo paso'
+            })
+            return response as ILanding
+        },
+     confirmAction: async (options: Record<any, any>):Promise<boolean> =>{ //eslint-disable-line
    return await adminApi.confirmAction(options)
  }
 

@@ -5,6 +5,8 @@ export interface FrontPageResults {
     info_header: string;
     description: string;
     enabled: boolean;
+    showMarketing:boolean
+    showHighLights: boolean
 }
 
 export interface IFrontPage {
@@ -21,3 +23,4 @@ export interface IFrontPages {
 
 export type CreateFrontPage = Partial<FrontPageResults> & { useImg?: boolean };
 export type UpdateFrontPage = Partial<FrontPageResults> & { useImg?: boolean; saver?: boolean };
+export type SwitchedVisibility = Pick<FrontPageResults, 'showHighLights' | 'showMarketing'>

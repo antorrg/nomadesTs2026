@@ -1,8 +1,6 @@
 import express from 'express'
 import { Validator } from 'req-valid-express'
-import { Work } from '../../Configs/database.js'
-import { BaseRepository } from '../../Shared/Repositories/BaseRepository.js'
-import { parser, parserQuery, mockData } from './workMappers.js'
+import { WorkRepository } from './WorkRepository.js'
 import {BaseServiceWithImages} from '../../Shared/Services/BaseServiceWithImages.js'
 import {ImgsService} from '../../Shared/Services/ImgsService.js'
 import {BaseController} from '../../Shared/Controllers/BaseController.js'
@@ -12,7 +10,7 @@ import * as sch from './schemas.js'
 
 
 
-const workRepository = new BaseRepository(Work, parser, parserQuery, 'Work', 'title', mockData)
+const workRepository = new WorkRepository()
 const workService = new BaseServiceWithImages(workRepository, ImgsService, true, 'picture')
 const workController = new BaseController(workService)
 

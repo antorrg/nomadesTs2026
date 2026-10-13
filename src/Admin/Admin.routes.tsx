@@ -5,6 +5,7 @@ import { workRouter } from './Features/Work/work.route'
 import { mediaRouter } from './Features/Media/media.route'
 import { frontPageRouter } from './Features/FrontPage/frontPage.route'
 import { aboutRouter } from './Features/About/about.route'
+import { highLightRouter } from './Features/HighLight/highLight.route'
 
 export const adminRoutes: RouteObject[] = [
   {
@@ -37,5 +38,9 @@ export const adminRoutes: RouteObject[] = [
   {
     path: 'about',
     children: aboutRouter
+  },
+  {
+    path: 'destacado',
+    children: highLightRouter
   }
 ]

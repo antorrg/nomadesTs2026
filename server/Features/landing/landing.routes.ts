@@ -1,4 +1,5 @@
 import express from 'express'
+import { Validator } from 'req-valid-express'
 import { Landing } from '../../Configs/database.js'
 import {BaseRepository } from '../../Shared/Repositories/BaseRepository.js'
 import { BaseServiceWithImages } from '../../Shared/Services/BaseServiceWithImages.js'
@@ -6,7 +7,7 @@ import { BaseController } from '../../Shared/Controllers/BaseController.js'
 import { ImgsService } from '../../Shared/Services/ImgsService.js'
 import { type ILanding, type CreateLanding, type UpdateLanding, parser, parserQuery, mockLanding } from './landingMappers.js'
 import { isAuthenticated, authorizeMinRole, UserRole } from "../../Shared/Auth/authMiddlewares.js";
-
+import * as sch from './schemas.js'
 
 const landRepository = new BaseRepository<ILanding, CreateLanding, UpdateLanding>(Landing, parser, parserQuery, 'Landing', 'title', mockLanding)
 
@@ -54,6 +55,7 @@ landRouter.post(
     '/',
     isAuthenticated,
     authorizeMinRole(UserRole.MODERATOR),
+    Validator.validateBody(sch.create),
     landController.create
 )
 
@@ -61,6 +63,14 @@ landRouter.put(
     '/:id',
     isAuthenticated,
     authorizeMinRole(UserRole.MODERATOR),
+     Validator.validateBody(sch.update),
+    landController.update
+)
+landRouter.patch(
+    '/:id',
+    isAuthenticated,
+    authorizeMinRole(UserRole.MODERATOR),
+     Validator.validateBody(sch.updateShowFields),
     landController.update
 )
 

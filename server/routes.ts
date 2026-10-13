@@ -9,6 +9,7 @@ import mediaRouter from './Features/media/media.routes.js'
 import productRouter from './Features/product/product.routes.js'
 import mailRouter from './Features/nodeMailer/mail.routes.js'
 import aboutRouter from './Features/about/about.routes.js'
+import hightlightRouter from './Features/hightlight/hightlight.routes.js'
 import { isAuthenticated, authorizeMinRole, UserRole } from "./Shared/Auth/authMiddlewares.js";
 
 const mainRouter = express.Router()
@@ -16,6 +17,7 @@ const mainRouter = express.Router()
 mainRouter.use('/api/v1/auth', authRouter)
 mainRouter.use('/api/v1/product', productRouter)
 mainRouter.use('/api/v1/landing', landingRouter)
+mainRouter.use('/api/v1/hightlight', hightlightRouter)
 mainRouter.use('/api/v1/work', workRouter)
 mainRouter.use('/api/v1/media', mediaRouter)
 mainRouter.use('/api/v1/about', aboutRouter)

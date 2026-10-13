@@ -18,7 +18,7 @@ describe('Database existence', () => {
     await closeDatabase()
   })
    it('should query tables and return an empty array', async() => { 
-      const models = [  User, About, Log, Product, Item, Landing, Media, Image, Work, ];
+      const models = [  User, About, Log, Product, Item, Landing, Media, Image, Work, Highlight ];
    for (const model of models) {
      const records = await model.findAll();
      expect(Array.isArray(records)).toBe(true);

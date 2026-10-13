@@ -1,0 +1,178 @@
+@use '../scss/variables' as v;
+
+.highstyles {
+    background-color: var(--ar-background-color);
+
+    [data-bs-theme="dark"] & {
+        background-color: hsla(215, 28%, 17%, 0.7) !important;
+    }
+}
+// ============================================
+// HIGHSTYLES WAVE IMAGE FRAME (Estilo Folleto Nómades)
+// ============================================
+
+.highstyles-img-wrapper {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  padding: 0;
+
+  // Franja beige detrás de la imagen
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-color: var(--organic-accent-bg, #d2bb9d);
+    pointer-events: none;
+  }
+
+  img,
+  .bd-placeholder-img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: clamp(360px, 40vw, 650px);
+    object-fit: cover;
+    border-radius: 0;
+    box-shadow: none;
+    cursor: zoom-in;
+  }
+
+@media (min-width: 769px) {
+  &.highstyles-wave-right {
+    &::before {
+      clip-path: url(#highlight-bg-right);
+    }
+
+    img,
+    .bd-placeholder-img {
+      width: 100%;
+      clip-path: url(#highlight-wave-right);
+    }
+  }
+
+  &.highstyles-wave-left {
+    &::before {
+      clip-path: url(#highlight-bg-left);
+    }
+
+    img,
+    .bd-placeholder-img {
+      width: 100%;
+      margin-left: 0;
+      clip-path: url(#highlight-wave-left);
+    }
+  }
+}
+  @media (max-width: 768px) {
+    &::before {
+      display: none;
+    }
+
+    img,
+    .bd-placeholder-img {
+      height: clamp(240px, 65vw, 360px);
+      border-radius: 10px;
+    }
+  }
+}
+.highlight-row {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  align-items: center;
+}
+
+.highlight-media {
+  min-width: 0;
+}
+
+.highlight-content {
+  min-width: 0;
+  padding: clamp(24px, 4vw, 64px);
+  text-align: start;
+
+  h2 {
+    font-size: clamp(2rem, 3.5vw, 3.5rem);
+  }
+
+  .rich-text-content {
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media (min-width: 769px) {
+  &.highstyles-wave-right {
+    &::before {
+      clip-path: url(#highlight-bg-right);
+    }
+
+    img,
+    .bd-placeholder-img {
+      width: 100%;
+      clip-path: url(#highlight-image-right);
+    }
+  }
+
+  &.highstyles-wave-left {
+    &::before {
+      clip-path: url(#highlight-bg-left);
+    }
+
+    img,
+    .bd-placeholder-img {
+      width: 100%;
+      clip-path: url(#highlight-image-left);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .highlight-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .highlight-content {
+    padding: 24px 16px;
+  }
+}
+//=============================================
+//=== Estilos texto (alternancia)
+//=============================================
+@media (min-width: 769px) {
+  .highlight-row.highlight-text-right {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+
+    > .highlight-media {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    > .highlight-content {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+
+  .highlight-row.highlight-text-left {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+
+    > .highlight-media {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    > .highlight-content {
+      grid-column: 1;
+      grid-row: 1;
+    }
+  }
+}

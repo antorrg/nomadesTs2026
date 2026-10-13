@@ -66,3 +66,11 @@ export const update:Schema = {
   }
 };
 
+export const updateShowFields: Schema = {
+     showMarketing:{
+        type: "boolean",
+      },
+      showHighLights:{
+        type: "boolean"
+      }
+}

@@ -1,4 +1,4 @@
-import { DataTypes, Model, type Sequelize, type Optional } from 'sequelize'
+import { DataTypes, Model, type Sequelize, type Optional, CreationOptional } from 'sequelize'
 
 export interface LandingAttributes {
   id: number
@@ -7,6 +7,8 @@ export interface LandingAttributes {
   info_header: string
   description: string
   enabled: boolean
+  showMarketing:CreationOptional<boolean>
+  showHighLights:CreationOptional<boolean>
 }
 export type CreateLandingAttributes = Optional<LandingAttributes,
 'id'| 'enabled'>
@@ -20,6 +22,8 @@ export class Landing
   declare info_header: string
   declare description: string
   declare enabled: boolean
+  declare showMarketing:CreationOptional<boolean>
+  declare showHighLights:CreationOptional<boolean>
   }
 
 
@@ -50,7 +54,16 @@ export default (sequelize: Sequelize) => {
     enabled: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
+    },
+    showMarketing:{
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
+    showHighLights:{
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
     }
+
   }, {
     scopes: {
       enabledOnly: {

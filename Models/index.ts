@@ -8,6 +8,7 @@ import Media from './media.model.js'
 import MediaConfig from './mediaConfig.model.js'
 import Image from './images.model.js'
 import Work from './work.model.js'
+import Hightlight from './hightlight.model.js'
 //import Client from './clients.model.js'
 
 export default {
@@ -21,6 +22,7 @@ export default {
   MediaConfig,
   Image,
   Work,
+  Hightlight
   //Client,
 }
 

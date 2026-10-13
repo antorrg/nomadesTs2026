@@ -31,6 +31,7 @@ const {
   MediaConfig,
   Image,
   Work,
+  Hightlight,
 } = sequelize.models
 // Relations here below:
 Product.hasMany(Item, { foreignKey: 'ProductId', as: 'Items', onDelete: 'CASCADE', onUpdate: 'CASCADE'})
@@ -85,5 +86,6 @@ export {
   MediaConfig,
   Image,
   Work,
+  Hightlight
 }
 

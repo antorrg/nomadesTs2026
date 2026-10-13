@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useReduxFetch } from '../../../hooks/useReduxFetch';
 import { getAllLanding } from './homeaAdminSlice';
 import Loader2 from '../../../components/Loader2';
+import FrontPageSwitcher from "./FrontPageSwitcher";
 //import "../../../views/styles/item.css"
 
   const mockHome = {
@@ -9,7 +10,12 @@ import Loader2 from '../../../components/Loader2';
     title: 'Aguarde un momento', 
     picture: '',
     info_header: 'Nomades...',
-    description: 'Sin descripcion'
+    description: 'Sin descripcion',
+    enabled: true,
+    showMarketing:true,
+    showHighLights: true
+   
+
   }
 
 const AdminFrontPage= () => {
@@ -30,10 +36,18 @@ const AdminFrontPage= () => {
         {!loaderSelect? 
         <>
       <div className="col-lg-6 col-md-8 col-sm-12 mx-auto text-center">
-        <h2 className="fw-light">Gestion de portada:</h2>
+        {info && (
+          <FrontPageSwitcher
+            key={info.id}
+            data={info}
+           />
+              )}
         <div className=''>
           {(info?.id !==0)?
+         <> 
+         <h2 className="fw-light">Gestion de portada:</h2>
         <Link className="btn btn-sm btn-outline-success mb-3" to={`/admin/front-page/${info?.id}/edicion`}>Editar</Link>
+        </>
         :
         <Link className="btn btn-sm btn-outline-danger me-3 mb-3" to='/admin/front-page/creacion'>Crear</Link>
           }

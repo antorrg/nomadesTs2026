@@ -8,6 +8,8 @@ export interface ILanding {
   title: string
   info_header: string
   description: string
+  showMarketing:boolean
+  showHighLights: boolean
   enabled: boolean
 }
 export type CreateLanding = Partial<ILanding>
@@ -26,7 +28,9 @@ export const parser = (
     title: raw.title,
     info_header: raw.info_header,
     description: raw.description,
-    enabled: raw.enabled
+    enabled: raw.enabled,
+    showMarketing:raw.showMarketing,
+   showHighLights: raw.showHighLights
   }
 }
 export const parserQuery = (
@@ -39,7 +43,9 @@ export const parserQuery = (
     title: raw.title,
     info_header: raw.info_header,
     description: raw.description,
-    enabled: raw.enabled
+    enabled: raw.enabled,
+    showMarketing:raw.showMarketing,
+   showHighLights: raw.showHighLights
   }
 }
 
@@ -49,5 +55,7 @@ export const mockLanding: ILanding[] = [{
   title: 'Aun no hay datos',
   info_header: 'Aun no hay datos',
   description: 'Aun no hay datos',
-  enabled: true
+  enabled: true,
+  showMarketing:true,
+  showHighLights: true
 }]

@@ -13,6 +13,7 @@ import VideosPage from '../Features/Media/videoTabsComponents/VideosPage'
 import Config from '../Features/Config/Config'
 import HelpView from './TabsComponents/HelpView';
 import AboutView from '../Features/About/AboutView'
+import HighLightView from '../Features/HighLight/HighLightView'
 
 
 
@@ -54,6 +55,7 @@ const TabsPage = () => {
       >
         {activeTab === "producto" && <Products />}
         {activeTab === "portada" && <AdminFrontPage />}
+        {activeTab === "destacado" && <HighLightView />}
         {activeTab === "trabajo" && <WorkView/>}
         {activeTab === "usuarios" && <UserView/>}
         {activeTab === "imagenes" && <ViewImages />}

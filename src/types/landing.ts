@@ -5,6 +5,8 @@ export interface LandingResults {
     info_header: string;
     description: string;
     enabled: boolean;
+    showMarketing:boolean
+    showHighLights: boolean
 }
 export interface ILanding {
     success: boolean

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { landingPublicApi } from '../../publicApi/landingApi';
-import type { ILanding, LandingResults } from '../../../types/landing';
+import type { ILanding, LandingResults} from '../../../types/landing';
 
 // Estado del slice
 interface HomeState {
