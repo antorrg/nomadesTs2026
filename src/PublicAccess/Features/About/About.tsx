@@ -1,6 +1,7 @@
 import React from 'react';
 import AboutOnlyText from './AboutOnlyText';
 import AboutPictured from './AboutPictured';
+import AboutSkeleton from './AboutSkeleton';
 import type { IAbout } from '../../../types/about';
 
 type AboutProps = {
@@ -9,8 +10,12 @@ type AboutProps = {
 };
 
 const About: React.FC<AboutProps> = ({ feature, isLoading }) => {
-  if (feature?.imgShow) {
-    return <AboutPictured feature={feature} isLoading={isLoading} />;
+  if (isLoading) {
+    return <AboutSkeleton />;
+  }
+
+  if (feature.imgShow) {
+    return <AboutPictured feature={feature} isLoading={false} />;
   }
 
   return <AboutOnlyText feature={feature} />;
