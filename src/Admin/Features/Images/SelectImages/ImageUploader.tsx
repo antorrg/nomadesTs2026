@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef, type ChangeEvent } from "react";
+import { useState, useEffect, useRef, type ChangeEvent } from "react";
 import { imagesApi } from "../../../AdminApi/imagesApi";
 import InfoFormField from "../../../InfoFormField"; 
 import { imageUpladmessage } from "../../../../utils/infoHelpers";
+import Loader2 from "../../../../components/Loader2";
 
 type ImageUploaderProps = {
   titleField?: string;
@@ -18,7 +19,7 @@ const ImageUploader = ({ titleField = "Imagen:", value, onChange }: ImageUploade
   // Actualiza previewUrl si el prop imageValue cambia
   useEffect(() => {
     if (value !== undefined) {
-      setPreviewUrl(value);
+      setPreviewUrl(value);//eslint-disable-line
     }
   }, [value]);
 
@@ -95,14 +96,24 @@ const ImageUploader = ({ titleField = "Imagen:", value, onChange }: ImageUploade
             </>
           )}
         </section>
-
-        {previewUrl && (
+        {uploading? 
+          <Loader2
+            fullScreen={false}
+            scale={0.4}
+            text="Subiendo imagen..."
+            className="loader2Working"
+          />
+          :
+          <>
+        {previewUrl &&(
           <img
             src={previewUrl}
             alt="Preview"
             style={{ maxWidth: "min(100%, 20rem)", height: "auto", marginTop: "10px", objectFit: "contain", opacity: uploading ? 0.5 : 1 }}
           />
         )}
+        </>
+       }
       </div>
     </div>
   );
