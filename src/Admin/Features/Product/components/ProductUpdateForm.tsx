@@ -32,13 +32,14 @@ export function ProductUpdateForm({ defaultValues, onSubmit, onCancel, load }: P
 
     return (
         <div className="container mt-2">
+            <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
             {load?
             <Loader2
             fullScreen={false}
-            scale={0.7}
+            scale={0.5}
             />
             :
-            <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
+                <>
                 <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
                 <div className="mb-3">
@@ -120,6 +121,8 @@ export function ProductUpdateForm({ defaultValues, onSubmit, onCancel, load }: P
                         )}
                     />
                 </div>
+                </>
+                }
 
                 <div className="d-flex flex-row mt-4 mb-5">
                     <DoubleButton
@@ -127,7 +130,7 @@ export function ProductUpdateForm({ defaultValues, onSubmit, onCancel, load }: P
                         type1="submit"
                         id1="submitButton"
                         buttonText1={isSubmitting ? "Actualizando..." : "Actualizar"}
-                        disabled1={isSubmitting}
+                        disabled1={isSubmitting || load}
                         onClick1={() => { }}
                         className2="btn btn-md btn-secondary mb-3"
                         type2="button"
@@ -136,7 +139,6 @@ export function ProductUpdateForm({ defaultValues, onSubmit, onCancel, load }: P
                     />
                 </div>
             </form>
-            }
         </div>
     );
 }

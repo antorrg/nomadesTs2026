@@ -50,13 +50,14 @@ export function ProductCreateForm({ defaultValues, onSubmit, onCancel, load }: P
 
     return (
         <div className="container mt-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
             {load?
             <Loader2
                 fullScreen={false}
-                scale={0.7}
+                scale={0.5}
             />
             :
-            <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
+                <>
             <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
              {errors.picture && <div className="text-danger small mt-1">{errors.picture.message}</div>}
 
@@ -147,6 +148,8 @@ export function ProductCreateForm({ defaultValues, onSubmit, onCancel, load }: P
                         buttonText="Agregar Item"
                     />
                 </div>
+                </>
+                }
 
                 <div className="d-flex flex-row mt-4 mb-5">
                     <GenericButton
@@ -158,13 +161,12 @@ export function ProductCreateForm({ defaultValues, onSubmit, onCancel, load }: P
                     <button
                         type="submit"
                         className="btn btn-md btn-primary mb-3"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || load}
                     >
                         {isSubmitting ? "Creando..." : "Crear"}
                     </button>
                 </div>
             </form>
-            }
         </div>
     );
 }

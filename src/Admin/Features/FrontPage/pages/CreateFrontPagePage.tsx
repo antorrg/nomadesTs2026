@@ -4,11 +4,10 @@ import { FrontPageCreateForm } from "../components/FrontPageCreateForm";
 import { type FrontPageCreateFormData } from "../validations/frontPageSchema";
 import { frontPageApi } from "../../../AdminApi/frontPageApi";
 import { type CreateFrontPage } from "../../../../types/frontPage";
-import Loader2 from "../../../../components/Loader2";
 
 const CreateFrontPagePage = () => {
     const navigate = useNavigate();
-    const [load, setLoad] = useState(false);
+    const [load, setLoad] = useState(true);
 
     const onClose = () => {
         setLoad(false);
@@ -42,19 +41,16 @@ const CreateFrontPagePage = () => {
 
     return (
         <div className="imageBack">
-            {load ? (
-                <Loader2 />
-            ) : (
                 <div className="coverBack">
                     <div className="container-md modal-content colorBack formProductContainer rounded-4 shadow p-4">
                         <h3 className="mb-4">Creación de Portada: </h3>
                         <FrontPageCreateForm
                             onSubmit={handleSubmit}
                             onCancel={onClose}
+                            load={load}
                         />
                     </div>
                 </div>
-            )}
         </div>
     );
 };

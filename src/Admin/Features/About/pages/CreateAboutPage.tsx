@@ -4,7 +4,6 @@ import { AboutCreateForm } from "../components/AboutCreateForm";
 import { type AboutCreateFormData } from "../validations/aboutSchema";
 import { aboutAdminApi } from "../../../AdminApi/aboutApi";
 import { type CreateAbout } from "../../../../types/about";
-import Loader2 from "../../../../components/Loader2";
 
 const CreateAboutPage = () => {
     const navigate = useNavigate();
@@ -42,19 +41,16 @@ const CreateAboutPage = () => {
 
     return (
         <div className="imageBack">
-            {load ? (
-                <Loader2 />
-            ) : (
                 <div className="coverBack">
                     <div className="container-md modal-content colorBack formProductContainer rounded-4 shadow p-4">
                         <h3 className="mb-4">Creación: </h3>
                         <AboutCreateForm
                             onSubmit={handleSubmit}
                             onCancel={onClose}
+                            load={load}
                         />
                     </div>
                 </div>
-            )}
         </div>
     );
 };

@@ -4,14 +4,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { frontPageUpdateSchema, type FrontPageUpdateFormData } from "../validations/frontPageSchema";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
 import SelectImages from "../../Images/SelectImages/SelectImages";
+import Loader2 from "../../../../components/Loader2";
 
 type FrontPageUpdateFormProps = {
     defaultValues: FrontPageUpdateFormData;
     onSubmit: (data: FrontPageUpdateFormData) => void;
     onCancel: () => void;
+    load:boolean
 };
 
-export function FrontPageUpdateForm({ defaultValues, onSubmit, onCancel }: FrontPageUpdateFormProps) {
+export function FrontPageUpdateForm({ defaultValues, onSubmit, onCancel, load }: FrontPageUpdateFormProps) {
     const {
         register,
         handleSubmit,
@@ -33,6 +35,13 @@ export function FrontPageUpdateForm({ defaultValues, onSubmit, onCancel }: Front
     return (
         <div className="container mt-5">
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
+                {load?
+                <Loader2
+                scale={0.5}
+                fullScreen={false}
+                />
+                :
+                <>
              <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
                 <div className="mb-3">
@@ -44,7 +53,7 @@ export function FrontPageUpdateForm({ defaultValues, onSubmit, onCancel }: Front
                         className={`form-control ${errors.title ? "is-invalid" : ""}`}
                         type="text"
                         id="title"
-                    />
+                        />
                     {errors.title && <div className="invalid-feedback">{errors.title.message}</div>}
                 </div>
 
@@ -57,7 +66,7 @@ export function FrontPageUpdateForm({ defaultValues, onSubmit, onCancel }: Front
                         className={`form-control ${errors.info_header ? "is-invalid" : ""}`}
                         type="text"
                         id="info_header"
-                    />
+                        />
                     {errors.info_header && <div className="invalid-feedback">{errors.info_header.message}</div>}
                 </div>
 
@@ -70,21 +79,22 @@ export function FrontPageUpdateForm({ defaultValues, onSubmit, onCancel }: Front
                         className={`form-control ${errors.description ? "is-invalid" : ""}`}
                         id="description"
                         rows={3}
-                    />
+                        />
                     {errors.description && <div className="invalid-feedback">{errors.description.message}</div>}
                 </div>
-
+                    </>
+                    }
                 <div className="d-flex flex-row mt-4 mb-5">
                     <GenericButton
                         className="btn btn-md btn-secondary mb-3 me-2"
                         type="button"
                         buttonText="Cancelar"
                         onClick={onCancel}
-                    />
+                        />
                     <button
                         type="submit"
                         className="btn btn-md btn-primary mb-3"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || load}
                     >
                         {isSubmitting ? "Actualizando..." : "Actualizar"}
                     </button>

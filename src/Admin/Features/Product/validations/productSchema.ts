@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // Base schemas
 export const itemBaseSchema = z.object({
-    picture: z.string().min(1, { message: "Debe incluir una imagen. Si la eligió no olvide subirla"}),
+    picture: z.string().min(1, { message: "Debe incluir una imagen"}),
     text: z.string().min(1, { message: "El texto es obligatorio" }),
     useImg: z.boolean().optional(),
     enabled: z.boolean().optional(),
@@ -10,7 +10,7 @@ export const itemBaseSchema = z.object({
 
 export const productBaseSchema = z.object({
     title: z.string().min(1, { message: "El título es obligatorio" }),
-    picture: z.string().min(1, { message: "Debe incluir una imagen. Si la eligió no olvide subirla"}),
+    picture: z.string().min(1, { message: "Debe incluir una imagen"}),
     info_header: z.string().nullable().optional(),
     info_body: z.string().nullable().optional(),
     enabled: z.boolean().default(false),

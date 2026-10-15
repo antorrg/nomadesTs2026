@@ -46,7 +46,7 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
             fullScreen={false}
             scale={0.7}
             />
-            :null}
+            :
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
             <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
                {errors.picture && <div className="text-danger small mt-1">{errors.picture.message}</div>}
@@ -60,7 +60,7 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
                         className={`form-control ${errors.title ? "is-invalid" : ""}`}
                         type="text"
                         id="title"
-                    />
+                        />
                     {errors.title && <div className="invalid-feedback">{errors.title.message}</div>}
                 </div>
 
@@ -73,12 +73,12 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
                         name="text"
                         render={({ field }) => (
                             <RichTextEditor
-                                value={field.value}
-                                onChange={field.onChange}
-                                isInvalid={!!errors.text}
+                            value={field.value}
+                            onChange={field.onChange}
+                            isInvalid={!!errors.text}
                             />
                         )}
-                    />
+                        />
                     {errors.text && <div className="text-danger small mt-1">{errors.text.message}</div>}
                 </div>
 
@@ -88,16 +88,17 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
                         type="button"
                         buttonText="Cancelar"
                         onClick={onCancel}
-                    />
+                        />
                     <button
                         type="submit"
                         className="btn btn-md btn-primary mb-3"
                         disabled={isSubmitting}
-                    >
+                        >
                         {isSubmitting ? "Creando..." : "Crear"}
                     </button>
                 </div>
             </form>
+            }
             
         </div>
     );

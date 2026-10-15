@@ -2,15 +2,17 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createMediaSchema, type MediaCreateFormData } from "../validations/mediaSchema";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
+import Loader2 from "../../../../components/Loader2";
 
 type MediaCreateFormProps = {
     mediaType?: string;
     defaultValues?: Partial<MediaCreateFormData>;
     onSubmit: (data: MediaCreateFormData) => void;
     onCancel: () => void;
+    load:boolean
 };
 
-export function MediaCreateForm({ mediaType, defaultValues, onSubmit, onCancel }: MediaCreateFormProps) {
+export function MediaCreateForm({ mediaType, defaultValues, onSubmit, onCancel, load }: MediaCreateFormProps) {
     const schema = createMediaSchema(mediaType);
     const {
         register,
@@ -29,6 +31,13 @@ export function MediaCreateForm({ mediaType, defaultValues, onSubmit, onCancel }
     return (
         <div className="container mt-5">
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
+                {load?
+                <Loader2
+                fullScreen={false}
+                scale={0.5}
+                />
+                :
+                <>
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">Título:</label>
                     <input
@@ -61,7 +70,8 @@ export function MediaCreateForm({ mediaType, defaultValues, onSubmit, onCancel }
                     />
                     {errors.text && <div className="invalid-feedback">{errors.text.message}</div>}
                 </div>
-
+                </>
+                }
                 <div className="d-flex flex-row mt-4 mb-5">
                     <GenericButton
                         className="btn btn-md btn-secondary mb-3 me-2"
@@ -72,7 +82,7 @@ export function MediaCreateForm({ mediaType, defaultValues, onSubmit, onCancel }
                     <button
                         type="submit"
                         className="btn btn-md btn-primary mb-3"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || load}
                     >
                         {isSubmitting ? "Creando..." : "Crear"}
                     </button>

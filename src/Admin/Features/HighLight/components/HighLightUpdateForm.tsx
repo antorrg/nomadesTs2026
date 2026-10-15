@@ -37,14 +37,14 @@ export function HighLightUpdateForm({ defaultValues, onSubmit, onCancel, loader 
 
     return (
         <div className="container mt-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
             {loader ?
                 <Loader2
                     fullScreen={false}
-                    scale={0.7}
+                    scale={0.5}
                 />
                 :
-                <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
-
+                <>
                     <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />{/* eslint-disable-line */}
 
                     {!useImg && (
@@ -155,7 +155,8 @@ export function HighLightUpdateForm({ defaultValues, onSubmit, onCancel, loader 
                             />
                         </div>
                     </div>
-
+                    </>
+                    }
                     <div className="d-flex flex-row mt-4 mb-5">
                         <GenericButton
                             className="btn btn-md btn-secondary mb-3 me-2"
@@ -166,13 +167,12 @@ export function HighLightUpdateForm({ defaultValues, onSubmit, onCancel, loader 
                         <button
                             type="submit"
                             className="btn btn-md btn-primary mb-3"
-                            disabled={isSubmitting}
+                            disabled={isSubmitting || loader}
                         >
                             {isSubmitting ? "Actualizando..." : "Actualizar"}
                         </button>
                     </div>
                 </form>
-            }
         </div>
     );
 }

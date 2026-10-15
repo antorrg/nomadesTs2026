@@ -5,14 +5,16 @@ import { Form } from "react-bootstrap";
 import { frontPageCreateSchema, type FrontPageCreateFormData } from "../validations/frontPageSchema";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
 import SelectImages from "../../Images/SelectImages/SelectImages";
+import Loader2 from "../../../../components/Loader2";
 
 type FrontPageCreateFormProps = {
     defaultValues?: Partial<FrontPageCreateFormData>;
     onSubmit: (data: FrontPageCreateFormData) => void;
     onCancel: () => void;
+    load: boolean
 };
 
-export function FrontPageCreateForm({ defaultValues, onSubmit, onCancel }: FrontPageCreateFormProps) {
+export function FrontPageCreateForm({ defaultValues, onSubmit, onCancel, load }: FrontPageCreateFormProps) {
     const {
         register,
         handleSubmit,
@@ -41,6 +43,13 @@ export function FrontPageCreateForm({ defaultValues, onSubmit, onCancel }: Front
     return (
         <div className="container mt-5">
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
+                {load?
+                <Loader2
+                fullScreen={false}
+                scale={0.5}
+                />
+                :
+                <>
             <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
                 <div className="mb-3">
@@ -52,7 +61,7 @@ export function FrontPageCreateForm({ defaultValues, onSubmit, onCancel }: Front
                         className={`form-control ${errors.title ? "is-invalid" : ""}`}
                         type="text"
                         id="title"
-                    />
+                        />
                     {errors.title && <div className="invalid-feedback">{errors.title.message}</div>}
                 </div>
 
@@ -65,7 +74,7 @@ export function FrontPageCreateForm({ defaultValues, onSubmit, onCancel }: Front
                         className={`form-control ${errors.info_header ? "is-invalid" : ""}`}
                         type="text"
                         id="info_header"
-                    />
+                        />
                     {errors.info_header && <div className="invalid-feedback">{errors.info_header.message}</div>}
                 </div>
 
@@ -78,7 +87,7 @@ export function FrontPageCreateForm({ defaultValues, onSubmit, onCancel }: Front
                         className={`form-control ${errors.description ? "is-invalid" : ""}`}
                         id="description"
                         rows={3}
-                    />
+                        />
                     {errors.description && <div className="invalid-feedback">{errors.description.message}</div>}
                 </div>
 
@@ -89,17 +98,19 @@ export function FrontPageCreateForm({ defaultValues, onSubmit, onCancel }: Front
                             name="enabled"
                             render={({ field }) => (
                                 <Form.Check
-                                    type="switch"
-                                    id="enabled-switch"
-                                    label="Mostrar item"
-                                    checked={field.value}
-                                    onChange={(e) => field.onChange(e.target.checked)}
+                                type="switch"
+                                id="enabled-switch"
+                                label="Mostrar item"
+                                checked={field.value}
+                                onChange={(e) => field.onChange(e.target.checked)}
                                 />
                             )}
-                        />
+                            />
                     </div>
                 </div>
 
+                    </>
+                }
                 <div className="d-flex flex-row mt-4 mb-5">
                     <GenericButton
                         className="btn btn-md btn-secondary mb-3 me-2"
@@ -110,7 +121,7 @@ export function FrontPageCreateForm({ defaultValues, onSubmit, onCancel }: Front
                     <button
                         type="submit"
                         className="btn btn-md btn-primary mb-3"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || load}
                     >
                         {isSubmitting ? "Creando..." : "Crear"}
                     </button>

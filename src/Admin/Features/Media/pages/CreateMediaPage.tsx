@@ -4,7 +4,6 @@ import { MediaCreateForm } from "../components/MediaCreateForm";
 import { type MediaCreateFormData } from "../validations/mediaSchema";
 import { mediaApi } from "../../../AdminApi/mediaApi";
 import { type CreateMedia } from "../../../../types/media";
-import Loader2 from "../../../../components/Loader2";
 import { displayType } from "../helperVideo";
 
 const CreateMediaPage = () => {
@@ -45,25 +44,18 @@ const CreateMediaPage = () => {
 
     return (
         <div className="imageBack">
-            {load ? (
-                <Loader2
-                    scale = {1}
-                    fullScreen = {false}
-                    text = "Aguarde un momento..."
-                    className="loader-caption"
-                     />
-            ) : (
-                <div className="coverBack">
+
+                     <div className="coverBack">
                     <div className="container-md modal-content colorBack formProductContainer rounded-4 shadow p-4">
                         <h3 className="mb-4">Guardar Video de {showType}:</h3>
                         <MediaCreateForm
                             mediaType={showType}
                             onSubmit={handleSubmit}
                             onCancel={onClose}
+                            load={load}
                         />
                     </div>
                 </div>
-            )}
         </div>
     );
 };

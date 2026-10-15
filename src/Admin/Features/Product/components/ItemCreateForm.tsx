@@ -35,13 +35,14 @@ export function ItemCreateForm({ productId, onSubmit, onCancel, load }: ItemCrea
 
     return (
         <div className="container mt-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
             {load?
             <Loader2
                 fullScreen={false}
-                scale={0.7}
+                scale={0.5}
             />
             :           
-            <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
+            <>
                 {/* ProductId */}
                 <input type="hidden" {...register("ProductId", { valueAsNumber: true })} />
 
@@ -80,7 +81,8 @@ export function ItemCreateForm({ productId, onSubmit, onCancel, load }: ItemCrea
                     />
                     {errors.text && <div className="invalid-feedback">{errors.text.message}</div>}
                 </div>
-
+                </>
+                }
                 <div className="d-flex flex-row mt-4 mb-5">
                     <GenericButton
                         className="btn btn-md btn-secondary mb-3 me-2"
@@ -91,13 +93,12 @@ export function ItemCreateForm({ productId, onSubmit, onCancel, load }: ItemCrea
                     <button
                         type="submit"
                         className="btn btn-md btn-primary mb-3"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || load}
                     >
                         {isSubmitting ? "Guardando..." : "Guardar Item"}
                     </button>
                 </div>
             </form>
-            }
         </div>
     );
 }

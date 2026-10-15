@@ -9,14 +9,16 @@ import InfoFormField from "../../../InfoFormField";
 import { aboutImgShowExplanation, aboutEnabledExplanation } from "../../../../utils/infoHelpers";
 
 import RichTextEditor from "../../../components/RichTextEditor";
+import Loader2 from "../../../../components/Loader2";
 
 type AboutUpdateFormProps = {
     defaultValues: AboutUpdateFormData;
     onSubmit: (data: AboutUpdateFormData) => void;
     onCancel: () => void;
+    load:boolean
 };
 
-export function AboutUpdateForm({ defaultValues, onSubmit, onCancel }: AboutUpdateFormProps) {
+export function AboutUpdateForm({ defaultValues, onSubmit, onCancel, load }: AboutUpdateFormProps) {
     const {
         register,
         handleSubmit,
@@ -39,6 +41,13 @@ export function AboutUpdateForm({ defaultValues, onSubmit, onCancel }: AboutUpda
     return (
         <div className="container mt-5">
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
+                {load?
+                <Loader2
+                fullScreen={false}
+                scale={0.5}
+                />
+                :
+                <>
                 <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
                 <div className="mb-3">
@@ -50,7 +59,7 @@ export function AboutUpdateForm({ defaultValues, onSubmit, onCancel }: AboutUpda
                         className={`form-control ${errors.title ? "is-invalid" : ""}`}
                         type="text"
                         id="title"
-                    />
+                        />
                     {errors.title && <div className="invalid-feedback">{errors.title.message}</div>}
                 </div>
 
@@ -63,12 +72,12 @@ export function AboutUpdateForm({ defaultValues, onSubmit, onCancel }: AboutUpda
                         name="text"
                         render={({ field }) => (
                             <RichTextEditor
-                                value={field.value}
-                                onChange={field.onChange}
-                                isInvalid={!!errors.text}
+                            value={field.value}
+                            onChange={field.onChange}
+                            isInvalid={!!errors.text}
                             />
                         )}
-                    />
+                        />
                     {errors.text && <div className="text-danger small mt-1">{errors.text.message}</div>}
                 </div>
 
@@ -79,14 +88,14 @@ export function AboutUpdateForm({ defaultValues, onSubmit, onCancel }: AboutUpda
                             name="imgShow"
                             render={({ field }) => (
                                 <Form.Check
-                                    type="switch"
-                                    id="imgShow-switch-update"
-                                    label={field.value ? "Modo: Con Imagen" : "Modo: Sólo Texto"}
-                                    checked={field.value}
-                                    onChange={(e) => field.onChange(e.target.checked)}
+                                type="switch"
+                                id="imgShow-switch-update"
+                                label={field.value ? "Modo: Con Imagen" : "Modo: Sólo Texto"}
+                                checked={field.value}
+                                onChange={(e) => field.onChange(e.target.checked)}
                                 />
                             )}
-                        />
+                            />
                         <InfoFormField info={aboutImgShowExplanation} place="bottom" />
                     </div>
                     <div className="col-md-6 mb-3 d-flex align-items-center">
@@ -95,17 +104,19 @@ export function AboutUpdateForm({ defaultValues, onSubmit, onCancel }: AboutUpda
                             name="enabled"
                             render={({ field }) => (
                                 <Form.Check
-                                    type="switch"
-                                    id="enabled-switch-update"
-                                    label={field.value ? "Visible" : "Oculto"}
-                                    checked={field.value}
-                                    onChange={(e) => field.onChange(e.target.checked)}
+                                type="switch"
+                                id="enabled-switch-update"
+                                label={field.value ? "Visible" : "Oculto"}
+                                checked={field.value}
+                                onChange={(e) => field.onChange(e.target.checked)}
                                 />
                             )}
-                        />
+                            />
                         <InfoFormField info={aboutEnabledExplanation} place="bottom" />
                     </div>
                 </div>
+                    </>
+                    }
 
                 <div className="d-flex flex-row mt-4 mb-5">
                     <GenericButton
@@ -117,7 +128,7 @@ export function AboutUpdateForm({ defaultValues, onSubmit, onCancel }: AboutUpda
                     <button
                         type="submit"
                         className="btn btn-md btn-primary mb-3"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || load}
                     >
                         {isSubmitting ? "Actualizando..." : "Actualizar"}
                     </button>

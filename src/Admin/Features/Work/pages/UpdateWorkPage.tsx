@@ -55,7 +55,14 @@ const UpdateWorkPage = () => {
     };
 
     if (!selectedWork && !load) {
-        return <div className="imageBack"><Loader2 /></div>
+        return <div className="imageBack">
+                    <div className="coverBack">
+                      <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4">
+                        <h2 className="title-form m-0">Actualizar "nuestro trabajo":</h2>
+                          <Loader2 />
+                      </div>
+                      </div>
+                    </div>
     }
 
     return (
@@ -67,7 +74,7 @@ const UpdateWorkPage = () => {
                             <WorkUpdateForm
                                 defaultValues={{
                                     title: selectedWork.title || "",
-                                    picture: selectedWork.picture || null,
+                                    picture: selectedWork.picture || "",
                                     text: selectedWork.text || "",
                                     enabled: typeof selectedWork.enabled === "boolean" ? selectedWork.enabled : true,
                                     saver: false,
@@ -75,7 +82,6 @@ const UpdateWorkPage = () => {
                                 }}
                                 onSubmit={handleSubmit}
                                 onCancel={onClose}
-                                loader={load}
                             />
                         )}
                     </div>

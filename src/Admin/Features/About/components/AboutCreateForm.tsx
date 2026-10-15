@@ -9,14 +9,16 @@ import InfoFormField from "../../../InfoFormField";
 import { aboutImgShowExplanation, aboutEnabledExplanation } from "../../../../utils/infoHelpers";
 
 import RichTextEditor from "../../../components/RichTextEditor";
+import Loader2 from "../../../../components/Loader2";
 
 type AboutCreateFormProps = {
     defaultValues?: Partial<AboutCreateFormData>;
     onSubmit: (data: AboutCreateFormData) => void;
     onCancel: () => void;
+    load:boolean
 };
 
-export function AboutCreateForm({ defaultValues, onSubmit, onCancel }: AboutCreateFormProps) {
+export function AboutCreateForm({ defaultValues, onSubmit, onCancel, load }: AboutCreateFormProps) {
     const {
         register,
         handleSubmit,
@@ -45,6 +47,13 @@ export function AboutCreateForm({ defaultValues, onSubmit, onCancel }: AboutCrea
     return (
         <div className="container mt-5">
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
+                {load?
+                <Loader2
+                fullScreen={false}
+                scale={0.5}
+                />
+                :
+                <>
                 <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
                 <div className="mb-3">
@@ -56,7 +65,7 @@ export function AboutCreateForm({ defaultValues, onSubmit, onCancel }: AboutCrea
                         className={`form-control ${errors.title ? "is-invalid" : ""}`}
                         type="text"
                         id="title"
-                    />
+                        />
                     {errors.title && <div className="invalid-feedback">{errors.title.message}</div>}
                 </div>
 
@@ -69,12 +78,12 @@ export function AboutCreateForm({ defaultValues, onSubmit, onCancel }: AboutCrea
                         name="text"
                         render={({ field }) => (
                             <RichTextEditor
-                                value={field.value}
-                                onChange={field.onChange}
-                                isInvalid={!!errors.text}
+                            value={field.value}
+                            onChange={field.onChange}
+                            isInvalid={!!errors.text}
                             />
                         )}
-                    />
+                        />
                     {errors.text && <div className="text-danger small mt-1">{errors.text.message}</div>}
                 </div>
 
@@ -85,14 +94,14 @@ export function AboutCreateForm({ defaultValues, onSubmit, onCancel }: AboutCrea
                             name="imgShow"
                             render={({ field }) => (
                                 <Form.Check
-                                    type="switch"
-                                    id="imgShow-switch"
+                                type="switch"
+                                id="imgShow-switch"
                                     label={field.value ? "Modo: Con Imagen" : "Modo: Sólo Texto"}
                                     checked={field.value}
                                     onChange={(e) => field.onChange(e.target.checked)}
+                                    />
+                                )}
                                 />
-                            )}
-                        />
                         <InfoFormField info={aboutImgShowExplanation} place="bottom" />
                     </div>
                     <div className="col-md-6 mb-3 d-flex align-items-center">
@@ -101,17 +110,19 @@ export function AboutCreateForm({ defaultValues, onSubmit, onCancel }: AboutCrea
                             name="enabled"
                             render={({ field }) => (
                                 <Form.Check
-                                    type="switch"
-                                    id="enabled-switch"
-                                    label={field.value ? "Visible" : "Oculto"}
-                                    checked={field.value}
-                                    onChange={(e) => field.onChange(e.target.checked)}
+                                type="switch"
+                                id="enabled-switch"
+                                label={field.value ? "Visible" : "Oculto"}
+                                checked={field.value}
+                                onChange={(e) => field.onChange(e.target.checked)}
                                 />
                             )}
-                        />
+                            />
                         <InfoFormField info={aboutEnabledExplanation} place="bottom" />
                     </div>
                 </div>
+                    </>
+                    }
 
                 <div className="d-flex flex-row mt-4 mb-5">
                     <GenericButton
@@ -123,7 +134,7 @@ export function AboutCreateForm({ defaultValues, onSubmit, onCancel }: AboutCrea
                     <button
                         type="submit"
                         className="btn btn-md btn-primary mb-3"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || load}
                     >
                         {isSubmitting ? "Creando..." : "Crear"}
                     </button>

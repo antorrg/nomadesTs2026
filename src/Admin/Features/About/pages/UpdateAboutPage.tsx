@@ -5,7 +5,6 @@ import { type AboutUpdateFormData } from "../validations/aboutSchema";
 import { useReduxFetch } from "../../../../hooks/useReduxFetch";
 import { getAboutById, clearSelectedAbout } from "../aboutAdminSlice";
 import { aboutAdminApi } from "../../../AdminApi/aboutApi";
-import Loader2 from "../../../../components/Loader2";
 
 const UpdateAboutPage = () => {
     const navigate = useNavigate();
@@ -58,15 +57,10 @@ const UpdateAboutPage = () => {
         }
     };
 
-    if (!item && !load) {
-        return <div className="imageBack"><Loader2 /></div>
-    }
+
 
     return (
         <div className="imageBack">
-            {load ? (
-                <Loader2 />
-            ) : (
                 <div className="coverBack">
                     <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4">
                         <h2 className="title-form m-0 mb-4">Actualizar Sección:</h2>
@@ -83,11 +77,11 @@ const UpdateAboutPage = () => {
                                 }}
                                 onSubmit={handleSubmit}
                                 onCancel={onClose}
+                                load={load}
                             />
                         )}
                     </div>
                 </div>
-            )}
         </div>
     );
 };

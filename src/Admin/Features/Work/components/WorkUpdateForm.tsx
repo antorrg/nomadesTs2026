@@ -5,17 +5,15 @@ import { Form } from "react-bootstrap";
 import { workUpdateSchema, type WorkUpdateFormData } from "../validations/workSchema";
 import SelectImages from "../../Images/SelectImages/SelectImages";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
-import Loader2 from "../../../../components/Loader2";
 import RichTextEditor from "../../../components/RichTextEditor";
 
 type WorkUpdateFormProps = {
     defaultValues: WorkUpdateFormData;
     onSubmit: (data: WorkUpdateFormData) => void;
     onCancel: () => void;
-    loader: boolean
 };
 
-export function WorkUpdateForm({ defaultValues, onSubmit, onCancel, loader }: WorkUpdateFormProps) {
+export function WorkUpdateForm({ defaultValues, onSubmit, onCancel }: WorkUpdateFormProps) {
     const {
         register,
         handleSubmit,
@@ -37,12 +35,6 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
 
     return (
         <div className="container mt-5">
-            {loader?
-            <Loader2
-            fullScreen={false}
-            scale={0.7}
-            />
-            :
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
 
             <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
@@ -129,7 +121,7 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
                     </button>
                 </div>
             </form>
-            }
+            
         </div>
     );
 }
