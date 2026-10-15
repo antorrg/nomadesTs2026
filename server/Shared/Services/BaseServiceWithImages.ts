@@ -63,15 +63,16 @@ export class BaseServiceWithImages<TDTO, TCreate, TUpdate> extends BaseService<T
   }
 
   async create(data: TCreate): Promise<IRepositoryResponse<TDTO>> {
+    
     const response = await this.repository.create(data)
-
-    // Si usamos imágenes y el flag useImg es true, consumimos la imagen
+    let imageUrl;
     const payload = data as TCreate & ImageControl
-    if (this.useImage && payload.useImg) {
-      const imageUrl = payload[this.nameImage as unknown as keyof TCreate] as unknown as string
-      if (imageUrl) {
+    if(this.useImage){
+       imageUrl = payload[this.nameImage as unknown as keyof TCreate] as unknown as string
+    }
+    // Si usamos imágenes y el flag useImg es true, consumimos la imagen
+    if (this.useImage && imageUrl) {
         await this.releaseImage(imageUrl)
-      }
     }
 
     return response
@@ -96,7 +97,7 @@ export class BaseServiceWithImages<TDTO, TCreate, TUpdate> extends BaseService<T
       let imageMessage = ''
 
       // 1. Manejar imagen NUEVA (si viene useImg)
-      if (this.useImage && payload.useImg && newImageUrl) {
+      if (this.useImage && isNewImage && newImageUrl) {
         await this.releaseImage(newImageUrl) // Consumirla
       }
 

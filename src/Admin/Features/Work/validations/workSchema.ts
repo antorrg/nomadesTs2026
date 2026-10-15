@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const workBaseSchema = z.object({
     title: z.string().min(1, { message: "El título es obligatorio" }),
-    picture: z.string().nullable().optional(),
+    picture: z.string().min(1, { message: "Debe incluir una imagen. Si la eligió no olvide subirla"}),
     text: z.string().min(1, { message: "El texto es obligatorio" }),
     enabled: z.boolean().default(false),
     useImg: z.boolean().optional(),

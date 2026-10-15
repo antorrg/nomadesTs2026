@@ -26,7 +26,7 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
         resolver: zodResolver(workCreateSchema) as any,
         defaultValues: {
             title: defaultValues?.title ?? "",
-            picture: defaultValues?.picture ?? null,
+            picture: defaultValues?.picture,
             text: defaultValues?.text ?? "",
             enabled: defaultValues?.enabled ?? false,
             useImg: defaultValues?.useImg ?? false,
@@ -36,7 +36,7 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
     const useImg = watch("useImg");
 
     useEffect(() => {
-        setValue("picture", null);
+        setValue("picture", '');
     }, [useImg, setValue]);
 
     return (
@@ -49,6 +49,7 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
             :null}
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
             <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
+               {errors.picture && <div className="text-danger small mt-1">{errors.picture.message}</div>}
 
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">

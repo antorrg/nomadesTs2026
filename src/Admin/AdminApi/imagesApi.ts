@@ -36,15 +36,15 @@ export const imagesApi = {
         const formData = new FormData();
         formData.append('image', file);
         const response = await adminApi.execute({
-            confirm: {
-                title: 'Esta seguro de subir esta imagen?',
-            },
+            // confirm: {
+            //     title: 'Esta seguro de subir esta imagen?',
+            // },
             request: {
                 method: 'post',
                 endpoint: 'images/upload',
                 data: formData
             },
-            hasMessage: true,
+            hasMessage: false,
             errorMessage: 'Error al subir imagen'
         });
         return response as UploadImageResponse;

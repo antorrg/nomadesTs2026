@@ -26,7 +26,7 @@ export function ItemCreateForm({ productId, onSubmit, onCancel, load }: ItemCrea
         defaultValues: {
             ProductId: productId,
             text: "",
-            picture: null,
+            picture: "",
             useImg: false
         },
     });
@@ -46,6 +46,7 @@ export function ItemCreateForm({ productId, onSubmit, onCancel, load }: ItemCrea
                 <input type="hidden" {...register("ProductId", { valueAsNumber: true })} />
 
             <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
+             {errors.picture && <div className="text-danger small mt-1">{errors.picture.message}</div>}
 
                 <div className="mb-3 form-check form-switch">
                     <Controller
@@ -59,7 +60,7 @@ export function ItemCreateForm({ productId, onSubmit, onCancel, load }: ItemCrea
                                 label="Active para elegir imagen guardada para este item"
                                 onChange={(e) => {
                                     field.onChange(e.target.checked);
-                                    setValue("picture", null);
+                                    setValue("picture", "");
                                 }}
                             />
                         )}

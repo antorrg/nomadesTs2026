@@ -47,7 +47,7 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
 
             <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
-                {!useImg && (
+               
                     <div className="mb-3 form-check form-switch">
                         <Controller
                             name="saver"
@@ -63,7 +63,7 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
                             )}
                         />
                     </div>
-                )}
+                
 
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">

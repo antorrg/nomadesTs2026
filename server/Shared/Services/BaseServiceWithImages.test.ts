@@ -1,5 +1,5 @@
 import { beforeAll, afterAll, describe, it, expect } from 'vitest'
-import { startUp, closeDatabase, User } from '../../Configs/database.ts'
+import { startUp, closeDatabase, User, Image } from '../../Configs/database.ts'
 import { BaseRepository } from '../Repositories/BaseRepository.ts'
 import * as help from '../Repositories/testHelpers/testHelp.help.ts'
 import * as store from '../../../test/testHelpers/testStore.help.ts'
@@ -13,6 +13,7 @@ describe('BaseService unit test', () => {
   beforeAll(async () => {
     await startUp(true, true)
     imagesCopied = await prepareTestImages(2)
+    await Image.bulkCreate(imagesCopied.map(url => ({imageUrl: url})))
   })
   afterAll(async () => {
     await closeDatabase()
@@ -22,6 +23,7 @@ describe('BaseService unit test', () => {
   const test = new BaseServiceWithImages(repo, ImgsService as any, true, 'picture')
   describe('Create method', () => {
     it('should create a element', async () => {
+      console.log('imagen', imagesCopied[0])
       const response = await test.create({ ...help.dataCreate, picture: imagesCopied[0] })
       expect(response.message).toBe('Registro user@email.com creado correctamente')
       expect(response.results).toEqual({

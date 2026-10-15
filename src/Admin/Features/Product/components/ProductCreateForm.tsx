@@ -27,12 +27,12 @@ export function ProductCreateForm({ defaultValues, onSubmit, onCancel, load }: P
         resolver: zodResolver(productCreateSchema) as any,
         defaultValues: {
             title: defaultValues?.title ?? "",
-            picture: defaultValues?.picture ?? null,
+            picture: defaultValues?.picture ?? "",
             info_header: defaultValues?.info_header ?? "",
             info_body: defaultValues?.info_body ?? "",
             enabled: defaultValues?.enabled ?? false,
             useImg: defaultValues?.useImg ?? false,
-            items: defaultValues?.items ?? [{ text: "", picture: null, useImg: false }],
+            items: defaultValues?.items ?? [{ text: "", picture: "", useImg: false }],
         },
     });
 
@@ -45,7 +45,7 @@ export function ProductCreateForm({ defaultValues, onSubmit, onCancel, load }: P
     const watchedItems = watch("items");
 
     useEffect(() => {
-        setValue("picture", null);
+        setValue("picture", "");
     }, [useImg, setValue]);
 
     return (
@@ -58,6 +58,7 @@ export function ProductCreateForm({ defaultValues, onSubmit, onCancel, load }: P
             :
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
             <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
+             {errors.picture && <div className="text-danger small mt-1">{errors.picture.message}</div>}
 
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">
@@ -114,6 +115,9 @@ export function ProductCreateForm({ defaultValues, onSubmit, onCancel, load }: P
                                     namePicture={`items.${index}.picture`}
                                     nameUseImg={`items.${index}.useImg`}
                                 />
+                                {errors.items?.[index]?.picture && (
+                                    <div className="text-danger small mt-1 mb-2">{errors.items[index]?.picture?.message}</div>
+                                )}
                                 <div className="mb-3">
                                     <label>Texto: </label>
                                     <textarea
@@ -139,7 +143,7 @@ export function ProductCreateForm({ defaultValues, onSubmit, onCancel, load }: P
                     <GenericButton
                         className="btn btn-sm btn-outline-success mb-3 me-2"
                         type="button"
-                        onClick={() => append({ text: "", picture: null, useImg: false })}
+                        onClick={() => append({ text: "", picture: "", useImg: false })}
                         buttonText="Agregar Item"
                     />
                 </div>

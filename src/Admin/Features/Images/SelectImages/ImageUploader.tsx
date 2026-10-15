@@ -1,4 +1,4 @@
-import React, { useState, useEffect, type ChangeEvent } from "react";
+import React, { useState, useEffect, useRef, type ChangeEvent } from "react";
 import { imagesApi } from "../../../AdminApi/imagesApi";
 import InfoFormField from "../../../InfoFormField"; 
 import { imageUpladmessage } from "../../../../utils/infoHelpers";
@@ -10,52 +10,50 @@ type ImageUploaderProps = {
 }
 
 const ImageUploader = ({ titleField = "Imagen:", value, onChange }: ImageUploaderProps) => {
-  const [file, setFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(value || null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(value || null);
   const [alert, setAlert] = useState<boolean>(false);
+  const [uploading, setUploading] = useState<boolean>(false);
+  const originalValue = useRef<string | null>(value || null); // Imagen con la que arrancó el componente
 
   // Actualiza previewUrl si el prop imageValue cambia
   useEffect(() => {
     if (value !== undefined) {
       setPreviewUrl(value);
-      setImageUrl(value);
     }
   }, [value]);
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0] || null;
-    setFile(selectedFile);
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const input = e.target;
+    const selectedFile = input.files?.[0] || null;
+    if (!selectedFile) return;
 
-    if (selectedFile) {
-      const fileReader = new FileReader();
-      fileReader.onload = (e) => setPreviewUrl(e.target?.result as string); // Previsualiza imagen seleccionada
-      fileReader.readAsDataURL(selectedFile);
-    }
-  };
+    // Previsualiza la imagen seleccionada mientras sube
+    const fileReader = new FileReader();
+    fileReader.onload = (ev) => setPreviewUrl(ev.target?.result as string);
+    fileReader.readAsDataURL(selectedFile);
 
-  const handleDelete = () => {
-    setFile(null);
-    setPreviewUrl(value || null); // Restaura la imagen original si la hay
-    onChange(value || null);
-  };
-
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (!file) return;
-    try{
-      const response = await imagesApi.upload(file)
-      // Simular la respuesta para la demo
+    setAlert(false);
+    setUploading(true);
+    try {
+      const response = await imagesApi.upload(selectedFile);
       if (response.url) {
-        setImageUrl(response.url); // Actualiza imageUrl con la URL de la imagen cargada
-        setPreviewUrl(response.url)
+        setPreviewUrl(response.url);
         onChange(response.url);
-        console.log('imagen url: ', response.url)
         setAlert(true);
       }
     } catch (error) {
       console.error("Error al cargar la imagen:", error);
+      setPreviewUrl(value || null); // Restaura la imagen original si falla la subida
+    } finally {
+      setUploading(false);
+      input.value = ""; // Permite volver a seleccionar el mismo archivo
     }
+  };
+
+  const handleRestore = () => {
+    setPreviewUrl(originalValue.current);
+    onChange(originalValue.current);
+    setAlert(false);
   };
 
   return (
@@ -75,6 +73,7 @@ const ImageUploader = ({ titleField = "Imagen:", value, onChange }: ImageUploade
             className="form-control"
             onChange={handleFileChange}
             accept="image/*"
+            disabled={uploading}
           />
           {previewUrl && (
             <>
@@ -83,38 +82,25 @@ const ImageUploader = ({ titleField = "Imagen:", value, onChange }: ImageUploade
               ) : (
                 <p className="text-success">Imagen existente:</p>
               )}
-
-              {file && (
+              {alert && (
                 <button
                   type="button"
-                  className="btn btn-sm btn-outline-danger mr-3 mt-1 mb-1"
-                  onClick={handleDelete}
+                  className="btn btn-sm btn-outline-danger mt-1 mb-1"
+                  onClick={handleRestore}
+                  disabled={uploading}
                 >
-                  Borrar selección
+                  Quitar imagen
                 </button>
               )}
             </>
           )}
-          <button
-            type="button"
-            onClick={handleSubmit}
-            className="btn btn-sm btn-outline-primary mt-1 mb-1"
-            disabled={!file}
-          >
-            Subir
-          </button>
         </section>
 
-        {imageUrl && !file ? (
-          <div>
-            <img src={imageUrl} alt="Uploaded" style={{ maxWidth: "min(100%, 20rem)", height: "auto", objectFit: "contain" }} />
-          </div>
-        )
-        : previewUrl && (
+        {previewUrl && (
           <img
             src={previewUrl}
             alt="Preview"
-            style={{ maxWidth: "min(100%, 20rem)", height: "auto", marginTop: "10px", objectFit: "contain" }}
+            style={{ maxWidth: "min(100%, 20rem)", height: "auto", marginTop: "10px", objectFit: "contain", opacity: uploading ? 0.5 : 1 }}
           />
         )}
       </div>

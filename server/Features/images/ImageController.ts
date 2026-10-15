@@ -1,5 +1,6 @@
 import { type Request, type Response } from 'express'
 import multer from 'multer'
+import logger from '../../Configs/logger.js'
 import { throwError, processError } from '../../Configs/errorHandlers.js'
 import { ImageRepository } from './ImageRepository.js'
 import { ImgsService } from '../../Shared/Services/ImgsService.js'
@@ -24,6 +25,7 @@ export class ImageController {
 
     try {
       const result = await ImgsService.uploadNewImage(file)
+      await this.service.saveImage({ imageUrl: result })
       res.status(200).json({
         message: 'Imagen guardada',
         results: {
@@ -31,6 +33,7 @@ export class ImageController {
         }
       })
     } catch (error) {
+      logger.error(error)
       throwError('Error al subir la imagen', 500)
     }
   }

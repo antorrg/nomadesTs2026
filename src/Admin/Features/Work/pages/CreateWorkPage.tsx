@@ -23,7 +23,7 @@ const CreateWorkPage = () => {
 
         const payload: CreateWork = {
             title: data.title,
-            picture: data.picture ?? undefined,
+            picture: data.picture,
             text: data.text,
             enabled: data.enabled ?? false,
             useImg: data.useImg,
