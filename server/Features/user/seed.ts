@@ -11,7 +11,7 @@ export const initialUser = async () => {
     name: 'Admin',
     password: hasheredPass,
     role: 'ADMIN',
-    picture: envConfig.UserImg
+    picture: '/silueta.png'
   }
   try {
     const users = await User.findAll()

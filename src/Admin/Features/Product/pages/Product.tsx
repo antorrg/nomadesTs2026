@@ -77,7 +77,6 @@ const Product = () => {
 
   return (
     <>
-
           <section className="py-5 text-center container card">
               <button
                     type="button"

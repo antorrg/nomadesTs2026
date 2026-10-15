@@ -54,7 +54,6 @@ const CreateProductPage = () => {
 
   return (
     <div className="imageBack">
-    
         <div className="coverBack">
           <div className="container-md modal-content colorBack formProductContainer rounded-4 shadow p-4">
             <h3 className="mb-4">Creación de Producto: </h3>

@@ -72,22 +72,26 @@ const UpdateProductPage = () => {
     }
   };
 
-  if (!selectedProduct && !load) {
-    return <div className="imageBack"><Loader2 /></div>
-  }
 
   return (
     <div className="imageBack">
         <div className="coverBack">
           <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4">
             <h2 className="title-form m-0">Actualizar producto:</h2>
+            {(!selectedProduct && !load)?
+            <Loader2 
+            fullScreen={false}
+            scale={0.5}
+            />
+            :
+            <>
             {selectedProduct && (
               <ProductUpdateForm
-                defaultValues={{
-                  title: selectedProduct.title || "",
-                  picture: selectedProduct.picture || null,
-                  info_header: selectedProduct.info_header || "",
-                  info_body: selectedProduct.info_body || "",
+              defaultValues={{
+                title: selectedProduct.title || "",
+                picture: selectedProduct.picture || '',
+                info_header: selectedProduct.info_header || "",
+                info_body: selectedProduct.info_body || "",
                   enabled: typeof selectedProduct.enabled === "boolean" ? selectedProduct.enabled : true,
                   saver: false,
                   useImg: false,
@@ -95,8 +99,10 @@ const UpdateProductPage = () => {
                 onSubmit={handleSubmit}
                 onCancel={onClose}
                 load={load}
-              />
-            )}
+                />
+              )}
+              </>
+              }
           </div>
         </div>
     </div>

@@ -89,21 +89,29 @@ const UpdateItemPage = () => {
       <div className="coverBack" >
         <div className="container-md modal-content colorBack formProductContainer rounded-4 shadow p-4">
           <h2 className="title-form m-0">Actualizar Item</h2>
-        
+          {adminLoading?
+          <Loader2
+           fullScreen={false}
+           scale={0.5}
+           />
+           :
+           <>
         {selectedItem && (
           <ItemUpdateForm
-            defaultValues={{
-              text: selectedItem.text ?? "",
-              picture: selectedItem.picture ?? "",
-              useImg: false, // IItem from type doesn't contain useImg natively so we provide a safe fallback locally for the form
-              saver: true, // Default true on edit
-              enabled: selectedItem.enabled ?? false
-            }}
-            onSubmit={handleSubmit}
-            onCancel={cancel}
-            load={load}
+          defaultValues={{
+            text: selectedItem.text ?? "",
+            picture: selectedItem.picture ?? "",
+            useImg: false, // IItem from type doesn't contain useImg natively so we provide a safe fallback locally for the form
+            saver: true, // Default true on edit
+            enabled: selectedItem.enabled ?? false
+          }}
+          onSubmit={handleSubmit}
+          onCancel={cancel}
+          load={load}
           />
         )}
+          </>
+        }
       </div>
     </div>
     </div>
