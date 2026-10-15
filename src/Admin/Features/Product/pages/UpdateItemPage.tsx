@@ -76,9 +76,6 @@ const UpdateItemPage = () => {
     return <div>Error: Item ID is missing</div>;
   }
 
-  if (adminLoading) {
-    return <div className="d-flex justify-content-center mt-5"><Loader2 /></div>;
-  }
 
   if (error) {
     return <div className="alert alert-danger m-4">Error: {error}</div>;
