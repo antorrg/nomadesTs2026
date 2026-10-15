@@ -58,20 +58,24 @@ const UpdateMediaPage = () => {
         }
     };
 
-    if (!selectedMedia && !load) {
-        return <div className="imageBack"><Loader2 /></div>
-    }
 
     return (
         <div className="imageBack">
                 <div className="coverBack">
                     <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4">
                         <h2 className="title-form m-0">Actualizar publicacion {showType}:</h2>
+                        {(!selectedMedia && !load)?
+                            <Loader2
+                                fullScreen={false}
+                                scale={0.5}
+                            />
+                            :
+                            <>
                         {selectedMedia && (
                             <MediaUpdateForm
-                                mediaType={selectedMedia?.type || urlType}
-                                defaultValues={{
-                                    title: selectedMedia.title || "",
+                            mediaType={selectedMedia?.type || urlType}
+                            defaultValues={{
+                                title: selectedMedia.title || "",
                                     text: selectedMedia.text || "",
                                     url: selectedMedia.url || "",
                                     enabled: typeof selectedMedia.enabled === "boolean" ? selectedMedia.enabled : true,
@@ -79,8 +83,10 @@ const UpdateMediaPage = () => {
                                 onSubmit={handleSubmit}
                                 onCancel={onClose}
                                 load={load}
-                            />
-                        )}
+                                />
+                            )}
+                        </>
+                        }
                     </div>
                 </div>
         </div>

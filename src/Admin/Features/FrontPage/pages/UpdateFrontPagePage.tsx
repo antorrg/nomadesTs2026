@@ -58,31 +58,37 @@ const UpdateFrontPagePage = () => {
         }
     };
 
-    if (!item && !load) {
-        return <div className="imageBack"><Loader2 /></div>
-    }
 
     return (
         <div className="imageBack">
                 <div className="coverBack">
                     <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4">
                         <h2 className="title-form m-0">Actualizar Portada:</h2>
+                        {(!item && !load)?
+                        <Loader2
+                        fullScreen={false}
+                        scale={0.5}
+                        />
+                        :
+                        <>
                         {item && (
                             <FrontPageUpdateForm
-                                defaultValues={{
-                                    title: item.title || "",
-                                    picture: item.picture || null,
-                                    info_header: item.info_header || "",
-                                    description: item.description || "",
-                                    enabled: typeof item.enabled === "boolean" ? item.enabled : true,
-                                    saver: false,
-                                    useImg: false,
-                                }}
-                                onSubmit={handleSubmit}
-                                onCancel={onClose}
-                                load={load}
+                            defaultValues={{
+                                title: item.title || "",
+                                picture: item.picture || null,
+                                info_header: item.info_header || "",
+                                description: item.description || "",
+                                enabled: typeof item.enabled === "boolean" ? item.enabled : true,
+                                saver: false,
+                                useImg: false,
+                            }}
+                            onSubmit={handleSubmit}
+                            onCancel={onClose}
+                            load={load}
                             />
                         )}
+                        </>
+                        }
                     </div>
                 </div>
         </div>

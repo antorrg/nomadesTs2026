@@ -29,7 +29,7 @@ const TabsLayout: React.FC<TabsLayoutProps> = ({ activeTab, handleTabChange, ses
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link onClick={() => handleTabChange('destacado')} active={activeTab === 'destacado'}>
-                  Destacado
+                  Destacados
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>

@@ -20,7 +20,7 @@ const dispatch = useAppDispatch()
 const [showChangeRole, setShowChangeRole] = useState(false)
 const [showUserBlocker, setShowUserBlocker] = useState(false)
 const {id} = useParams()
-const { selectedUser } = useReduxFetch({
+const { selectedUser, loading } = useReduxFetch({
   action: getUserById,
   arg: id,
   selector: (state) => state.user,
@@ -40,7 +40,6 @@ const resetPassword = async(id:string):Promise<void>=>{
             await userApi.resetPassword(id);
           } catch (error) {
             console.error(error);
-          } finally {
           }
 
 }
@@ -52,6 +51,7 @@ const showBtn = showButton(userAuth?.role)
       <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4 mb-3">
 
       <div className="d-flex flex-column align-items-center">
+        
         <img
           className="img-fluid rounded mb-3"
           src={user?.picture!}

@@ -6,14 +6,16 @@ import { workUpdateSchema, type WorkUpdateFormData } from "../validations/workSc
 import SelectImages from "../../Images/SelectImages/SelectImages";
 import GenericButton from "../../../../components/GenericButton/GenericButton";
 import RichTextEditor from "../../../components/RichTextEditor";
+import Loader2 from "../../../../components/Loader2";
 
 type WorkUpdateFormProps = {
     defaultValues: WorkUpdateFormData;
     onSubmit: (data: WorkUpdateFormData) => void;
     onCancel: () => void;
+    load: boolean
 };
 
-export function WorkUpdateForm({ defaultValues, onSubmit, onCancel }: WorkUpdateFormProps) {
+export function WorkUpdateForm({ defaultValues, onSubmit, onCancel, load }: WorkUpdateFormProps) {
     const {
         register,
         handleSubmit,
@@ -36,7 +38,13 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel }: WorkUpdate
     return (
         <div className="container mt-5">
             <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
-
+            {load?
+            <Loader2
+            fullScreen={false}
+            scale={0.5}
+            />
+            :
+            <>
             <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
 
                
@@ -46,14 +54,14 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel }: WorkUpdate
                             control={control}
                             render={({ field }) => (
                                 <Form.Check
-                                    type="switch"
-                                    id="saverSwitch"
-                                    checked={field.value || false}
-                                    label="Guardar imagen para su posterior uso"
-                                    onChange={field.onChange}
+                                type="switch"
+                                id="saverSwitch"
+                                checked={field.value || false}
+                                label="Guardar imagen para su posterior uso"
+                                onChange={field.onChange}
                                 />
                             )}
-                        />
+                            />
                     </div>
                 
 
@@ -66,7 +74,7 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel }: WorkUpdate
                         className={`form-control ${errors.title ? "is-invalid" : ""}`}
                         type="text"
                         id="title"
-                    />
+                        />
                     {errors.title && <div className="invalid-feedback">{errors.title.message}</div>}
                 </div>
 
@@ -79,12 +87,12 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel }: WorkUpdate
                         name="text"
                         render={({ field }) => (
                             <RichTextEditor
-                                value={field.value}
-                                onChange={field.onChange}
-                                isInvalid={!!errors.text}
+                            value={field.value}
+                            onChange={field.onChange}
+                            isInvalid={!!errors.text}
                             />
                         )}
-                    />
+                        />
                     {errors.text && <div className="text-danger small mt-1">{errors.text.message}</div>}
                 </div>
                                 <div className="row">
@@ -94,17 +102,19 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel }: WorkUpdate
                             name="enabled"
                             render={({ field }) => (
                                 <Form.Check
-                                    type="switch"
-                                    id="enabled-switch"
-                                    label="Mostrar item"
-                                    checked={field.value}
-                                    onChange={(e) => field.onChange(e.target.checked)}
+                                type="switch"
+                                id="enabled-switch"
+                                label="Mostrar item"
+                                checked={field.value}
+                                onChange={(e) => field.onChange(e.target.checked)}
                                 />
                             )}
-                        />
+                            />
                     </div>
                 </div>
 
+                    </>
+                    }
                 <div className="d-flex flex-row mt-4 mb-5">
                     <GenericButton
                         className="btn btn-md btn-secondary mb-3 me-2"
@@ -115,7 +125,7 @@ export function WorkUpdateForm({ defaultValues, onSubmit, onCancel }: WorkUpdate
                     <button
                         type="submit"
                         className="btn btn-md btn-primary mb-3"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || load}
                     >
                         {isSubmitting ? "Actualizando..." : "Actualizar"}
                     </button>

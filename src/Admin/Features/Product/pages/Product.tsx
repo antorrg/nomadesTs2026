@@ -77,10 +77,7 @@ const Product = () => {
 
   return (
     <>
-      {load ? (
-        <Loader2 />
-       ) : (
-        <>
+
           <section className="py-5 text-center container card">
               <button
                     type="button"
@@ -91,17 +88,24 @@ const Product = () => {
               >
                 <i className="bi bi-arrow-left fs-4 me-3"></i>Volver
               </button>
+              {load?
+              <Loader2
+              fullScreen={false}
+              scale={0.7}
+              />
+              :
+              <>
             <div className="row py-lg-5">
               <div className="col-lg-6 col-md-8 mx-auto">
                   <h1 className="fw-light m-0 mb-3">Proyecto: {selectedProduct?.title}</h1>
                 <img
                   className={`bd-placeholder-img-fluid img-fluid mb-3 ${
                     selectedProduct && !selectedProduct.enabled ? "deactivate" : ""
-                  }`}
-                  src={selectedProduct?.picture!}
-                  alt="Imagen"
-                  style={{ width: "100%", maxWidth: "22rem", objectFit: 'cover', objectPosition: 'center' }}
-                />
+                    }`}
+                    src={selectedProduct?.picture!}
+                    alt="Imagen"
+                    style={{ width: "100%", maxWidth: "22rem", objectFit: 'cover', objectPosition: 'center' }}
+                    />
                 <h4>Info posicionamiento:</h4>
                 <p className="lead text-muted">{selectedProduct?.info_header}</p>
                 <hr></hr>
@@ -118,27 +122,33 @@ const Product = () => {
                 />
               </div>
             </div>
+            </>
+            }
           </section>
           <section className="album.py-5.bg-light">
             <div className="container">
               <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {load?
+                  null
+                  :
+                  <>
                 {selectedProduct?.Items?.map((item) => (
                   <div className="col" key={item.id}>
                     <div className="card shadow-sm">
                     {deletingId === String(item.id) ? (
-                        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '260px' }}>
+                      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '260px' }}>
                           <Loader2 fullScreen={false} scale={0.4} text={'Borrando...'} />
                         </div>
                       ) : (
-                      <>
+                        <>
                       <img
                         className={`card-img-top ${
                           !item.enabled ? "deactivate" : ""
-                        }`}
-                        src={item.picture!}
-                        alt="Card image"
-                        style={{maxWidth: '25rem', height:'15rem', objectFit:'cover', objectPosition:'center'}}
-                      />
+                          }`}
+                          src={item.picture!}
+                          alt="Card image"
+                          style={{maxWidth: '25rem', height:'15rem', objectFit:'cover', objectPosition:'center'}}
+                          />
                       <div className="card-body">
                         <p className="card-text">{item.text}</p>
                         <div className="d-flex justify-content-between align-items-center">
@@ -149,7 +159,7 @@ const Product = () => {
                                 navigate(`/admin/producto/detalles/item/${item.id}`)
                               }
                               disabled={item.id === 0 ? true : false}
-                            >
+                              >
                               Ver mas
                             </button>
                             <button
@@ -158,7 +168,7 @@ const Product = () => {
                                 delItem(item.id);
                               }}
                               disabled={item.id === 0 ? true : false}
-                            >
+                              >
                               Borrar
                             </button>
                           </div>
@@ -169,12 +179,13 @@ const Product = () => {
                     </div>
                   </div>
                 ))}
+                </>
+              }
               </div>
             </div>
           </section>
         </>
-      )}
-    </>
+
   );
 };
 

@@ -31,27 +31,30 @@ const AdminFrontPage= () => {
  
 
   return (
-    <section className="container">
+  <section className="container">
+        {loaderSelect? 
+          <Loader2
+        fullScreen={false}
+        scale={0.5}
+        />
+        :
+        
     <div className=" py-5 row py-lg-5">
-        {!loaderSelect? 
-        <>
-      <div className="col-lg-6 col-md-8 col-sm-12 mx-auto text-center">
-        {info && (
-          <FrontPageSwitcher
+        <div className="col-lg-6 col-md-8 col-sm-12 mx-auto text-center">
+          {info && (
+            <FrontPageSwitcher
             key={info.id}
             data={info}
-           />
-              )}
-        <div className=''>
-          {(info?.id !==0)?
-         <> 
-         <h2 className="fw-light">Gestion de portada:</h2>
-        <Link className="btn btn-sm btn-outline-success mb-3" to={`/admin/front-page/${info?.id}/edicion`}>Editar</Link>
-        </>
-        :
-        <Link className="btn btn-sm btn-outline-danger me-3 mb-3" to='/admin/front-page/creacion'>Crear</Link>
-          }
-        </div>
+            />
+          )}
+            {(info?.id !==0)?
+              <> 
+              <h2 className="fw-light">Gestion de portada:</h2>
+              <Link className="btn btn-sm btn-outline-success mb-3" to={`/admin/front-page/${info?.id}/edicion`}>Editar</Link>
+              </>
+              :
+              <Link className="btn btn-sm btn-outline-danger me-3 mb-3" to='/admin/front-page/creacion'>Crear</Link>
+              }
         <h4>Titulo:</h4>
             <p className="lead text-muted">{info?.title}</p>
         <img
@@ -66,11 +69,8 @@ const AdminFrontPage= () => {
             <h4>Descripcion:</h4>
         <p className="lead text-muted">{info?.description}</p>
       </div>
-        </>
-        :
-        <Loader2/>
-        }
     </div>
+      }
   </section>
   );
 };

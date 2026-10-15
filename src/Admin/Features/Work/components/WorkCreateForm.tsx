@@ -41,13 +41,14 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
 
     return (
         <div className="container mt-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
             {loader?
             <Loader2
             fullScreen={false}
             scale={0.7}
             />
             :
-            <form onSubmit={handleSubmit(onSubmit)} className="needs-validation" noValidate>
+            <>
             <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
                {errors.picture && <div className="text-danger small mt-1">{errors.picture.message}</div>}
 
@@ -82,6 +83,7 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
                     {errors.text && <div className="text-danger small mt-1">{errors.text.message}</div>}
                 </div>
 
+            </>}
                 <div className="d-flex flex-row mt-4 mb-5">
                     <GenericButton
                         className="btn btn-md btn-secondary mb-3 me-2"
@@ -92,13 +94,12 @@ export function WorkCreateForm({ defaultValues, onSubmit, onCancel, loader }: Wo
                     <button
                         type="submit"
                         className="btn btn-md btn-primary mb-3"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || loader}
                         >
                         {isSubmitting ? "Creando..." : "Crear"}
                     </button>
                 </div>
             </form>
-            }
             
         </div>
     );

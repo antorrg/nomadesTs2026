@@ -49,7 +49,15 @@ const { users } = useReduxFetch({
           }
         </div>
             {load?
-              <Loader2/>
+             <div
+              className="d-flex flex-column flex-md-row justify-content-between align-items-start w-100 mb-3 shadow-sm card"
+              style={{ borderRadius: "0.5rem" }}
+            >
+              <Loader2
+              fullScreen={false}
+              scale={0.5}
+              />
+              </div>
               :
         <div>
           {users?.map((info) => (
@@ -61,7 +69,7 @@ const { users } = useReduxFetch({
             >
               <img
                 className={`bd-placeholder-img-fluid ms-2 ${
-                  info && !info.enabled ? "deactivate" : ""
+                  info && !info.enabled ? "desactivado" : ""
                 }`}
                 src={info?.picture!}
                 alt="Imagen"

@@ -54,36 +54,36 @@ const UpdateWorkPage = () => {
         }
     };
 
-    if (!selectedWork && !load) {
-        return <div className="imageBack">
-                    <div className="coverBack">
-                      <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4">
-                        <h2 className="title-form m-0">Actualizar "nuestro trabajo":</h2>
-                          <Loader2 />
-                      </div>
-                      </div>
-                    </div>
-    }
-
     return (
         <div className="imageBack">
                 <div className="coverBack">
                     <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4">
                         <h2 className="title-form m-0">Actualizar "nuestro trabajo":</h2>
+                        {(!selectedWork && !load)?
+                          <Loader2 
+                            fullScreen={false}
+                            scale={0.5}
+                            />
+                        :
+                        <>
                         {selectedWork && (
                             <WorkUpdateForm
-                                defaultValues={{
-                                    title: selectedWork.title || "",
-                                    picture: selectedWork.picture || "",
-                                    text: selectedWork.text || "",
-                                    enabled: typeof selectedWork.enabled === "boolean" ? selectedWork.enabled : true,
-                                    saver: false,
-                                    useImg: false,
-                                }}
-                                onSubmit={handleSubmit}
-                                onCancel={onClose}
+                            defaultValues={{
+                                title: selectedWork.title || "",
+                                picture: selectedWork.picture || "",
+                                text: selectedWork.text || "",
+                                enabled: typeof selectedWork.enabled === "boolean" ? selectedWork.enabled : true,
+                                saver: false,
+                                useImg: false,
+                               
+                            }}
+                            onSubmit={handleSubmit}
+                            onCancel={onClose}
+                            load={load}
                             />
                         )}
+                        </>
+                        }
                     </div>
                 </div>
         </div>
