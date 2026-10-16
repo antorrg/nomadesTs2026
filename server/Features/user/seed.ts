@@ -11,11 +11,11 @@ export const initialUser = async () => {
     name: 'Admin',
     password: hasheredPass,
     role: 'ADMIN',
-    picture: '/silueta.png'
+    picture: envConfig.BasePicture
   }
   try {
-    const users = await User.findAll()
-    if (users.length > 0) {
+    const users = await User.count()
+    if (users > 0) {
       return logger.info('The user already exists!')
     }
     const superUser = await User.create(data)

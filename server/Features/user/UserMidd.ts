@@ -15,7 +15,7 @@ export class UserMidd {
       password: await Hasher.hashPassword(passwordGenerated),
       plainPassword: passwordGenerated,
       nickname: email.split('@')[0],
-      picture: envConfig.UserImg,
+      picture: envConfig.BasePicture,
       enabled: true
     }
     next()
