@@ -8,7 +8,7 @@ export const initialUser = async () => {
   const data = {
     email: envConfig.RootEmail,
     nickname: envConfig.RootEmail.split('@')[0],
-    name: 'Admin',
+    name: 'Admin principal',
     password: hasheredPass,
     role: 'ADMIN',
     picture: envConfig.BasePicture

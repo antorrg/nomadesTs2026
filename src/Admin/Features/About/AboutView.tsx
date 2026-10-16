@@ -25,20 +25,31 @@ const AboutView = () => {
   return (
     <section className="container">
       <div className="py-5 row py-lg-5">
-        {!loaderSelect ? (
           <div className="col-lg-8 col-md-10 col-sm-12 mx-auto text-center">
             <h2 className="fw-light mb-3">Acerca de:</h2>
             <div>
+              {loaderSelect? null
+              :
+              <>
               {info?.id !== 0 ? (
                 <Link className="btn btn-sm btn-outline-success mb-3" to={`/admin/about/${info?.id}/edicion`}>
-                  Editar
+                Editar
                 </Link>
               ) : (
                 <Link className="btn btn-sm btn-outline-danger me-3 mb-3" to="/admin/about/creacion">
-                  Crear
+                Crear
                 </Link>
+              
               )}
+              </>}
             </div>
+            {loaderSelect?
+            <Loader2
+            fullScreen={false}
+            scale={0.5}
+            />
+            :
+            <>
 
             <h4 className="mt-3">Título:</h4>
             <p className="lead text-muted">{info?.title}</p>
@@ -60,20 +71,19 @@ const AboutView = () => {
                   src={info?.picture}
                   alt="Imagen Acerca de"
                   style={{ maxWidth: "100%", maxHeight: "350px", height: "auto" }}
-                />
+                  />
               </div>
             )}
 
-            <hr />
-            <h4>Texto principal:</h4>
-            <div
-              className="lead text-muted rich-text-content"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(info?.text || '') }}
-            />
+              <hr />
+              <h4>Texto principal:</h4>
+              <div
+                className="lead text-muted rich-text-content"
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(info?.text || '') }}
+                />
+              </>
+              }
           </div>
-        ) : (
-          <Loader2 />
-        )}
       </div>
     </section>
   );
