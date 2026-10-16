@@ -14,8 +14,8 @@ const UserProfile = ({goToBack, user}: UserProfileParams) => {
 const navigate = useNavigate()
 const [showPasswordModal, setShowPasswordModal] = useState(false)
 
-  const goToEdition = (id: string)=>{
-    navigate(`usuarios/edicion/${id}`)
+  const goToEdition = ()=>{
+    navigate('usuarios/edicion')
     goToBack()
   }
 
@@ -55,7 +55,7 @@ const [showPasswordModal, setShowPasswordModal] = useState(false)
         <Button variant="outline-success" onClick={goToBack}>
           Volver
         </Button>
-        <Button variant="outline-primary" className="ms-3" onClick={() => user?.id && goToEdition(user.id)}>
+        <Button variant="outline-primary" className="ms-3" onClick={goToEdition}>
           Editar
         </Button>
         </div>

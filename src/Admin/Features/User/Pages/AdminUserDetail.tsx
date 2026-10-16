@@ -9,6 +9,7 @@ import ChangeRole from '../components/ModalsEdition/ChangeRole'
 import UserBlocker from '../components/ModalsEdition/UserBlocker'
 import { useAuth } from '../../../../context/AuthContext'
 import { userApi } from '../../../AdminApi/userApi'
+import Loader2 from '../../../../components/Loader2'
 
 
 
@@ -51,13 +52,16 @@ const showBtn = showButton(userAuth?.role)
       <div className="container-md modal-content colorBack formProductContainer rounded-3 shadow p-4 mb-3">
 
       <div className="d-flex flex-column align-items-center">
-        
+        {loading?
+        <Loader2 fullScreen={false} scale={0.4}/>
+        :
+        <>
         <img
           className="img-fluid rounded mb-3"
           src={user?.picture!}
           alt={`${user?.nickname}'s profile`}
           style={{ maxWidth: '250px' }}
-        />
+          />
         <div className="w-100">
           <dl className="row user-info-list text-start">
             <dt className="col-sm-3">Email:</dt>
@@ -70,8 +74,8 @@ const showBtn = showButton(userAuth?.role)
             <dd className="col-sm-9"><span>{roleTranslate(user?.role!)}</span>
                 {showBtn?
                   <button 
-                    className="btn btn-sm btn-outline-primary ms-3"
-                    onClick={() => setShowChangeRole(true)}
+                  className="btn btn-sm btn-outline-primary ms-3"
+                  onClick={() => setShowChangeRole(true)}
                   >
                     Cambiar rol
                   </button>
@@ -91,13 +95,13 @@ const showBtn = showButton(userAuth?.role)
                   <button 
                     className={switched.styleButton}
                     onClick={() => setShowUserBlocker(true)}
-                  >
+                    >
                    {switched.title}
                   </button>
                   <button 
                     className="btn btn-sm btn-outline-danger ms-3"
                     onClick={() => resetPassword(user!.id)}
-                  >
+                    >
                    Resetear contraseña
                   </button>
                   </>
@@ -106,6 +110,8 @@ const showBtn = showButton(userAuth?.role)
               </dd>
           </dl>
         </div>
+        </>
+        }
         <div className="d-flex justify-content-between align-items-center">
         <div className="btn-group">
         <button className="btn btn-sm btn-outline-success me-3" onClick={goToBack}>

@@ -18,7 +18,7 @@ export const userRouter: RouteObject[] = [
         
     },
     {
-        path: 'edicion/:id',
+        path: 'edicion',
         lazy: async()=>{
             const {default: AdminUserUpdate} = await import("./Pages/AdminUserUpdate")
             return {element: <AdminUserUpdate/>}

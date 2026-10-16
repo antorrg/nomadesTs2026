@@ -3,7 +3,7 @@ import { Modal, Button, Form, Spinner } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch } from "../../../../store/hooks";
-import { getUserById } from "../userAdminSlice";
+import { getSessionUser } from "../userAdminSlice";
 
 import { userApi } from "../../../AdminApi/userApi";
 import { passwordChangeSchema, type PasswordChangeFormValues } from "../userSchema";
@@ -49,7 +49,7 @@ const EditPassword = ({ show, handleClose, user, onSuccess }: EditPasswordProps)
       
       onSuccess();
       reset();
-      dispatch(getUserById(user.id));
+      dispatch(getSessionUser());
     } catch (error) {
       console.error(error);
     }

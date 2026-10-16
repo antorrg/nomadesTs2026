@@ -35,28 +35,31 @@ export class UserMidd {
     req.body.plainPassword = passwordGenerated
     next()
   }
-  static generatePassword(length = 12) {
-    const lower = 'abcdefghijklmnopqrstuvwxyz'
-    const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    const digits = '0123456789'
-    // const symbols = '!@#$%^&*()-_=+[]{};:,.<>/?'
+    static generatePassword(length = 12) {
+      if (!Number.isInteger(length) || length < 8) {
+        throw new RangeError('La contraseña debe tener al menos 8 caracteres')
+      }
 
-    const all = lower + digits + upper// + symbols
+      const lower = 'abcdefghijklmnopqrstuvwxyz'
+      const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      const digits = '0123456789'
+      const all = lower + upper + digits
 
-    let password = ''
+      const password = [
+        upper[crypto.randomInt(upper.length)],
+        digits[crypto.randomInt(digits.length)],
+      ]
 
-    // 1. Garantizar al menos una mayúscula
-    password += upper[crypto.randomInt(upper.length)]
+      while (password.length < length) {
+        password.push(all[crypto.randomInt(all.length)])
+      }
 
-    // 2. Completar el resto hasta el largo deseado
-    for (let i = 1; i < length; i++) {
-      password += all[crypto.randomInt(all.length)]
+      // Mezcla Fisher–Yates
+      for (let i = password.length - 1; i > 0; i--) {
+        const j = crypto.randomInt(i + 1)
+        ;[password[i], password[j]] = [password[j], password[i]]
+      }
+
+      return password.join('')
     }
-
-    // 3. Mezclar el resultado para que la mayúscula no quede siempre al principio
-    return password
-      .split('')
-      .sort(() => crypto.randomInt(2) - 1)
-      .join('')
-  }
 }

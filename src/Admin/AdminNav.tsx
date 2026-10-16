@@ -2,7 +2,7 @@ import React,  {useState} from 'react'
 import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useReduxFetch } from '../hooks/useReduxFetch';
-import { getUserById, clearError } from './Features/User/userAdminSlice'
+import { getSessionUser, clearSessionUser } from './Features/User/userAdminSlice'
 import { useAuth } from '../context/AuthContext'
 import { type IUser } from '../types/user'
 import UserProfile from './Features/User/components/ModalProfile/UserProfile';
@@ -11,16 +11,16 @@ import { roleTranslate } from './AdminUtils/helpers';
 
 const AdminNav: React.FC = () => {
   const { user: userAuth } = useAuth()
-  const id = String(userAuth?.id)
+  const id = userAuth?.id
   const [profile, setProfile] = useState<boolean>(false)
 
-  const { selectedUser } = useReduxFetch({
-    action: getUserById,
-    arg: id,
+  // sessionUser es independiente de selectedUser (usado por las vistas de admin sobre otros usuarios)
+  const { sessionUser } = useReduxFetch({
+    action: getSessionUser,
     selector: (state) => state.user,
     deps: [id],
     condition: !!id,
-    cleanupAction: clearError
+    cleanupAction: clearSessionUser
   })
   
   const userMock = {
@@ -33,7 +33,7 @@ const AdminNav: React.FC = () => {
     enabled: true
   }
 
-  const userProfile: IUser = selectedUser ? selectedUser : userMock
+  const userProfile: IUser = sessionUser ? sessionUser : userMock
 
   const goToBack= ()=> setProfile(false)
 
