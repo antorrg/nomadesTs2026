@@ -19,9 +19,6 @@ export const create:Schema = {
       trim: true,
     },
   },
-  useImg: {
-    type: "boolean"
-  }
 };
 export const update:Schema = {
   title: {
@@ -48,9 +45,6 @@ export const update:Schema = {
   order: {
     type: 'int',
     default: 0
-  },
-  useImg: {
-    type: "boolean"
   },
    enabled: {
     type: "boolean"

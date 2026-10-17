@@ -18,9 +18,6 @@ export const create:Schema = {
     sanitize: {
       trim: true,
     }
-  },
-  useImg: {
-    type: "boolean"
   }
 };
 export const update:Schema = {
@@ -41,9 +38,6 @@ export const update:Schema = {
     sanitize: {
       trim: true,
     }
-  },
-  useImg: {
-    type: "boolean"
   },
    enabled: {
     type: "boolean"

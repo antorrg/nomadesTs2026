@@ -38,7 +38,7 @@ export function ItemUpdateForm({ defaultValues, onSubmit, onCancel, load }: Item
             />
             :
                 <>
-                 <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
+                 <SelectImages control={control as any} setValue={setValue as any}  />
 
                 <div className="mb-3">
                     <label htmlFor="text" className="form-label">

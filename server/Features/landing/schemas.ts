@@ -60,9 +60,6 @@ export const update:Schema = {
   },
      saver: {
     type: "boolean",
-  },
-     useImg: {
-    type: "boolean",
   }
 };
 

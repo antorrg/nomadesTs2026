@@ -17,7 +17,7 @@ export function ItemCreateForm({ productId, onSubmit, onCancel, load }: ItemCrea
     const {
         register,
         handleSubmit,
-        watch,
+        //watch,
         control,
         setValue,
         formState: { errors, isSubmitting },
@@ -31,7 +31,7 @@ export function ItemCreateForm({ productId, onSubmit, onCancel, load }: ItemCrea
         },
     });
 
-    const useImg = watch("useImg");
+    //const useImg = watch("useImg");
 
     return (
         <div className="container mt-5">
@@ -46,19 +46,19 @@ export function ItemCreateForm({ productId, onSubmit, onCancel, load }: ItemCrea
                 {/* ProductId */}
                 <input type="hidden" {...register("ProductId", { valueAsNumber: true })} />
 
-            <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
+            <SelectImages control={control as any} setValue={setValue as any}  />
              {errors.picture && <div className="text-danger small mt-1">{errors.picture.message}</div>}
-
+{/* 
                 <div className="mb-3 form-check form-switch">
                     <Controller
-                        name="useImg"
+                        name="saver"
                         control={control}
                         render={({ field }) => (
                             <Form.Check
                                 type="switch"
-                                id="useImg"
+                                id="saver"
                                 checked={field.value || false}
-                                label="Active para elegir imagen guardada para este item"
+                                label="Active para guardar la imagen antigua"
                                 onChange={(e) => {
                                     field.onChange(e.target.checked);
                                     setValue("picture", "");
@@ -66,7 +66,7 @@ export function ItemCreateForm({ productId, onSubmit, onCancel, load }: ItemCrea
                             />
                         )}
                     />
-                </div>
+                </div> */}
 
                 <div className="mb-3">
                     <label htmlFor="text" className="form-label">

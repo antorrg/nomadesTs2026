@@ -1,4 +1,4 @@
-import { Controller, type Control, type UseFormSetValue } from "react-hook-form";
+import { Controller, type Control, type UseFormSetValue, useWatch } from "react-hook-form";
 import { Form } from "react-bootstrap";
 import ImageSelector from "./ImageSelector";
 import ImageUploader from "./ImageUploader";
@@ -6,7 +6,6 @@ import ImageUploader from "./ImageUploader";
 interface SelectImagesProps {
     control: Control<any>;
     setValue: UseFormSetValue<any>;
-    useImg: boolean;
     namePicture?: string;
     nameUseImg?: string;
 }
@@ -14,10 +13,10 @@ interface SelectImagesProps {
 const SelectImages = ({ 
     control, 
     setValue, 
-    useImg, 
     namePicture = "picture", 
     nameUseImg = "useImg" 
 }: SelectImagesProps) => {
+    const useImg = useWatch({ control, name: nameUseImg, defaultValue: false });
     return (
         <>
             <div className="row">

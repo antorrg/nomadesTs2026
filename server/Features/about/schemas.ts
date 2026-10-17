@@ -25,9 +25,6 @@ export const create:Schema = {
     type: "boolean",
 
   },
-  useImg: {
-    type: "boolean",
-  }
 };
 
 export const update:Schema = {
@@ -55,9 +52,6 @@ export const update:Schema = {
 
   },
      saver: {
-    type: "boolean",
-  },
-     useImg: {
     type: "boolean",
   }
 };

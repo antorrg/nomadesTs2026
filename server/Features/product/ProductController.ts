@@ -43,14 +43,14 @@ export class ProductController extends BaseController<IProduct, CreateProduct, U
 
     createItem = async (req: Request, res: Response) => {
         const data: CreateItem = req.body
-        const { message, results } = await this.productService.createItem(data)
+        const { message, results } = await this.productService.createItem({...data, useImg:true})
         BaseController.responder(res, 201, true, message, results)
     }
 
     updateItem = async (req: Request, res: Response) => {
         const { id } = req.params
         const data: UpdateItem = req.body
-        const { message, results } = await this.productService.updateItem(Number(id), data)
+        const { message, results } = await this.productService.updateItem(Number(id), {...data, useImg:true})
         BaseController.responder(res, 200, true, message, results)
     }
 

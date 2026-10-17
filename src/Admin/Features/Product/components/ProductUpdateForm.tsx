@@ -40,7 +40,7 @@ export function ProductUpdateForm({ defaultValues, onSubmit, onCancel, load }: P
             />
             :
                 <>
-                <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
+                <SelectImages control={control as any} setValue={setValue as any}/>
 
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">

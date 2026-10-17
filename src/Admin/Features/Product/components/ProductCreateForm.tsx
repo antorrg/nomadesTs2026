@@ -58,7 +58,7 @@ export function ProductCreateForm({ defaultValues, onSubmit, onCancel, load }: P
             />
             :
                 <>
-            <SelectImages control={control as any} setValue={setValue as any} useImg={useImg as boolean} />
+            <SelectImages control={control as any} setValue={setValue as any} />
              {errors.picture && <div className="text-danger small mt-1">{errors.picture.message}</div>}
 
                 <div className="mb-3">
@@ -112,7 +112,6 @@ export function ProductCreateForm({ defaultValues, onSubmit, onCancel, load }: P
                                 <SelectImages 
                                     control={control as any} 
                                     setValue={setValue as any} 
-                                    useImg={itemUseImg as boolean} 
                                     namePicture={`items.${index}.picture`}
                                     nameUseImg={`items.${index}.useImg`}
                                 />

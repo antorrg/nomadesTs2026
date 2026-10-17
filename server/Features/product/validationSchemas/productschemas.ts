@@ -28,13 +28,9 @@ export const create: Schema = {
       escape: true
     }
   },
-  useImg: {
-    type: "boolean"
-  },
   items: [{
     picture: { type: "string" },
-    text: { type: "string" },
-    useImg: { type: "boolean" }
+    text: { type: "string" }
   }]
 };
 
@@ -68,9 +64,6 @@ export const update: Schema = {
   },
   enabled: {
     type: "boolean",
-  },
-  useImg: {
-    type: "boolean"
   },
   saver: {
     type: "boolean"

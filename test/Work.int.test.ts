@@ -24,8 +24,8 @@ export const workTests = () => {
             for (const file of files) {
                 await fs.writeFile(path.join(uploadDir, file), 'fake image content')
             }
-            // Registrar en DB las imágenes que se usarán con useImg:true
-            for (const file of ['work_main.png', 'work_updated.png']) {
+            // Registrar en DB todas las imágenes que se usarán/consumirán
+            for (const file of files) {
                 await agent
                     .post('/api/v1/images/save')
                     .set('x-xsrf-token', getCsrfToken())
@@ -37,8 +37,7 @@ export const workTests = () => {
             const data = {
                 title: 'Project Alpha',
                 picture: 'work_main.png',
-                text: '<p>A great project.</p>',
-                useImg: true
+                text: '<p>A great project.</p>'
             }
             const response = await agent
                 .post('/api/v1/work')
@@ -80,8 +79,7 @@ export const workTests = () => {
             const data = {
                 title: 'Delete Work',
                 picture: 'work_delete.png',
-                text: 'D',
-                useImg: false
+                text: 'D'
             }
             const createRes = await agent
                 .post('/api/v1/work')

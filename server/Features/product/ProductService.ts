@@ -22,11 +22,11 @@ export class ProductService extends BaseServiceWithImages<IProduct, CreateProduc
         // 1. Manejar imagen del Producto base y creación del agregado a través de super.create
         const response = await super.create(data);
 
-        // 2. Manejar imágenes de los Ítems creados mediante useImg
+        // 2. Consumir (quitar de la galería en DB) las imágenes de los Ítems creados
         if (data.items && data.items.length > 0) {
             await Promise.all(
                 data.items
-                    .filter(item => item.useImg && item.picture)
+                    .filter(item => item.picture)
                     .map(item => this.releaseImage(item.picture!))
             );
         }
@@ -61,12 +61,8 @@ export class ProductService extends BaseServiceWithImages<IProduct, CreateProduc
 
     async createItem(data: CreateItem): Promise<IRepositoryResponse<IItem>> {
         const response = await this.repository.createItem(data);
-
-        // Manejar lógica useImg para el ítem
-        if (data.useImg && data.picture) {
-            await this.releaseImage(data.picture);
-        }
-
+            await this.releaseImage(data.picture!);
+        
         return response;
     }
 
@@ -76,15 +72,16 @@ export class ProductService extends BaseServiceWithImages<IProduct, CreateProduc
         const oldImageUrl = oldItemRes.results.picture;
         const newImageUrl = data.picture;
 
+        const isNewImage = !!newImageUrl && oldImageUrl !== newImageUrl;
+
         const response = await this.repository.updateItem(id, data);
 
-        // 2. Manejar imagen nueva (galería)
-        if (data.useImg && newImageUrl) {
-            await this.releaseImage(newImageUrl);
+        // 2. Consumir imagen nueva (quitarla de la galería en DB)
+        if (isNewImage) {
+            await this.releaseImage(newImageUrl!);
         }
-
-        // 3. Manejar imagen vieja si cambió o se eliminó
-        if (oldImageUrl && oldImageUrl !== newImageUrl) {
+        // 3. Manejar imagen vieja si cambió
+        if (oldImageUrl && isNewImage) {
             const shouldSaveOld = data.saver === true;
             await this.handleImages(oldImageUrl, shouldSaveOld);
         }

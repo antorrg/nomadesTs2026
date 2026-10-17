@@ -24,8 +24,8 @@ export const landingTests = () => {
             for (const file of files) {
                 await fs.writeFile(path.join(uploadDir, file), 'fake image content')
             }
-            // Registrar en DB las imágenes que se usarán con useImg:true
-            for (const file of ['landing_main.png', 'landing_updated.png']) {
+            // Registrar en DB todas las imágenes que se usarán/consumirán
+            for (const file of files) {
                 await agent
                     .post('/api/v1/images/save')
                     .set('x-xsrf-token', getCsrfToken())
@@ -38,8 +38,7 @@ export const landingTests = () => {
                 title: 'Welcome to Nomades',
                 picture: 'landing_main.png',
                 info_header: 'Digital Nomads',
-                description: 'Explore the world while working.',
-                useImg: true
+                description: 'Explore the world while working.'
             }
             const response = await agent
                 .post('/api/v1/landing')
@@ -48,7 +47,7 @@ export const landingTests = () => {
 
             expect(response.status).toBe(201)
             landingId = response.body.results.id
-            // useImg:true consume la referencia en DB, no borra el archivo físico
+            // La referencia se consume en DB, no borra el archivo físico
             expect(await fileExists('landing_main.png')).toBe(true)
         }, 10000)
 
@@ -62,7 +61,8 @@ export const landingTests = () => {
             const data = {
                 title: 'Updated Landing',
                 picture: 'landing_updated.png',
-                useImg: true,
+                info_header: 'Digital Nomads Updated',
+                description: 'Explore the world while working updated.',
                 saver: false
             }
             const response = await agent
@@ -71,7 +71,7 @@ export const landingTests = () => {
                 .send(data)
 
             expect(response.status).toBe(200)
-            // useImg:true consume la referencia en DB, no borra el archivo físico
+            // La referencia se consume en DB, no borra el archivo físico
             expect(await fileExists('landing_updated.png')).toBe(true)
         }, 10000)
 
@@ -81,8 +81,7 @@ export const landingTests = () => {
                 title: 'Delete Me',
                 picture: 'landing_delete.png',
                 info_header: 'H',
-                description: 'D',
-                useImg: false
+                description: 'D'
             }
             const createRes = await agent
                 .post('/api/v1/landing')

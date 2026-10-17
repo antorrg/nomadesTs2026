@@ -30,15 +30,22 @@ export const productTests = () => {
             }
 
             // Crear archivos de imagen ficticios
-            const files = ['product.png', 'item.png', 'updated.png', 'second.png', 'updated_item.png', 'delete_prod.png', 'delete_item.png']
+            const files = [
+                'product.png',
+                'item.png',
+                'updated.png',
+                'second.png',
+                'updated_item.png',
+                'delete_prod.png',
+                'delete_this_item.png',
+                'cascade_item.png'
+            ]
             for (const file of files) {
                 await fs.writeFile(path.join(uploadDir, file), 'fake image content')
             }
 
-            // Registrar en DB las imágenes que se usarán con useImg:true
-            // (simulando que el usuario las seleccionó del imageSelector)
-            const imgsToRegister = ['product.png', 'item.png', 'updated.png', 'second.png', 'updated_item.png']
-            for (const file of imgsToRegister) {
+            // Registrar en DB todas las imágenes que se consumirán
+            for (const file of files) {
                 await agent
                     .post('/api/v1/images/save')
                     .set('x-xsrf-token', getCsrfToken())

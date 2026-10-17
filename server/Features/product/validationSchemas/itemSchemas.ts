@@ -17,9 +17,6 @@ export const itemCreate:Schema = {
   ProductId: {
     type: "int"
   },
-  useImg: {
-    type: "boolean"
-  }
 };
 export const itemUpdate:Schema = {
   text: {
@@ -39,9 +36,6 @@ export const itemUpdate:Schema = {
     type: "boolean"
   },
   saver: {
-    type: "boolean"
-  },
-  useImg: {
     type: "boolean"
   }
 };
