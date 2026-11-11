@@ -14,6 +14,8 @@
   position: relative;
   display: block;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   padding: 6px; // Espacio para mostrar el borde beige/cálido
 
   // Fondo orgánico cálido detrás de la imagen (estilo folleto)
@@ -34,6 +36,8 @@
     position: relative;
     z-index: 1;
     width: 100%;
+    max-width: 100%;
+    height: auto;
     max-height: 620px;
     min-height: 480px;
     object-fit: cover;
@@ -44,7 +48,7 @@
   }
 
   // Variante: Curva sutil recortada a la derecha (para imágenes a la izquierda en desktop)
-  @media (min-width: 769px) {
+  @media (min-width: 768px) {
     &.organic-wave-right {
       &::before {
         border-radius: 18px 20% 24% 18px / 18px 48% 48% 18px;
@@ -69,8 +73,8 @@
     }
   }
 
-  // En celulares (<= 768px): Se elimina la curva y se hace rectangular
-  @media (max-width: 768px) {
+  // En celulares (< 768px): Se elimina la curva y se hace rectangular
+  @media (max-width: 767.98px) {
     padding: 0;
 
     &::before {

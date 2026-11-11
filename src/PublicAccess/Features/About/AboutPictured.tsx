@@ -17,11 +17,11 @@ const AboutPictured = ({ feature, isLoading }: AboutPicturedProps) => {
         <h2 className="about-h2">Quienes somos:</h2>
       </div>
       <div className="aboutContainer colorBack rounded-4 shadow">
-        <div className="p-4">
+        <div className="p-4 w-100">
           <div className="clearfix">
             <h3 className="display-6 fw-normal mt-0 mb-3">{feature?.title || 'Quienes somos'}</h3>
             <hr className="feature-divider"></hr>
-            <div className="float-md-start me-md-4 mb-3 col-md-5 text-center px-0">
+            <div className="float-md-start me-md-4 mb-3 col-12 col-md-5 text-center px-0">
               <div className="">
                 {isLoading ? (
                   <LoadingImage

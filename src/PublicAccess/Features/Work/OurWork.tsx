@@ -16,12 +16,12 @@ const OurWork = ({featurettes, isLoading}:WorkProps) => {
         <h2 className="about-h2">Nuestro trabajo:</h2>
       </div>
      <div className="aboutContainer colorBack rounded-4 shadow">
-      <div className="p-3">
+      <div className="p-3 w-100">
         {featurettes?.map((item, index) => (
           <div key={item.id ?? index}>
             <div className="clearfix p-3">
               <h2 className="featurette-heading fw-normal lh-1 mt-0 mb-3">{item.title}</h2>
-              <div className={`${index % 2 !== 0 ? 'float-md-end ms-md-4' : 'float-md-start me-md-4'} mb-3 col-md-5 text-center px-0`}>
+              <div className={`${index % 2 !== 0 ? 'float-md-end ms-md-4' : 'float-md-start me-md-4'} mb-3 col-12 col-md-5 text-center px-0`}>
                 <div className={`organic-img-wrapper ${index % 2 !== 0 ? 'organic-wave-left' : 'organic-wave-right'}`}>
                   {isLoading ? (
                     <LoadingImage
